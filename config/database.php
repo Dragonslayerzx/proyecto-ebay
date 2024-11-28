@@ -68,8 +68,8 @@ return [
         'host'     => env('DB_HOST', 'localhost'),
         'port'     => env('DB_PORT', '1521'),
         'database' => env('DB_DATABASE', 'XE'),
-        'username' => env('DB_USERNAME', 'C##USUARIO_PRUEBA_SESSION'), //usuario de la conexion (mismo de arriba)
-        'password' => env('DB_PASSWORD', '12345'), //contraseña de la conexion (mismo)
+        'username' => env('DB_USERNAME', 'user'), //usuario de la conexion (mismo de arriba)
+        'password' => env('DB_PASSWORD', 'password'), //contraseña de la conexion (mismo)
         'charset'        => env('DB_CHARSET', 'AL32UTF8'),
         'prefix'         => env('DB_PREFIX', ''),
         'prefix_schema'  => env('DB_SCHEMA_PREFIX', ''),
