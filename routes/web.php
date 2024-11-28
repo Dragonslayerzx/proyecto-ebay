@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/principal', function(){
     return view('vistaPrincipal');
 });
+
+Route::get('/productover', function(){
+    return view('verProducto');
+});
