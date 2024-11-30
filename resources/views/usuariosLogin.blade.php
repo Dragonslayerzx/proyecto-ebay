@@ -67,10 +67,19 @@
 
         <div class="login-section">
             <h4>Inicia sesión en tu cuenta</h4>
-            <p>¿Primera vez en eBay? <a href="#">Crear cuenta</a></p>
-            <input type="text" class="input-field" placeholder="Correo electrónico o nombre de usuario">
-            <input type="password" class="input-field" placeholder="Contraseña">
-            <button type="button" class="btn btn-primary">Continuar</button>
+            <p>¿Primera vez en eBay? <a href="{{route('usuario.registro')}}">Crear cuenta</a></p>
+            <form action="{{route('usuario.auth')}}" method="POST">
+                @csrf
+                <input type="text" class="input-field" placeholder="Correo electrónico o nombre de usuario" name="usuario" required>
+                <input type="password" class="input-field" placeholder="Contraseña" name="contrasena" required>
+                <button type="submit" class="btn btn-primary">Continuar</button>
+            </form>
+            @if($errors->has('mensaje'))
+                <div class="alert alert-danger col-2 mx-auto">
+                {{ $errors->first('mensaje') }}
+                </div>
+            @endif
+
         </div>
     </div>
     <footer class="footer">

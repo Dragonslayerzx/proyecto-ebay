@@ -82,28 +82,29 @@
       <button type="button" class="btn btn-outline-dark">Comercial</button>
     </div>
     
-    <form>
+    <form action="{{route('usuario.guardar')}}" method="POST">
+      @csrf
       <div class="row g-2">
         <div class="col">
-          <input type="text" class="form-control" placeholder="Nombre" required>
+          <input type="text" class="form-control" placeholder="Nombre" name="nombre" required>
         </div>
         <div class="col">
-          <input type="text" class="form-control" placeholder="Apellidos" required>
+          <input type="text" class="form-control" placeholder="Apellidos" name="apellido" required>
         </div>
         <div>
-          <input type="text" class="form-control" placeholder="Nombre Usuario" required>
+          <input type="text" class="form-control" placeholder="Nombre Usuario" name="usuario" required>
         </div>
       </div>
       
       <div class="my-3">
-        <input type="email" class="form-control" placeholder="Correo electrónico" required>
+        <input type="email" class="form-control" placeholder="Correo electrónico" name="correo" required>
       </div>
       <div class="my-3">
-        <input type="tel" class="form-control" placeholder="Telefono" required>
+        <input type="tel" class="form-control" placeholder="Telefono" name="telefono" required>
       </div>
       <div class="my-3">
         <div class="input-group">
-          <input type="password" class="form-control" placeholder="Contraseña" required>
+          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" required>
           <span class="input-group-text"><i class="bi bi-eye"></i></span>
         </div>
         
@@ -113,10 +114,10 @@
         Condiciones de uso y admites haber leído nuestro 
         Aviso de privacidad.
       </p>
-      <button type="submit" class="btn btn btn-dark w-100 mb-3" disabled>Crear una cuenta personal</button>
+      <button type="submit" class="btn btn btn-dark w-100 mb-3">Crear una cuenta personal</button>
     </form>
     <div>
-      <p  style="font-size: 60; text-align: center; color: rgb(60, 49, 49);"  >¿Ya tienes una cuenta? <a href="">Inicia Sesion</a></p>
+      <p  style="font-size: 60; text-align: center; color: rgb(60, 49, 49);"  >¿Ya tienes una cuenta? <a href="{{route('usuario.login')}}">Inicia Sesion</a></p>
     </div>
   </div>
 </div>

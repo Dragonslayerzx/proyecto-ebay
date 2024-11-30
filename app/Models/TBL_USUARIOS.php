@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class TBL_USUARIOS extends Model
 {
     protected $table = 'TBL_USUARIOS';
-    public $timestamps = false;
     protected $primaryKey = 'codigo_usuario';
+    public $incrementing = false;
+    protected $keyType = 'int';
+    public $timestamps = false;
     protected $guarded = [];
 
     public function TBL_CONVERSACIONES_EMISOR()
