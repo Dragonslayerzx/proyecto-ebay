@@ -21,4 +21,9 @@ class TBL_CATEGORIAS extends Model
         return $this->hasMany(TBL_CATEGORIAS::class, 'codigo_categoria_padre');
     }
 
+    public function TBL_PRODUCTOS()
+    {
+        return $this->hasMany(TBL_PRODUCTOS::class, 'codigo_categoria');
+    }
+
 }

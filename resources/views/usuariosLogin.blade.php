@@ -70,7 +70,7 @@
             <p>¿Primera vez en eBay? <a href="{{route('usuario.registro')}}">Crear cuenta</a></p>
             <form action="{{route('usuario.auth')}}" method="POST">
                 @csrf
-                <input type="text" class="input-field" placeholder="Correo electrónico o nombre de usuario" name="usuario" required>
+                <input type="text" class="input-field" placeholder="Nombre de usuario" name="usuario" required>
                 <input type="password" class="input-field" placeholder="Contraseña" name="contrasena" required>
                 <button type="submit" class="btn btn-primary">Continuar</button>
             </form>

@@ -10,21 +10,80 @@ class CategoriasController extends Controller
 {
     public function consultarCategoriasConSusHijos(){
 
-        $categorias = TBL_CATEGORIAS::with('padreCategoria', 'categoriasBajoPadre')->get();
+        $categoriasData = TBL_CATEGORIAS::with('padreCategoria', 'categoriasBajoPadre')->get();
 
-        $categoriasData = [];
+        $categorias = [];
 
-        foreach ($categorias as $categoria) {
-            $categoriasData[] = [
-                'codigo_categoria' => $categoria->codigo_categoria,
-                'nombre' => $categoria->nombre,
-                'padre_categoria' => $categoria->padreCategoria ? $categoria->padreCategoria->nombre : null, // Nombre del padre si existe
-                'subcategorias' => $categoria->categoriasBajoPadre->pluck('nombre')->toArray() // Obtener los nombres de las subcategorías
+        foreach ($categoriasData as $categoriaData) {
+            $categorias[] = [
+                'codigo_categoria' => $categoriaData->codigo_categoria,
+                'nombre' => $categoriaData->nombre,
+                'padre_categoria' => $categoriaData->codigo_categoria_padre, // Nombre del padre si existe
+                'subcategorias' => $categoriaData->categoriasBajoPadre->pluck('nombre')->toArray() // Obtener los nombres de las subcategorías
             ];
         }
 
-        dd($categoriasData); // Mostrar el arreglo con la información
+        $categoriasEstructuradas = $this->organizarCategorias($categorias);
 
+        //dd($categoriasEstructuradas);
+        return view('pruebaCategoriasRecursividad', compact('categoriasEstructuradas'));
+    
+        //dd($categorias);
 
     }
+
+    private function organizarCategorias($categorias, $padreCategoria = null)
+    {
+        $categoriasOrganizadas = [];
+
+        foreach ($categorias as $categoria) {
+            // Verificar que la categoría tenga el padre correspondiente
+            if ($categoria['padre_categoria'] == $padreCategoria) {
+                // Recursión para obtener subcategorías
+                $categoria['subcategorias'] = $this->organizarCategorias($categorias, $categoria['codigo_categoria']);
+                
+                // Si no tiene subcategorías, asignar un arreglo vacío
+                if (empty($categoria['subcategorias']) && !empty($categoria['subcategorias'])) {
+                    $categoria['subcategorias'] = [];
+                }
+
+                $categoriasOrganizadas[] = $categoria;
+            }
+        }
+
+        return $categoriasOrganizadas;
+    }
+
+    public function mostrarTodas(){
+
+        $categoriasData = TBL_CATEGORIAS::with('padreCategoria', 'categoriasBajoPadre')->get();
+
+        $categorias = [];
+
+        foreach ($categoriasData as $categoriaData) {
+            $categorias[] = [
+                'codigo_categoria' => $categoriaData->codigo_categoria,
+                'nombre' => $categoriaData->nombre,
+                'padre_categoria' => $categoriaData->codigo_categoria_padre, // Nombre del padre si existe
+                'subcategorias' => $categoriaData->categoriasBajoPadre->pluck('nombre')->toArray() // Obtener los nombres de las subcategorías
+            ];
+        }
+
+        $categoriasEstructuradas = $this->organizarCategorias($categorias);
+
+        //dd($categoriasEstructuradas);
+        return $categoriasEstructuradas;
+    
+        //dd($categorias);
+
+    }
+
+    public function obtenerProductos($codigoCategoria){
+        $categoria = TBL_CATEGORIAS::find($codigoCategoria);
+
+        $productosEnCategoria = $categoria->TBL_PRODUCTOS;
+        //dd($productosEnCategoria);
+        return view('productosCategoria',compact('productosEnCategoria'));
+    }
+
 }

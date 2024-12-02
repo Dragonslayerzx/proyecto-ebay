@@ -99,13 +99,14 @@
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownCategories" data-bs-toggle="dropdown" aria-expanded="false">
                     Comprar por categoría
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownCategories">
-                    <!-- Añade aquí las categorías -->
-                    <li><a class="dropdown-item" href="#">Electrónica</a></li>
-                    <li><a class="dropdown-item" href="#">Moda</a></li>
-                    <li><a class="dropdown-item" href="#">Hogar y jardín</a></li>
-                    <li><a class="dropdown-item" href="#">Juguetes</a></li>
-                </ul>
+                <div class="dropdown-menu p-3" style="min-width: 600px;" aria-labelledby="dropdownMenuButton">
+                    <!-- Filas y columnas para organizar -->
+                    <div class="container">
+                        <div id="CategoriasContainer" class="row">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -119,9 +120,12 @@
                             </svg>
                         </span>
                         <input type="text" class="form-control border-dark border-start-0" placeholder="Buscar artículos" aria-label="Buscar artículos">
-                        <select class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
+                        <select  class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
                             <option selected>Todas las categorías</option>
                             <!-- Opciones de categorías adicionales -->
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
                         </select>
                         <button class="btn btn-primary mx-3 rounded-pill" type="submit">
                             <div class="mx-2">Buscar</div>
@@ -134,7 +138,13 @@
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <script>
+        // Pasamos las rutas generadas por Laravel a una variable global
+        window.laravelRoutes = {
+            obtenerCategorias: "{{ route('categorias.obtener') }}"
+            };
+    </script>
+    <script src=" {{ asset ('/assets/JavaScript/obtenerCategorias.js') }} "></script>
 
 </body>
 </html>

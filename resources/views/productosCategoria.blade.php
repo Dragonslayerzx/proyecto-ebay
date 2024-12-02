@@ -61,7 +61,29 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
-            <span class="navbar-text me-3">¡Hola, Usuario!</span>
+            <span class="dropdown">
+                <button class="navbar-text me-3 btn dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">¡Hola, Usuario!</button>
+                <div class="row dropdown-menu p-3 text-body-secondary rounded" style="width: 300px;">
+                        <div class="row mb-3">
+                            
+                            <div class="col-4 me-1 p-0">
+                                <a href="#" class="btn p-0">
+                                    <img class="img-fluid" src="https://green.excertia.com/wp-content/uploads/2020/04/perfil-empty.png" alt="">
+                                </a>
+                            </div>
+                            <div class="mx-2 mt-2 col p-0">
+                                <div class="my-2 fw-bold">Usuario</div>
+                                <a href="#" class="p-0 text-body-tertiary">Nombre Usuario</a>
+                            </div>
+
+                        </div>
+                        <p class="mb-0">
+                            <a href="#" class="col btn">Configuracion de la cuenta</a>
+                            <a href="#" class="col btn">Cerrar sesion</a>
+                        </p>
+                </div>
+            </span>
+            
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="#">eBay Ofertas</a>
@@ -88,14 +110,10 @@
                 <li class="nav-item me-2">
                     <a class="nav-link" href="#">Vender</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="followedItemsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" role="button">
                         Lista de artículos que sigues
                     </a>
-                    <ul  class="dropdown-menu" aria-labelledby="followedItemsDropdown">
-                        <li><a class="dropdown-item" href="#">Artículos en seguimiento</a></li>
-                        <li><a class="dropdown-item" href="#">Ofertas recomendadas</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item me-2">
                     <a class="nav-link" href="#">Mi Ebay</a>
@@ -165,150 +183,190 @@
         </div>
     </nav>
 
-    <!-- Title Section -->
+    <!-- Verificar que no esté nulo y causar muchos problemas -->
+    @if ($productosEnCategoria)
+        
+    
     <div class="container my-4" id="categoria">
-        <h1 class="text-center"><Strong>Productos de Electrónica</Strong></h1>
+        <h1 class="text-center"><Strong>Productos de {{ $productosEnCategoria[0]->TBL_CATEGORIAS->nombre }}</Strong></h1>
         <p id="encabezado" class="text-center text-muted">Encuentra los mejores productos en nuestra tienda.</p>
     </div>
 
     <!-- Product Grid -->
     <div class="container">
+
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
             <!-- Product Card -->
-            <div class="col" id="producto">
-                <div class="card product-card">
-                    <img width="200px" height="200px" src="https://m.media-amazon.com/images/I/41plfBS0WcL._SR290,290_.jpg" class="card-img-top" alt="Producto 1">
-                    <div class="card-body">
-                        <h5 class="card-title"> <Strong>Computadora</Strong></h5>
-                        <a id="descripcion" href="">Excelente para trabajo, super comoda y carga rapida</a>
-                        <p class="price">$99.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+            @foreach ($productosEnCategoria as $productoEnCategoria)
+
+                <div class="col" id="producto">
+                    <div class="card product-card h-100">
+                        <img width="200px" height="200px" src="{{ $productoEnCategoria->foto }}" class="card-img-top" alt="Producto 1">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <strong>
+                                    {{ $productoEnCategoria->nombre_producto }}
+                                </strong>
+                            </h5>
+                            <a id="descripcion" href="" class="text-start d-block">
+                                {{ $productoEnCategoria->descripcion }}
+                            </a>
+                            <div class="d-flex flex-column mt-auto">
+                                <p class="price">
+                                    L. 
+                                    {{ $productoEnCategoria->precio }}.00
+                                    
+                                </p>
+                                <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+            @endforeach
+
+            <!-- Ejemplo por si no hay datos en la BD -->
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img width="200px" height="200px" src="https://images.fravega.com/f300/af307532ba68979cbd597c12fffcbfe2.jpg" class="card-img-top" alt="Producto 2">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img style="width: 200px; height: 200px;" src="https://images.fravega.com/f300/af307532ba68979cbd597c12fffcbfe2.jpg" class="card-img-top" alt="Producto 2">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"> <Strong>Motorola Edge</Strong></h5>
-                        <a id="descripcion" href="">Telefono Motorola Edge cuenta con una excelente camara</a>
-                        <p class="price">$79.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Telefono Motorola Edge cuenta con una excelente camara</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$79.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://www.almacenestropigas.com/media/catalog/product/1/5/1503280_00_1.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=200&width=200&canvas=200:200" class="card-img-top" alt="Producto 3">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img style="width: 200px; height: 200px;" src="https://www.almacenestropigas.com/media/catalog/product/1/5/1503280_00_1.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=200&width=200&canvas=200:200" class="card-img-top" alt="Producto 3">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><Strong>Control Remoto</Strong></h5>
-                        <a id="descripcion" href="">Control Remoto Sony adaptable a cualquier TV duracion de bateria</a>
-                        <p class="price">$49.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Control Remoto Sony adaptable a cualquier TV duracion de bateria</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$49.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://www.jbl.com.gt/dw/image/v2/AAUJ_PRD/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw13d2ebb3/JBL_GO_4_HERO_BLACK_48156_x4.jpg?sw=270&sh=330&sm=fit&sfrm=png" class="card-img-top" alt="Producto 4">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img width="200px" height="200px" src="https://www.jbl.com.gt/dw/image/v2/AAUJ_PRD/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw13d2ebb3/JBL_GO_4_HERO_BLACK_48156_x4.jpg?sw=270&sh=330&sm=fit&sfrm=png" class="card-img-top" alt="Producto 4">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><Strong>Parlante JBL</Strong></h5>
-                        <a id="descripcion" href="">Conectividad Wi-Fi, luz led incluida altavos incorporado</a>
-                        <p class="price">$59.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Conectividad Wi-Fi, luz led incluida altavos incorporado</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$59.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://gamerohn.com/cdn/shop/files/WH-CH520negro_2048x.jpg?v=1695180784" class="card-img-top" alt="Producto 5">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img width="200px" height="200px" src="https://gamerohn.com/cdn/shop/files/WH-CH520negro_2048x.jpg?v=1695180784" class="card-img-top" alt="Producto 5">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><Strong>Audifonos Sony</Strong></h5>
-                        <a id="descripcion" href="">Cancelacion de ruido y almoadilla sueva hecha de algodon</a>
-                        <p class="price">$89.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Cancelacion de ruido y almoadilla sueva hecha de algodon</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$89.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
+    
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://comercialatalaya.com/wp-content/uploads/2024/11/54597-large_default-250x250.jpg" class="card-img-top" alt="Producto 1">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img width="200px" height="200px" src="https://comercialatalaya.com/wp-content/uploads/2024/11/54597-large_default-250x250.jpg" class="card-img-top" alt="Producto 1">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><Strong>Proyector Q5</Strong></h5>
-                        <a id="descripcion" href="">Altavoz incorporado Tk700 200 lumenes compatible HDMI</a>
-                        <p class="price">$99.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Altavoz incorporado Tk700 200 lumenes compatible HDMI</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$99.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
+                <div class="card product-card h-100 shadow">
                     <img src="https://cdn.drouot.com/d/image/lot?size=fsquare&path=2235/137644/1c7ee7fbad027165d74aa05d4493de1c" class="card-img-top" alt="Producto 2">
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><strong>Microfono</strong></h5>
-                        <a id="descripcion" href="">Ideal streaming continuo,  podcasting y grabaciones de canal</a>
-                        <p class="price">$79.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Ideal streaming continuo,  podcasting y grabaciones de canal</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$79.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://www.mangas.cl/mangasfusion/409-home_default/camara-de-vigilancia-zexi-2mpx.jpg" class="card-img-top" alt="Producto 3">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img width="200px" height="200px" src="https://www.mangas.cl/mangasfusion/409-home_default/camara-de-vigilancia-zexi-2mpx.jpg" class="card-img-top" alt="Producto 3">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><strong>Camara Hikvision</strong> </h5>
-                        <a id="descripcion" href="">Visión nocturna 2100p y detección de movimiento alrededor</a>
-                        <p class="price">$49.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Visión nocturna 2100p y detección de movimiento alrededor</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$49.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
-                    <img src="https://luminahn.com/869-home_default/foco-g25-luz-calida-vidrio-blanco.jpg" class="card-img-top" alt="Producto 4">
-                    <div class="card-body">
+                <div class="card product-card h-100 shadow">
+                    <img width="200px" height="200px" src="https://luminahn.com/869-home_default/foco-g25-luz-calida-vidrio-blanco.jpg" class="card-img-top" alt="Producto 4">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><Strong>Foco Argos</Strong></h5>
-                        <a id="descripcion" href="">Producen alrededor de un 80% de calor y un 20% de luz</a>
-                        <p class="price">$59.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Producen alrededor de un 80% de calor y un 20% de luz</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$59.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Card -->
             <div class="col" id="producto">
-                <div class="card product-card">
+                <div class="card product-card h-100 shadow">
                     <img src="https://comercialatalaya.com/wp-content/uploads/2022/12/RADIO-PORATIL-CD-MP3-Y-USB-AZUL-ROADSTAR-CDR365Y_B-250x250.jpg" class="card-img-top" alt="Producto 5">
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"> <Strong>Grabadora</Strong></h5>
-                        <a id="descripcion" href="">Convierte las ondas a una señal eléctrica analógica entrada USB</a>
-                        <p class="price">$89.99</p>
-                        <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        <a id="descripcion" href="" class="text-start d-block">Convierte las ondas a una señal eléctrica analógica entrada USB</a>
+                        <div class="d-flex flex-column mt-auto">
+                            <p class="price">$89.99</p>
+                            <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
+
+    @endif
 
 
         <!-- Footer -->
