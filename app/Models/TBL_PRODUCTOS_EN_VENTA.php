@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TBL_PRODUCTOS_EN_VENTA extends Model
 {
-    protected $table = 'TBL_PRODUCTOS_CARRITOS';
+    protected $table = 'TBL_PRODUCTOS_EN_VENTA';
     public $timestamps = false;
     protected $primaryKey = 'codigo_producto_en_venta';
-    protected $fillable = ['cantidad'];
+    protected $fillable = ['codigo_producto_en_venta','cantidad'];
 
     public function TBL_PRODUCTOS()
     {

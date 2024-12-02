@@ -270,67 +270,59 @@
         </div>
     </nav>
 
+
+
+    @if ($producto)
+    
     <div class="container my-5" id="seccion-producto">
         <!-- Product Header -->
         <h4 class="text-center mb-4"> &#9992 <span>ENVIO GRATUITO DE 2 DIAS</span> EN PEDIDOS SUPERIORES A $99</h4>
 
         <!-- Product Grid -->
         <div class="row">
-            <!-- Left Column: Small Images -->
-            <div class="col-md-2 left-column carousel-slide">
-                <div class="d-flex flex-column align-items-center">
-                    <button class="btn-thumbnail mb-2 active" data-bs-target="#carouselExample" data-bs-slide-to="0">
-                        <img src="https://www.radioshackla.com/media/catalog/product/4/6/462887800010_celularapp_vjockqblkzj33khv.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:" class="img-thumbnail thumbnail" alt="Thumbnail 1">
-                    </button>
-                    <button class="btn-thumbnail mb-2" data-bs-target="#carouselExample" data-bs-slide-to="1">
-                        <img src="https://movilesquality.com/pics/contenido/1916-apple-iphone-14-pro-max-512gb-oro-libre.jpg" class="img-thumbnail thumbnail" alt="Thumbnail 2">
-                    </button>
-                    <button class="btn-thumbnail mb-2" data-bs-target="#carouselExample" data-bs-slide-to="2">
-                        <img src="https://images-na.ssl-images-amazon.com/images/I/71U0dEPa8PL._AC_UL600_SR600,600_.jpg" class="img-thumbnail thumbnail" alt="Thumbnail 3">
-                    </button>
-                    <button class="btn-thumbnail mb-2" data-bs-target="#carouselExample" data-bs-slide-to="3">
-                        <img src="https://images-na.ssl-images-amazon.com/images/I/617uZpxrl1L._AC_UL600_SR600,600_.jpg" class="img-thumbnail thumbnail" alt="Thumbnail 4">
-                    </button>
-                </div>
-            </div>
 
-            <!-- Right Column: Large Image -->
             <div class="col-md-6">
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://www.radioshackla.com/media/catalog/product/4/6/462887800010_celularapp_vjockqblkzj33khv.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:" class="d-block w-100 main-image" alt="Main Image 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://movilesquality.com/pics/contenido/1916-apple-iphone-14-pro-max-512gb-oro-libre.jpg" class="d-block w-100 main-image" alt="Main Image 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://images-na.ssl-images-amazon.com/images/I/71U0dEPa8PL._AC_UL600_SR600,600_.jpg" class="d-block w-100 main-image" alt="Main Image 3">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://images-na.ssl-images-amazon.com/images/I/617uZpxrl1L._AC_UL600_SR600,600_.jpg" class="d-block w-100 main-image" alt="Main Image 4">
-                        </div>
-                    </div>
-                </div>
+                <img src="{{ $producto->foto }}" class="d-block w-100 main-image" alt="Main Image 1">
             </div>
 
             <!-- Product Details -->
             <div class="col-md-4" id="caracteristicas">
-                <h3>Apple iPhone 14 pro max 256 GB</h3>
+                <h3>{{ $producto->nombre_producto }} {{ $producto->marca }} {{ $producto->modelo }}</h3>
                 <div class="vendedor">
                     <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a>
                     <a href="">Otros articulos del vendedor</a>
                     <a href="">Contactar con el vendedor</a>
                 </div>
-                <h2 class="text-black">US $99.99</h2>
-                <p class="precio-venta">Precio de venta $150.00 <span>(49 % de descuento)</span></p>
-                <p class="estado">Estado: <Strong>Excelente - restaurado</Strong></p>
-                <p class="estado-descripcion">"Este es un articulo de stock A, los que significa que la unidad esta en excelente estado estetico."</p>
-                <!-- Quantity and Buttons -->
-                <div class="mt-4">
-                    <label for="quantity" class="form-label">Cantidad:</label>
-                    <input type="number" id="quantity" class="form-control w-50 mb-3" min="1" value="1">
-                </div>
+
+                @if ($producto->TBL_SUBASTAS)
+                    <h2 class="text-black">L. {{ $producto->TBL_SUBASTAS->precio_inicio }}</h2>
+                    @if ($producto->TBL_SUBASTAS->TBL_PUJAS->isNotEmpty())
+                        <a href="" class="precio-venta"> {{ count($producto->TBL_SUBASTAS->TBL_PUJAS) }} ofertas</a>
+                    @else
+                        <div class="precio-venta"> 0 ofertas </div>
+                    @endif
+                    <p class="estado mt-2">Estado: <Strong>{{ $producto->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
+                    <div class="mt-4 fw-semibold fs-5">
+                        Cantidad en subasta: {{ $producto->TBL_SUBASTAS->cantidad }}
+                    </div>
+                    
+                @endif
+
+                @if ($producto->TBL_PRODUCTOS_EN_VENTA)
+                    <div class="text-black mb-2 fs-5"><span class="fw-semibold">Disponibles: </span>
+                        {{ $producto->TBL_PRODUCTOS_EN_VENTA->cantidad }} 
+                    </div>
+                    <h2 class="text-black">L. {{ $producto->precio }}</h2>
+                    <p class="estado mt-2">Estado: <Strong>{{ $producto->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
+                    <div class="mt-4">
+                        <label for="quantity" class="form-label">Cantidad:</label>
+                        <input type="number" id="quantity" class="form-control w-50 mb-3" min="1" max="{{ $producto->TBL_PRODUCTOS_EN_VENTA->cantidad }}" value="1">
+                    </div>
+                @endif
+                    
+                
+
+                
                 <div class="d-block" id="botones-compra">
                     <button class="btn btn-primary btn-lg me-3" id="comprar">¡Compralo ahora!</button>
                     <button class="btn btn-white btn-lg">Agregar al carrito de compras</button>
@@ -343,10 +335,12 @@
             </div>
         </div>
 
-        <!-- Product Description Section -->
+        <!-- Seccion de Descripcion del Producto -->
         <div class="mt-5">
-            <h3>Product Description</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et nisl nec sapien fringilla pharetra ut nec nisi. Proin blandit libero sit amet augue auctor, ac cursus lacus luctus.</p>
+            <h3>Descripcion del Producto</h3>
+            <p>
+                {{ $producto->descripcion }}
+            </p>
         </div>
 
         <!-- Customer Reviews -->
@@ -366,6 +360,8 @@
             </div>
         </div>
     </div>
+
+    @endif
 
         <!-- Footer -->
         <footer class="bg-light text-muted">

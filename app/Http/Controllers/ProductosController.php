@@ -17,4 +17,9 @@ class ProductosController extends Controller
         $productos = TBL_PRODUCTOS::all();
         return $productos;
     }
+
+    public function obtener($codigoProducto){
+        $producto = TBL_PRODUCTOS::find($codigoProducto);
+        return view('verProducto',compact('producto'));
+    }
 }

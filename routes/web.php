@@ -57,5 +57,8 @@ Route::get('/categorias/productos/obtener/{codigoCategoria}', //esto obtiene tod
 
 
 // ------------------- PRODUCTOS ---------------------------
-Route::get('/productos/obtener',
-    [ProductosController::class, 'obtenerTodos'])->name('productos.obtener');
+Route::get('/productos/todos/obtener',
+    [ProductosController::class, 'obtenerTodos'])->name('productos.obtener.todos');
+
+Route::get('/producto/obtener/{codigoProducto}',
+    [ProductosController::class, 'obtener'])->name('producto.obtener');

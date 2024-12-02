@@ -188,7 +188,7 @@
         
     
     <div class="container my-4" id="categoria">
-        <h1 class="text-center"><Strong>Productos de {{ $productosEnCategoria[0]->TBL_CATEGORIAS->nombre }}</Strong></h1>
+        <h1><Strong>Productos de {{ $productosEnCategoria[0]->TBL_CATEGORIAS->nombre }}</Strong></h1>
         <p id="encabezado" class="text-center text-muted">Encuentra los mejores productos en nuestra tienda.</p>
     </div>
 
@@ -198,9 +198,10 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
             <!-- Product Card -->
             @foreach ($productosEnCategoria as $productoEnCategoria)
-
+                @if ($productoEnCategoria->TBL_PRODUCTOS_EN_VENTA || $productoEnCategoria->TBL_SUBASTAS)
+                
                 <div class="col" id="producto">
-                    <div class="card product-card h-100">
+                    <div class="card product-card h-100 shadow">
                         <img width="200px" height="200px" src="{{ $productoEnCategoria->foto }}" class="card-img-top" alt="Producto 1">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">
@@ -208,21 +209,81 @@
                                     {{ $productoEnCategoria->nombre_producto }}
                                 </strong>
                             </h5>
-                            <a id="descripcion" href="" class="text-start d-block">
+                            <div id="descripcion" class="text-start d-block">
                                 {{ $productoEnCategoria->descripcion }}
-                            </a>
+                            </div>
                             <div class="d-flex flex-column mt-auto">
-                                <p class="price">
-                                    L. 
-                                    {{ $productoEnCategoria->precio }}.00
-                                    
-                                </p>
-                                <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                                
+                                @if ($productoEnCategoria->TBL_PRODUCTOS_EN_VENTA)
+                                    <p class="price">
+                                        L.
+                                        {{ $productoEnCategoria->precio }}.00
+                                        
+                                    </p>
+                                    <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                                @else
+
+                                    @if ($productoEnCategoria->TBL_SUBASTAS)
+
+                                        @php
+                                            $mayor = 0;
+                                            $contador = 1;
+                                        @endphp
+                                        
+                                        @if (empty($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS))
+                                            
+                                        
+                                            @foreach ($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS as $pujasProducto)
+                                                
+                                                @if ($contador == 1)
+                                                    @php
+                                                        $mayor = $pujasProducto->monto;
+                                                        $contador += 1;
+                                                    @endphp
+                                                @else
+                                                
+                                                    @if ($pujasProducto->monto > $mayor)
+                                                        @php
+                                                            $mayor = $pujasProducto->monto;
+                                                        @endphp
+                                                    @endif
+
+                                                @endif
+                                            @endforeach
+
+                                            @foreach ($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS as $pujasProducto)
+                                                
+                                                    @if ($pujasProducto->monto == $mayor)
+                                                        <p class="price">
+                                                            <span>Puja actual:</span><br>
+                                                            <span>L.{{ $pujasProducto->monto }}.00</span>
+                                                        </p>
+                                                    @endif
+                                                
+                                            @endforeach
+
+                                        @else
+
+                                            <p class="price">
+                                                <span>Comienza con:</span><br>
+                                                <span>L.{{ $productoEnCategoria->TBL_SUBASTAS->precio_inicio }}.00</span>
+                                            </p>
+
+                                        @endif
+
+                                        <a href="#" class="btn btn-primary btn-sm">
+                                            Pujar ahora
+                                        </a>
+
+                                    @endif
+
+                                @endif
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-
+                @endif
             @endforeach
 
             <!-- Ejemplo por si no hay datos en la BD -->
@@ -233,7 +294,7 @@
                     <img style="width: 200px; height: 200px;" src="https://images.fravega.com/f300/af307532ba68979cbd597c12fffcbfe2.jpg" class="card-img-top" alt="Producto 2">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title"> <Strong>Motorola Edge</Strong></h5>
-                        <a id="descripcion" href="" class="text-start d-block">Telefono Motorola Edge cuenta con una excelente camara</a>
+                        <div id="descripcion" class="text-start d-block">Telefono Motorola Edge cuenta con una excelente camara</div>
                         <div class="d-flex flex-column mt-auto">
                             <p class="price">$79.99</p>
                             <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>

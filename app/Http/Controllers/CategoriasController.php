@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\TBL_CATEGORIAS;
+use App\Models\TBL_PRODUCTOS_EN_VENTA;
 
 class CategoriasController extends Controller
 {
@@ -82,7 +83,8 @@ class CategoriasController extends Controller
         $categoria = TBL_CATEGORIAS::find($codigoCategoria);
 
         $productosEnCategoria = $categoria->TBL_PRODUCTOS;
-        //dd($productosEnCategoria);
+        //$subastas = $productosEnCategoria[0]->TBL_SUBASTAS;
+        //dd($productosEnCategoria[0]->TBL_SUBASTAS->TBL_PUJAS);
         return view('productosCategoria',compact('productosEnCategoria'));
     }
 
