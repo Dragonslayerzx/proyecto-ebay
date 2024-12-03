@@ -46,13 +46,13 @@ Route::post('usuarios/login/auth',
             [UsuariosController::class,'login'])->name('usuario.auth');
 
 
-
 // --------------------  CATEGORIAS ----------------------------
 Route::get('/categorias/obtener',
     [CategoriasController::class, 'mostrarTodas'])->name('categorias.obtener');
 
-Route::get('/categorias/productos/obtener/{codigoCategoria}', //esto obtiene todos los productos de una categoria
+Route::get('/categorias/productos/obtener/{codigoCategoria?}', //esto obtiene todos los productos de una categoria
     [CategoriasController::class, 'obtenerProductos'])->name('categoria.productos.obtener');
+
 
 
 

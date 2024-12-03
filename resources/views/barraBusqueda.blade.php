@@ -112,22 +112,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSearch">
-                <form class="d-flex w-75 ">
+                <form id="enviarBusquedaForm" action="{{ route('categoria.productos.obtener') }}" method="GET" class="d-flex w-75 ">
                     <div class="input-group">
                         <span class="input-group-text border-dark bg-white border-end-0 rounded-start">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
                         </span>
-                        <input type="text" class="form-control border-dark border-start-0" placeholder="Buscar artículos" aria-label="Buscar artículos">
-                        <select  class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
-                            <option selected>Todas las categorías</option>
+                        <input name="busqueda" type="text" class="form-control border-dark border-start-0" placeholder="Buscar artículos" aria-label="Buscar artículos">
+                        <select name="selectCategoria" id="CategoriasSelect" class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
+                            <option value="0" selected>Todas las categorías</option>
                             <!-- Opciones de categorías adicionales -->
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+
                         </select>
-                        <button class="btn btn-primary mx-3 rounded-pill" type="submit">
+                        <button id="enviarFormBusqueda" class="btn btn-primary mx-3 rounded-pill" type="submit">
                             <div class="mx-2">Buscar</div>
                         </button>
                     </div>
@@ -145,6 +143,28 @@
             };
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerCategorias.js') }} "></script>
+    <script>
+        let enviarBusquedaForm = document.getElementById('enviarBusquedaForm');
+        let CategoriasSelect = document.getElementById('CategoriasSelect');
+        let enviarFormBusqueda = document.getElementById('enviarFormBusqueda');
+
+        enviarBusquedaForm.action += `/${CategoriasSelect.selectedIndex}`
+
+        CategoriasSelect.addEventListener('change',function(event){
+            let selectedOption = event.target.value;
+    
+            enviarBusquedaForm.action = enviarBusquedaForm.action.replace(/\/\d+$/, " ");
+            
+            if(!isNaN(selectedOption)){
+                //console.log(selectedOption);
+                enviarBusquedaForm.action += `/${selectedOption}`;
+            }else{
+                enviarBusquedaForm.action += `/${selectedOption}`;
+            }
+
+        })
+
+    </script>
 
 </body>
 </html>

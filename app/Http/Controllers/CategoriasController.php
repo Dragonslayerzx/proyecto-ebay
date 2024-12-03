@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\TBL_CATEGORIAS;
 use App\Models\TBL_PRODUCTOS_EN_VENTA;
+use App\Models\TBL_PRODUCTOS;
 
 class CategoriasController extends Controller
 {
@@ -79,13 +80,37 @@ class CategoriasController extends Controller
 
     }
 
-    public function obtenerProductos($codigoCategoria){
-        $categoria = TBL_CATEGORIAS::find($codigoCategoria);
+    public function obtenerProductos(Request $request, $codigoCategoria=null){
+        //$categoria = TBL_CATEGORIAS::find($codigoCategoria);
+        //$productosEnCategoria = $categoria->TBL_PRODUCTOS;
 
-        $productosEnCategoria = $categoria->TBL_PRODUCTOS;
         //$subastas = $productosEnCategoria[0]->TBL_SUBASTAS;
         //dd($productosEnCategoria[0]->TBL_SUBASTAS->TBL_PUJAS);
-        return view('productosCategoria',compact('productosEnCategoria'));
+
+        $busqueda = $request->input('busqueda');
+        if($busqueda){
+            $busqueda = $request->busqueda;
+        }
+
+        if(empty($codigoCategoria) || $codigoCategoria == 0){
+            $categoria = new \stdClass();
+            $categoria->codigo_categoria = 0;
+            $categoria->codigo_categoria_padre = 0;
+        }else{
+            $categoria = TBL_CATEGORIAS::find($codigoCategoria);
+        }
+
+        if(!empty($busqueda)){
+            $regex = '/'.$busqueda.'/i';
+            //dd(preg_match($regex, 'cadena ejemplo') === 1); //Devuelve true si se hayo 1 coincidencia de la regex con esa palabra
+            //dd($regex);
+        }else{
+            $regex = '/.*/s';
+        }
+
+        $productosEnCategoria = TBL_PRODUCTOS::all();
+        
+        return view('productosCategoria',compact('productosEnCategoria','categoria','regex'));
     }
 
 }

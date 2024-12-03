@@ -184,22 +184,61 @@
     </nav>
 
     <!-- Verificar que no esté nulo y causar muchos problemas -->
-    @if ($productosEnCategoria)
-        
     
-    <div class="container my-4" id="categoria">
-        <h1><Strong>Productos de {{ $productosEnCategoria[0]->TBL_CATEGORIAS->nombre }}</Strong></h1>
-        <p id="encabezado" class="text-center text-muted">Encuentra los mejores productos en nuestra tienda.</p>
-    </div>
+    @if ($productosEnCategoria && !empty($categoria) && (!empty($categoria->codigo_categoria_padre) || $categoria->codigo_categoria_padre === 0) && (!empty($categoria->codigo_categoria) || $categoria->codigo_categoria === 0))
+        
+    @if ($categoria->codigo_categoria === 0)
+
+        <div class="container my-4" id="categoria">
+            <section class="row">
+                <div class="fw-bold fs-1">Todos los productos</div>
+                @php
+                    $regexText = preg_replace('/^\/(.*)\/[a-z]*$/', '$1', $regex);
+                @endphp
+                @if ($regexText === '.*')
+                    <p id="encabezado" class="p-3 text-muted">Encuentra lo mejor en nuestra tienda Buscando resultados para "{{$regexText}}"</p>
+                @else
+                    <p id="encabezado" class="p-3 text-muted">Buscando resultados para "{{$regexText}}"</p>
+                @endif
+                
+            </section>
+        </div>
+
+    @endif
+        
+    @if (!empty($categoria->codigo_categoria_padre))
+
+        <div class="container my-4" id="categoria">
+            <section class="row">
+                <div class="fw-bold fs-1">Productos de {{ $categoria->nombre }}</div>
+                @php
+                    $regexText = preg_replace('/^\/(.*)\/[a-z]*$/', '$1', $regex);
+                @endphp
+                @if ($regexText === '.*')
+                    <p id="encabezado" class="p-3 text-muted">Encuentra lo mejor en nuestra tienda Buscando resultados para "{{$regexText}}"</p>
+                @else
+                    <p id="encabezado" class="p-3 text-muted">Buscando resultados para "{{$regexText}}"</p>
+                @endif
+            </section>
+        </div>
+        
+    @endif
 
     <!-- Product Grid -->
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4">
-            <!-- Product Card -->
             @foreach ($productosEnCategoria as $productoEnCategoria)
-                @if ($productoEnCategoria->TBL_PRODUCTOS_EN_VENTA || $productoEnCategoria->TBL_SUBASTAS)
+            @if ($productoEnCategoria->codigo_categoria == $categoria->codigo_categoria || $categoria->codigo_categoria == 0)
                 
+            
+                @php
+                    $coincidencia = preg_match($regex, $productoEnCategoria->nombre_producto) === 1;
+                    
+                @endphp
+                @if (($productoEnCategoria->TBL_PRODUCTOS_EN_VENTA || $productoEnCategoria->TBL_SUBASTAS) && $coincidencia)
+                
+                <!-- Product Card -->
                 <div class="col" id="producto">
                     <div class="card product-card h-100 shadow">
                         <img width="200px" height="200px" src="{{ $productoEnCategoria->foto }}" class="card-img-top" alt="Producto 1">
@@ -230,9 +269,8 @@
                                             $contador = 1;
                                         @endphp
                                         
-                                        @if (empty($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS))
+                                        @if ($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS->isNotEmpty())
                                             
-                                        
                                             @foreach ($productoEnCategoria->TBL_SUBASTAS->TBL_PUJAS as $pujasProducto)
                                                 
                                                 @if ($contador == 1)
@@ -284,6 +322,7 @@
                     </div>
                 </div>
                 @endif
+            @endif
             @endforeach
 
             <!-- Ejemplo por si no hay datos en la BD -->

@@ -22,4 +22,9 @@ class ProductosController extends Controller
         $producto = TBL_PRODUCTOS::find($codigoProducto);
         return view('verProducto',compact('producto'));
     }
+
+    public function obtenerTodosYCodigoCategoria($codigoCategoria){
+        $productosCategoria = TBL_PRODUCTOS::all();
+        return view('productosCategoria',compact('productosCategoria','codigoCategoria'));
+    }
 }
