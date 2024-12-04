@@ -6,6 +6,7 @@ use App\Http\Controllers\MiEbay;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\ResenasController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,3 +63,8 @@ Route::get('/productos/todos/obtener',
 
 Route::get('/producto/obtener/{codigoProducto}',
     [ProductosController::class, 'obtener'])->name('producto.obtener');
+
+
+//--------------------- RESEÑAS -------------------
+Route::post('/resenas/agregar/{codigoProducto}',
+    [ResenasController::class, 'agregarResenaAProducto'])->name('resena.agregar');

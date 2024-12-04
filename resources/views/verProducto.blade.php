@@ -289,21 +289,28 @@
             <div class="col-md-4" id="caracteristicas">
                 <h3>{{ $producto->nombre_producto }} {{ $producto->marca }} {{ $producto->modelo }}</h3>
                 <div class="vendedor">
-                    <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a>
+                    <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a><br>
                     <a href="">Otros articulos del vendedor</a>
                     <a href="">Contactar con el vendedor</a>
                 </div>
 
                 @if ($producto->TBL_SUBASTAS)
-                    <h2 class="text-black">L. {{ $producto->TBL_SUBASTAS->precio_inicio }}</h2>
+                    <h2 class="text-black">Oferta actual: L. {{ $producto->TBL_SUBASTAS->precio_inicio }}</h2>
                     @if ($producto->TBL_SUBASTAS->TBL_PUJAS->isNotEmpty())
                         <a href="" class="precio-venta"> {{ count($producto->TBL_SUBASTAS->TBL_PUJAS) }} ofertas</a>
                     @else
                         <div class="precio-venta"> 0 ofertas </div>
                     @endif
+                    <h2 class="text-black mt-3 mb-4">Comprar ahora por: L. {{ $producto->precio }}</h2>
                     <p class="estado mt-2">Estado: <Strong>{{ $producto->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
                     <div class="mt-4 fw-semibold fs-5">
                         Cantidad en subasta: {{ $producto->TBL_SUBASTAS->cantidad }}
+                    </div>
+
+                    <div class="d-block" id="botones-compra">
+                        <button class="btn btn-primary btn-lg text-white">Ofertar ahora</button>
+                        <button class="btn btn-white btn-lg me-3" id="agregarACarrito">Agregar al carrito de compras</button>
+                        <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
                     </div>
                     
                 @endif
@@ -318,16 +325,18 @@
                         <label for="quantity" class="form-label">Cantidad:</label>
                         <input type="number" id="quantity" class="form-control w-50 mb-3" min="1" max="{{ $producto->TBL_PRODUCTOS_EN_VENTA->cantidad }}" value="1">
                     </div>
+
+                    <div class="d-block" id="botones-compra">
+                        <button class="btn btn-primary btn-lg me-3 text-white" id="agregarACarrito">Agregar al carrito de compras</button>
+                        <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
+                    </div>
+
                 @endif
                     
                 
 
                 
-                <div class="d-block" id="botones-compra">
-                    <button class="btn btn-primary btn-lg me-3" id="comprar">¡Compralo ahora!</button>
-                    <button class="btn btn-white btn-lg">Agregar al carrito de compras</button>
-                    <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
-                </div>
+                
 
                 <!-- Shipping Info -->
                 <p class="mt-4"><strong>Entrega:</strong> <img width="25" height="25" src="https://img.icons8.com/cotton/64/empty-flag.png" alt="empty-flag"/> Entrega prevista entre el mar. 31 dic. y el mie. 22 ene. a 0</p>
@@ -345,7 +354,49 @@
 
         <!-- Customer Reviews -->
         <div class="mt-5">
-            <h3>Customer Reviews</h3>
+            <h3 class="mb-3">Valoraciones y reseñas del artículo</h3>
+
+            <h5>Dejar una reseña</h5>
+
+            <form action="{{ route('resena.agregar', $producto->codigo_producto) }}" class="my-3" method="POST">
+            @csrf
+                <div class="form-floating mb-3">
+                    <textarea name="comentario" class="form-control" placeholder="Deja un comentario aqui" id="comentarioTextArea"></textarea>
+                    <label for="floatingTextarea">Comentario</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select name="valoracion" class="form-select" id="valoracionSelect">
+                        <option selected>Cantidad de estrellas</option>
+                        <option value="1">★</option>
+                        <option value="2">★★</option>
+                        <option value="3">★★★</option>
+                        <option value="4">★★★★</option>
+                        <option value="5">★★★★★</option>
+                    </select>
+                    <label for="floatingSelect">Valoracion</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Reseña</button>
+            </form>
+
+            <h5>Reseñas de otros usuarios</h5>
+
+            @foreach ($producto->TBL_RESENAS as $resenasProductos)
+            <div class="border p-3 mb-3">
+                <h5>{{ $resenasProductos->TBL_USUARIOS->nombre_usuario }}</h5>
+                <p class="text-warning mb-0">
+                    @for ($i = 0; $i < $resenasProductos->valoracion; $i++)
+                        ★
+                    @endfor
+                    @for ($i = 5; $i > $resenasProductos->valoracion; $i--)
+                        ☆
+                    @endfor
+                </p>
+                <small class="text-muted">{{ $resenasProductos->fecha }}</small>
+                <p>{{ $resenasProductos->comentario }}</p>
+            </div>
+            @endforeach
+
+            <!-- Reseñas de ejemplo -->
             <div class="border p-3 mb-3">
                 <h5>John Doe</h5>
                 <p class="text-warning mb-0">★★★★☆</p>

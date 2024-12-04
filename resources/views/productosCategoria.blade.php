@@ -215,7 +215,7 @@
                     $regexText = preg_replace('/^\/(.*)\/[a-z]*$/', '$1', $regex);
                 @endphp
                 @if ($regexText === '.*')
-                    <p id="encabezado" class="p-3 text-muted">Encuentra lo mejor en nuestra tienda Buscando resultados para "{{$regexText}}"</p>
+                    <p id="encabezado" class="p-3 text-muted">Encuentra lo mejor en nuestra tienda</p>
                 @else
                     <p id="encabezado" class="p-3 text-muted">Buscando resultados para "{{$regexText}}"</p>
                 @endif

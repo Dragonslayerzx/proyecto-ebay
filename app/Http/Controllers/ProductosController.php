@@ -20,6 +20,7 @@ class ProductosController extends Controller
 
     public function obtener($codigoProducto){
         $producto = TBL_PRODUCTOS::find($codigoProducto);
+        //dd($producto->TBL_RESENAS[0]->TBL_USUARIOS);
         return view('verProducto',compact('producto'));
     }
 
