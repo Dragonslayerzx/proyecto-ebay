@@ -40,7 +40,7 @@ class UsuariosController extends Controller
         $usuario->save();
         
 
-        return redirect()->route('vistaprincipal');
+        return redirect()->route('usuario.login');
     }
 
     public function mostrarLogin(){
@@ -58,10 +58,18 @@ class UsuariosController extends Controller
 
         if(Auth::attempt($credentials)){
             //dd('Autenticación exitosa', Auth::user());
-            return redirect()->route('vistaprincipal');
+            //return redirect()->route('vistaprincipal');
+            return response()->json([
+                'success' => true,
+                'user' => Auth::user(), // Retorna los datos del usuario autenticado
+            ]);
         }else{
             //dd(Auth::user());
-            return back()->withErrors(['mensaje' => 'Credenciales incorrectas']);
+            //return back()->withErrors(['mensaje' => 'Credenciales incorrectas']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Credenciales incorrectas',
+            ], 401);
         }
     }
 }

@@ -233,7 +233,8 @@
                 
             
                 @php
-                    $coincidencia = preg_match($regex, $productoEnCategoria->nombre_producto) === 1;
+                    $productoNombreCompleto = ''.$productoEnCategoria->nombre_producto.' '.$productoEnCategoria->marca.' '.$productoEnCategoria->modelo;
+                    $coincidencia = preg_match($regex, $productoNombreCompleto) === 1;
                     
                 @endphp
                 @if (($productoEnCategoria->TBL_PRODUCTOS_EN_VENTA || $productoEnCategoria->TBL_SUBASTAS) && $coincidencia)
@@ -245,7 +246,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">
                                 <strong>
-                                    {{ $productoEnCategoria->nombre_producto }}
+                                    {{ $productoNombreCompleto }}
                                 </strong>
                             </h5>
                             <div id="descripcion" class="text-start d-block">
@@ -259,7 +260,7 @@
                                         {{ $productoEnCategoria->precio }}.00
                                         
                                     </p>
-                                    <a href="#" class="btn btn-primary btn-sm">Comprar ahora</a>
+                                    <a href="{{ route('producto.obtener', $productoEnCategoria->codigo_producto) }}" class="btn btn-primary btn-sm">Comprar ahora</a>
                                 @else
 
                                     @if ($productoEnCategoria->TBL_SUBASTAS)
@@ -309,7 +310,7 @@
 
                                         @endif
 
-                                        <a href="#" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('producto.obtener', $productoEnCategoria->codigo_producto) }}" class="btn btn-primary btn-sm">
                                             Pujar ahora
                                         </a>
 

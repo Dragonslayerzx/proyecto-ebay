@@ -8,6 +8,7 @@ class TBL_PRODUCTOS_CARRITOS extends Model
 {
     protected $table = 'TBL_PRODUCTOS_CARRITOS';
     public $timestamps = false;
+    public $incrementing = false;
     protected $primaryKey = ['codigo_producto' , 'codigo_usuario'];
     protected $fillable = ['codigo_producto' , 'codigo_usuario' , 'cantidad_producto'];
 

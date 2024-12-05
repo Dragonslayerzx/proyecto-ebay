@@ -7,6 +7,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ResenasController;
+use App\Http\Controllers\CarritosController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,7 +31,7 @@ Route::get('/barra/obtener',function(){
     return view('barraBusqueda');
 });
 
-// Seccion para Usuarios
+//------------------ Usuarios --------------------
 
 //Registro
 Route::get('usuarios/registro', 
@@ -55,8 +56,6 @@ Route::get('/categorias/productos/obtener/{codigoCategoria?}', //esto obtiene to
     [CategoriasController::class, 'obtenerProductos'])->name('categoria.productos.obtener');
 
 
-
-
 // ------------------- PRODUCTOS ---------------------------
 Route::get('/productos/todos/obtener',
     [ProductosController::class, 'obtenerTodos'])->name('productos.obtener.todos');
@@ -68,3 +67,8 @@ Route::get('/producto/obtener/{codigoProducto}',
 //--------------------- RESEÑAS -------------------
 Route::post('/resenas/agregar/{codigoProducto}',
     [ResenasController::class, 'agregarResenaAProducto'])->name('resena.agregar');
+
+
+//--------------------- CARRITO -----------------------
+Route::get('/carrito/mostrar/{codigoUsuario?}',
+    [CarritosController::class, 'mostrar'])->name('carrito.mostrar');

@@ -287,7 +287,7 @@
 
             <!-- Product Details -->
             <div class="col-md-4" id="caracteristicas">
-                <h3>{{ $producto->nombre_producto }} {{ $producto->marca }} {{ $producto->modelo }}</h3>
+                <h1>{{ $producto->nombre_producto }} {{ $producto->marca }} {{ $producto->modelo }}</h1>
                 <div class="vendedor">
                     <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a><br>
                     <a href="">Otros articulos del vendedor</a>
@@ -301,7 +301,10 @@
                     @else
                         <div class="precio-venta"> 0 ofertas </div>
                     @endif
-                    <h2 class="text-black mt-3 mb-4">Comprar ahora por: L. {{ $producto->precio }}</h2>
+                    <div class="my-3 text-black">
+                        <h3>Comprar ahora por: L. {{ $producto->precio * $producto->TBL_SUBASTAS->cantidad }}</h3>
+                        <h3> (Precio unitario: L. {{ $producto->precio }} )</h3>
+                    </div>
                     <p class="estado mt-2">Estado: <Strong>{{ $producto->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
                     <div class="mt-4 fw-semibold fs-5">
                         Cantidad en subasta: {{ $producto->TBL_SUBASTAS->cantidad }}
@@ -361,12 +364,12 @@
             <form action="{{ route('resena.agregar', $producto->codigo_producto) }}" class="my-3" method="POST">
             @csrf
                 <div class="form-floating mb-3">
-                    <textarea name="comentario" class="form-control" placeholder="Deja un comentario aqui" id="comentarioTextArea"></textarea>
+                    <textarea name="comentario" class="form-control" placeholder="Deja un comentario aqui" id="comentarioTextArea" required></textarea>
                     <label for="floatingTextarea">Comentario</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <select name="valoracion" class="form-select" id="valoracionSelect">
-                        <option selected>Cantidad de estrellas</option>
+                    <select name="valoracion" class="form-select" id="valoracionSelect" required>
+                        <option value="" selected>Cantidad de estrellas</option>
                         <option value="1">★</option>
                         <option value="2">★★</option>
                         <option value="3">★★★</option>

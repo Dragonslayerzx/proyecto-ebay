@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
             <span class="dropdown">
-                <button class="navbar-text me-3 btn dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">¡Hola, Usuario!</button>
+                <button id="saludoUsuarioButton" class="navbar-text me-3 btn dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">¡Hola, Usuario!</button>
                 <div class="row dropdown-menu p-3 text-body-secondary rounded" style="width: 300px;">
                         <div class="row mb-3">
                             
@@ -22,8 +22,8 @@
                                 </a>
                             </div>
                             <div class="mx-2 mt-2 col p-0">
-                                <div class="my-2 fw-bold">Usuario</div>
-                                <a href="#" class="p-0 text-body-tertiary">Nombre Usuario</a>
+                                <div id="nombreRealDiv" class="my-2 fw-bold">Usuario</div>
+                                <a id="nombreUsuarioA" href="#" class="p-0 text-body-tertiary">Nombre Usuario</a>
                             </div>
 
                         </div>
@@ -139,7 +139,8 @@
     <script>
         // Pasamos las rutas generadas por Laravel a una variable global
         window.laravelRoutes = {
-            obtenerCategorias: "{{ route('categorias.obtener') }}"
+            obtenerCategorias: "{{ route('categorias.obtener') }}",
+            rutaProductosEnCategoria: "{{ route('categoria.productos.obtener') }}"
             };
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerCategorias.js') }} "></script>
@@ -165,6 +166,7 @@
         })
 
     </script>
+    <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
 
 </body>
 </html>

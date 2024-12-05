@@ -1,3 +1,7 @@
+@php
+    $contador = 0;
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -145,6 +149,63 @@
             
             <div class="col-8">
                 
+                @if ($carritoUsuario->isNotEmpty())
+                
+                    @foreach ($carritoUsuario as $productosCarrito)
+                        @php
+                            $productoCarrito = $productosCarrito->TBL_PRODUCTOS;
+                            $contador += 1;
+                        @endphp
+                        <div class="border rounded p-3 mb-3">
+                            <div class="row">
+                                <a href="#" class="col-6 fw-bold link-dark">{{ $productoCarrito->marca }}</a>
+                                <div class="col text-end">Solicitar envio combinado</div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-3">
+                                    <img src="{{ $productoCarrito->foto }}" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-3">
+                                    <a href="{{ route('producto.obtener',$productoCarrito->codigo_producto) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
+                                        {{ $productoCarrito->marca }} {{ $productoCarrito->nombre }} {{ $productoCarrito->modelo }}
+                                    </a>
+                                    <div class="mt-2">Estado - <strong>{{ $productoCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
+                                </div>
+                                <div class="col-1">Cantidad</div>
+                                <div class="col-2">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <!-- Botón de decremento -->
+                                        <button id="decrement{{$contador}}" class="btn btn-outline-primary mx-2" style="font-size: 15px;">-</button>
+                                        <!-- Valor actual -->
+                                        <div id="valueDisplay{{$contador}}" class="fs-3 fw-bold"> {{ $productosCarrito->cantidad_producto }} </div>
+                                        <!-- Botón de incremento -->
+                                        <button id="increment{{$contador}}" class="btn btn-outline-primary mx-2" style="font-size: 15px">+</button>
+                                    </div>
+                                    <div id="alertMessage{{$contador}}" class="text-danger text-center mt-3 d-none">Has alcanzado el límite</div>
+                                    @if (false)
+                                        
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected> {{ $productosCarrito->cantidad_producto }} </option>
+                                        @for ($i = $productosCarrito->cantidad_producto + 1; $i <= $productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
+                                            <option value="{{ $i }}"> {{ $i }} </option>
+                                        @endfor
+                                    </select>
+
+                                    @endif
+                                </div>
+                                
+                                <div class="col fw-bold fs-5">L. {{ $productoCarrito->precio }}.00</div>
+                            </div>
+                            <div class="row mx-1">
+                                <div class="col-10"></div>
+                                <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
+                            </div>
+                        </div>
+                    
+                    @endforeach
+
+                @endif
+
                 <div class="border rounded p-3 mb-3">
                     <div class="row">
                         <a href="#" class="col-6 fw-bold link-dark">Sony</a>
@@ -248,7 +309,53 @@
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Valores iniciales
+        let contador = @php echo $contador @endphp;
+        
+        for (let index = 1; index <= contador; index++) {
+            console.log(index);
+            const minValue = 1; // Valor mínimo
+            const maxValue = 10; // Valor máximo
 
+            // Referencias a los elementos
+            const valueDisplay = document.getElementById(`valueDisplay${ index }`);
+            console.log(valueDisplay);
+            //valueDisplay.innerText = 1;
+            let currentValue = valueDisplay.innerText;
+            const incrementButton = document.getElementById(`increment${ index }`);
+            const decrementButton = document.getElementById(`decrement${ index }`);
+            const alertMessage = document.getElementById(`alertMessage${ index }`);
+
+            // Función para actualizar el mensaje de alerta
+            function showAlert(message) {
+                alertMessage.textContent = message;
+                alertMessage.classList.remove("d-none");
+                setTimeout(() => {
+                    alertMessage.classList.add("d-none");
+                }, 2000);
+            }
+
+            // Lógica para incrementar y decrementar con límites
+            incrementButton.addEventListener("click", () => {
+                if (currentValue < maxValue) {
+                    currentValue++;
+                    valueDisplay.textContent = currentValue;
+                } else {
+                    showAlert(`Cantidad disponible maxima alcanzada ${maxValue}`);
+                }
+            });
+
+            decrementButton.addEventListener("click", () => {
+                if (currentValue > minValue) {
+                    currentValue--;
+                    valueDisplay.textContent = currentValue;
+                } else {
+                    showAlert(`Para seleccionar 0, elimina de carrito`);
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

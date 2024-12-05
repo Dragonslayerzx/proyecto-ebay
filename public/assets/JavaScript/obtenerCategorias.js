@@ -67,10 +67,11 @@ function renderizarCategoria(categoria, contenedor, esPadre = false) {
         link.classList.add('fw-normal');
         link.style.pointerEvents = 'auto';  // Habilitar eventos de clic para subcategorías
         link.style.cursor = 'pointer';  // Cambiar el cursor a 'pointer' para las subcategorías
+        link.href = `${window.laravelRoutes.rutaProductosEnCategoria}/${categoria.codigo_categoria}`;
 
         // Agregar un manejador de clic para las subcategorías
         link.addEventListener('click', function() {
-            alert('Hiciste clic en la subcategoría: ' + categoria.nombre);
+            //alert('Hiciste clic en la subcategoría: ' + categoria.nombre);
             // O aquí podrías redirigir a una nueva página:
             // window.location.href = '/subcategoria/' + categoria.codigo_categoria;
         });
