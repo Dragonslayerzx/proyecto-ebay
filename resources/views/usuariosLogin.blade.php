@@ -75,7 +75,7 @@
                 <input type="password" class="input-field" placeholder="Contraseña" name="contrasena" required>
                 <button type="submit" class="btn btn-primary">Continuar</button>
             </form>
-            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+            <div id="error-message" class="alert alert-danger col-3 mx-auto mt-3" style="display: none;"></div>
         </div>
     </div>
 

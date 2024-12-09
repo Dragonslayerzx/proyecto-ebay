@@ -13,6 +13,6 @@ class TBL_TIPO_LUGARES extends Model
 
     public function TBL_DIRECCIONES()
     {
-        return $this->belongsTo(TBL_DIRECCIONES::class, 'codigo_tipo_lugar');
+        return $this->hasMany(TBL_DIRECCIONES::class, 'codigo_tipo_lugar');
     }
 }

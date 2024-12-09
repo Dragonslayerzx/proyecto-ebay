@@ -18,12 +18,12 @@ class TBL_SUBASTAS extends Model
 
     public function TBL_PUJAS()
     {
-        return $this->hasMany(TBL_PUJAS::class, 'codigo_producto_suba');
+        return $this->hasMany(TBL_PUJAS::class, 'codigo_subasta');
     }
 
     //Dudoso
     public function TBL_PRODUCTOS()
     {
-        return $this->belongsTo(TBL_PUJAS::class, 'codigo_subasta' , 'codigo_producto');
+        return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_producto');
     }
 }

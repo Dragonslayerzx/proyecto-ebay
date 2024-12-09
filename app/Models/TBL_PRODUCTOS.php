@@ -43,7 +43,7 @@ class TBL_PRODUCTOS extends Model
     //Dudosa
     public function TBL_PRODUCTOS_EN_VENTA()
     {
-        return $this->hasOne(TBL_PRODUCTOS_EN_VENTA::class, 'codigo_producto_en_venta' , 'codigo_producto');
+        return $this->hasMany(TBL_PRODUCTOS_EN_VENTA::class, 'codigo_producto');
     }
 
     public function TBL_CONDICION_PRODUCTOS()
@@ -51,10 +51,9 @@ class TBL_PRODUCTOS extends Model
         return $this->belongsTo(TBL_CONDICION_PRODUCTOS::class, 'codigo_condicion_producto');
     }
 
-    //Dudosa
     public function TBL_SUBASTAS()
     {
-        return $this->hasOne(TBL_SUBASTAS::class, 'codigo_subasta' , 'codigo_producto');
+        return $this->hasMany(TBL_SUBASTAS::class, 'codigo_producto');
     }
 
     public function TBL_PRODUCTOS_FAVORITOS()

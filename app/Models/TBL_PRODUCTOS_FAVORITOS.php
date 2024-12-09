@@ -18,6 +18,6 @@ class TBL_PRODUCTOS_FAVORITOS extends Model
 
     public function TBL_USUARIOS()
     {
-        return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_usuario');
+        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario');
     }
 }

@@ -13,12 +13,12 @@ class TBL_CATEGORIAS extends Model
 
     public function padreCategoria()
     {
-        return $this->belongsTo(TBL_CATEGORIAS::class, 'codigo_categoria_padre');
+        return $this->belongsTo(TBL_CATEGORIAS::class, 'codigo_categoria_padre', 'codigo_categoria');
     }
 
     public function categoriasBajoPadre()
     {
-        return $this->hasMany(TBL_CATEGORIAS::class, 'codigo_categoria_padre');
+        return $this->hasMany(TBL_CATEGORIAS::class, 'codigo_categoria_padre', 'codigo_categoria' );
     }
 
     public function TBL_PRODUCTOS()

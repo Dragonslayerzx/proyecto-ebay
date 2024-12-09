@@ -13,12 +13,12 @@ class TBL_CONVERSACIONES extends Model
 
     public function TBL_USUARIO_EMISOR()
     {
-        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario_emisor');
+        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario_emisor', 'codigo_usuario');
     }
 
     public function TBL_USUARIO_RECEPTOR()
     {
-        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario_receptor');
+        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario_receptor', 'codigo_usuario');
     }
 
     public function TBL_MENSAJES()

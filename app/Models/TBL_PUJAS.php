@@ -14,11 +14,11 @@ class TBL_PUJAS extends Model
     //Dudoso
     public function TBL_SUBASTAS()
     {
-        return $this->belongsTo(TBL_SUBASTAS::class, 'codigo_producto_suba');
+        return $this->belongsTo(TBL_SUBASTAS::class, 'codigo_subasta');
     }
 
     public function TBL_USUARIOS()
     {
-        return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_usuario');
+        return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario');
     }
 }

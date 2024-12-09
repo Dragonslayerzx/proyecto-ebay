@@ -18,6 +18,6 @@ class TBL_RESENAS extends Model
 
     public function TBL_PRODUCTOS()
     {
-        return $this->hasMany(TBL_PRODUCTOS::class, 'codigo_producto');
+        return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_producto');
     }
 }
