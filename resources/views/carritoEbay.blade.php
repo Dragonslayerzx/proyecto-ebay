@@ -158,7 +158,7 @@
                         @endphp
                         <div class="border rounded p-3 mb-3">
                             <div class="row">
-                                <a href="#" class="col-6 fw-bold link-dark">{{ $productoCarrito->marca }}</a>
+                                <div class="col-6 fw-bold link-dark">{{ $productoCarrito->marca }}</div>
                                 <div class="col text-end">Solicitar envio combinado</div>
                             </div>
                             <div class="row my-3">
@@ -173,25 +173,29 @@
                                 </div>
                                 <div class="col-1">Cantidad</div>
                                 <div class="col-2">
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <!-- Botón de decremento -->
-                                        <button id="decrement{{$contador}}" class="btn btn-outline-primary mx-2" style="font-size: 15px;">-</button>
-                                        <!-- Valor actual -->
-                                        <div id="valueDisplay{{$contador}}" class="fs-3 fw-bold"> {{ $productosCarrito->cantidad_producto }} </div>
-                                        <!-- Botón de incremento -->
-                                        <button id="increment{{$contador}}" class="btn btn-outline-primary mx-2" style="font-size: 15px">+</button>
-                                    </div>
+                                    
                                     <div id="alertMessage{{$contador}}" class="text-danger text-center mt-3 d-none">Has alcanzado el límite</div>
-                                    @if (false)
-                                        
+                                    
                                     <select class="form-select" aria-label="Default select example">
-                                        <option selected> {{ $productosCarrito->cantidad_producto }} </option>
-                                        @for ($i = $productosCarrito->cantidad_producto + 1; $i <= $productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
-                                            <option value="{{ $i }}"> {{ $i }} </option>
-                                        @endfor
-                                    </select>
 
-                                    @endif
+                                        @if ($productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad > 0)
+                                        
+                                            <option selected> {{ $productosCarrito->cantidad_producto }} </option>
+                                            @for ($i = 1; $i < $productosCarrito->cantidad_producto; $i++)
+                                                <option value="{{ $i }}"> {{ $i }} </option>
+                                            @endfor
+                                            @for ($i = $productosCarrito->cantidad_producto; $i < $productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
+                                                <option value="{{ $i+1 }}"> {{ $i+1 }} </option>
+                                            @endfor
+
+                                        @else
+
+                                        <option id="noDisponibleOption" selected> NO DISPONIBLE </option>
+
+                                        @endif
+                                        
+                                    </select>
+                                    
                                 </div>
                                 
                                 <div class="col fw-bold fs-5">L. {{ $productoCarrito->precio }}.00</div>
@@ -271,90 +275,72 @@
                     </div>
                 </div>
             </div>
-
             
+            @php
+                $subtotal = 0;
+                $cantidadArticulos = 0;
+            @endphp
+            @foreach ($carritoUsuario as $productosCarrito)
+                @php
+                    $subtotal += $productosCarrito->TBL_PRODUCTOS->precio;
+                    $cantidadArticulos += 1;
+                @endphp
+            @endforeach
 
             <div class="mx-2 col align-self-start border rounded p-1">
                 <div class="mx-3">
-                        <div class="row mt-2"> 
-                            <div class="col">
-                                Articulos (2)
-                            </div>
-                            <div class="col text-end">
-                                $1000.00
-                            </div>
-                        </div>
-                        <div class="row mb-3"> 
-                            <div class="col">
-                                Envio a 504
-                            </div>
-                            <div class="col text-end">
-                                $100.00
-                            </div>
-                        </div>
-                    <div class="row border-bottom mx-1"></div>
                     <div class="row mt-2 fw-bold fs-3">
-                        <div class="col">Subtotal</div>
-                        <div class="col text-end">US $1100.00</div>
+                        <div class="col">Articulos ({{ $cantidadArticulos  }})</div>
+                        <div class="col text-end">
+                            L.
+                            <span id="subtotalSpan">{{ $subtotal }}</span>
+                            
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col mx-4 my-3 btn btn-primary">Completar la transacción</div>
+                        <div id="completarTransaccionDiv" class="col mx-4 my-3 btn btn-primary">Completar la transacción</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="visually-hidden">
+            @if ($carritoUsuario->isNotEmpty())
+                @php
+                    $contadorCantidad = 0;
+                @endphp
+                @foreach ($carritoUsuario as $productosCarrito)
+                    @php
+                        $contadorCantidad += 1;
+                    @endphp
+                    <div id="productoCantidad{{$contadorCantidad}}">
+                        @php
+                            $productoEnCarrito = $productosCarrito->TBL_PRODUCTOS;
+                        @endphp
+                        {{ $productoEnCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad }}
+                    </div>
+                @endforeach
+            @endif
+        </div>
+
     </div>
-    
-    
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        // Valores iniciales
-        let contador = @php echo $contador @endphp;
+
+        let subtotalSpan = document.getElementById('subtotalSpan');
         
-        for (let index = 1; index <= contador; index++) {
-            console.log(index);
-            const minValue = 1; // Valor mínimo
-            const maxValue = 10; // Valor máximo
-
-            // Referencias a los elementos
-            const valueDisplay = document.getElementById(`valueDisplay${ index }`);
-            console.log(valueDisplay);
-            //valueDisplay.innerText = 1;
-            let currentValue = valueDisplay.innerText;
-            const incrementButton = document.getElementById(`increment${ index }`);
-            const decrementButton = document.getElementById(`decrement${ index }`);
-            const alertMessage = document.getElementById(`alertMessage${ index }`);
-
-            // Función para actualizar el mensaje de alerta
-            function showAlert(message) {
-                alertMessage.textContent = message;
-                alertMessage.classList.remove("d-none");
-                setTimeout(() => {
-                    alertMessage.classList.add("d-none");
-                }, 2000);
-            }
-
-            // Lógica para incrementar y decrementar con límites
-            incrementButton.addEventListener("click", () => {
-                if (currentValue < maxValue) {
-                    currentValue++;
-                    valueDisplay.textContent = currentValue;
-                } else {
-                    showAlert(`Cantidad disponible maxima alcanzada ${maxValue}`);
-                }
-            });
-
-            decrementButton.addEventListener("click", () => {
-                if (currentValue > minValue) {
-                    currentValue--;
-                    valueDisplay.textContent = currentValue;
-                } else {
-                    showAlert(`Para seleccionar 0, elimina de carrito`);
-                }
-            });
+        if(subtotalSpan.innerText == '0'){
+            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
+            completarTransaccionDiv.classList.add('disabled');
         }
+
+        let noDisponibleOption = document.getElementById('noDisponibleOption');
+        if(noDisponibleOption){
+            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
+            completarTransaccionDiv.classList.add('disabled');
+        }
+
     </script>
 
 </body>
