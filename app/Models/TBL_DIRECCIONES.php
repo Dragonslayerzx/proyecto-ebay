@@ -13,12 +13,12 @@ class TBL_DIRECCIONES extends Model
 
     public function padreDireccion()
     {
-        return $this->belongsTo(TBL_DIRECCIONES::class, 'codigo_lugar_padre', 'codigo_direccion');
+        return $this->belongsTo(TBL_DIRECCIONES::class, 'codigo_lugar_padre');
     }
 
     public function hijoDireccion()
     {
-        return $this->hasMany(TBL_DIRECCIONES::class, 'codigo_lugar_padre', 'codigo_direccion');
+        return $this->hasMany(TBL_DIRECCIONES::class, 'codigo_lugar_padre');
     }
 
     public function TBL_TIPO_LUGARES()

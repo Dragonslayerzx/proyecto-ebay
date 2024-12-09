@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TBL_CATEGORIAS;
 use App\Models\TBL_PRODUCTOS_EN_VENTA;
 use App\Models\TBL_PRODUCTOS;
+use App\Models\TBL_SUBASTAS;
 
 class CategoriasController extends Controller
 {
@@ -108,9 +109,15 @@ class CategoriasController extends Controller
             $regex = '/.*/s';
         }
 
-        $productosEnCategoria = TBL_PRODUCTOS::all();
+        //$productosEnCategoria = TBL_PRODUCTOS::all();
         
-        return view('productosCategoria',compact('productosEnCategoria','categoria','regex'));
+        //return view('productosCategoria',compact('productosEnCategoria','categoria','regex'));
+
+        $productosEnVenta = TBL_PRODUCTOS_EN_VENTA::all();
+        $productosEnSubasta = TBL_SUBASTAS::all();
+
+        //dd($productosEnSubasta);
+        return view('productosCategoria',compact('productosEnVenta','productosEnSubasta','categoria','regex'));
     }
 
 }

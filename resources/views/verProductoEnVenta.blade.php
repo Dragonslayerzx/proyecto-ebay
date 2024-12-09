@@ -1,18 +1,150 @@
-@php
-    $contador = 0;
-@endphp
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito Ebay</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>eBay Product Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
 
+        .small-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .large-image {
+            
+            width: 100%;
+            height: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+
+        .left-column {
+            max-width: 120px;
+        }
+
+        #seccion-producto h4{
+
+            padding-right: 37%;
+            max-width: 100%;
+            color: gray;
+        }
+
+        #seccion-producto span{
+
+            color: rgb(242, 13, 13);
+        }
+
+        #caracteristicas .vendedor{
+
+            
+            margin-top: 6%;
+            margin-bottom: 8%;
+
+        }
+
+        .vendedor{
+
+            height: 85px;
+            max-height: 100%;
+            border-top: 1px solid;
+            padding-top: 15px;
+            justify-content: center;
+            border-bottom: 1px solid;
+            border-color: #ddd;
+    
+        }
+
+        .vendedor a{ 
+            
+           color: black;
+           font-size: 0.8rem;
+        }
+
+        #caracteristicas .precio-venta{
+
+            color: rgb(109, 99, 99);
+            font-size: 0.9rem;
+        }
+
+        #caracteristicas .precio-venta span{
+
+            color: rgb(234, 13, 13);
+        }
+
+        #caracteristicas .estado{
+
+            color: black;
+            font-size: 0.9rem;
+        }
+
+        #caracteristicas .estado-descripcion{
+
+            font-size: 0.9rem;
+            color: black;
+        }
+        
+
+
+        .vendedor .nombre-tienda{
+            
+            margin-bottom: 4%;
+            font-size: 0.9rem;
+            
+        }
+
+
+        #botones-compra button{
+
+            border-radius: 40px;
+            width: 400px;
+            max-width: 100%;
+            height: 50px;
+            border: 1px solid;
+            margin-top: 5%;
+            border-color: rgb(3, 3, 251);
+            font-size: 0.9rem;
+            padding-top: 1%;
+            color: blue;
+        }
+
+        #botones-compra #comprar{
+
+            
+            color: white;
+        }
+
+        
+        
+        footer {
+            border-top: 1px solid #ddd;
+        }
+
+        footer a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        
+
+
+    </style>
 </head>
-<body>
 
+<body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
@@ -141,210 +273,149 @@
     </nav>
 
 
-    <div class="container my-3">
 
-        <div class="row fw-bold fs-4">
-            <div class="col">Carro de compras</div>
+    @if ($productoEnVenta)
+    
+    <div class="container my-5" id="seccion-producto">
+        <!-- Product Header -->
+        <h4 class="text-center mb-4"> &#9992 <span>ENVIO GRATUITO DE 2 DIAS</span> EN PEDIDOS SUPERIORES A $99</h4>
+
+        <!-- Product Grid -->
+        <div class="row">
+
+            @php
+                $productoEnVentaDatos = $productoEnVenta->TBL_PRODUCTOS;
+            @endphp
+
+            <div class="col-md-6">
+                <img src="{{ $productoEnVentaDatos->foto }}" class="d-block w-100 main-image" alt="Main Image 1">
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-4" id="caracteristicas">
+                <h1>{{ $productoEnVentaDatos->nombre_producto }} {{ $productoEnVentaDatos->marca }} {{ $productoEnVentaDatos->modelo }}</h1>
+                <div class="vendedor">
+                    <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a><br>
+                    <a href="">Otros articulos del vendedor</a>
+                    <a href="">Contactar con el vendedor</a>
+                </div>
+                
+                <div class="text-black mb-2 fs-5"><span class="fw-semibold">Disponibles: </span>
+                    {{ $productoEnVenta->cantidad }} 
+                </div>
+                <h2 class="text-black">L. {{ $productoEnVentaDatos->precio }}</h2>
+                <p class="estado mt-2">Estado: <Strong>{{ $productoEnVentaDatos->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
+                <div class="mt-4">
+                    <label for="quantity" class="form-label">Cantidad:</label>
+                    <input type="number" id="quantity" class="form-control w-50 mb-3" min="1" max="{{ $productoEnVenta->cantidad }}" value="1">
+                </div>
+
+                <div class="d-block" id="botones-compra">
+                    <button class="btn btn-primary btn-lg me-3 text-white" id="agregarACarrito">Agregar al carrito de compras</button>
+                    <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
+                </div>
+
+                <!-- Shipping Info -->
+                <p class="mt-4"><strong>Entrega:</strong> <img width="25" height="25" src="https://img.icons8.com/cotton/64/empty-flag.png" alt="empty-flag"/> Entrega prevista entre el mar. 31 dic. y el mie. 22 ene. a 0</p>
+                <p><strong>Pagos:</strong> <a href="" title="visa iconos"><img width="50" height="50" src="https://img.icons8.com/ios-filled/100/credit-card-front.png" alt="credit-card-front"/><img width="48" height="48" src="https://img.icons8.com/color/48/paypal.png" alt="paypal"/><img width="50" height="50" src="https://img.icons8.com/papercut/120/mastercard--v1.png" alt="mastercard--v1"/><img width="48" height="48" src="https://img.icons8.com/color/48/discover.png" alt="discover"/></a></p>
+            </div>
         </div>
 
-        <div class="row">
-            
-            <div class="col-8">
-                
-                @if ($carritoUsuario->isNotEmpty())
-                
-                    @foreach ($carritoUsuario as $productosCarrito)
-                        @php
-                            $productoCarrito = $productosCarrito->TBL_PRODUCTOS;
-                            $contador += 1;
-                        @endphp
-                        <div class="border rounded p-3 mb-3">
-                            <div class="row">
-                                <div class="col-6 fw-bold link-dark">{{ $productoCarrito->marca }}</div>
-                                <div class="col text-end">Solicitar envio combinado</div>
-                            </div>
-                            <div class="row my-3">
-                                <div class="col-3">
-                                    <img src="{{ $productoCarrito->foto }}" alt="" class="img-fluid">
-                                </div>
-                                <div class="col-3">
-                                    <a href="{{ route('producto.obtener',$productoCarrito->codigo_producto) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                        {{ $productoCarrito->marca }} {{ $productoCarrito->nombre }} {{ $productoCarrito->modelo }}
-                                    </a>
-                                    <div class="mt-2">Estado - <strong>{{ $productoCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
-                                </div>
-                                <div class="col-1">Cantidad</div>
-                                <div class="col-2">
-                                    
-                                    <div id="alertMessage{{$contador}}" class="text-danger text-center mt-3 d-none">Has alcanzado el límite</div>
-                                    
-                                    <select class="form-select" aria-label="Default select example">
+        <!-- Seccion de Descripcion del Producto -->
+        <div class="mt-5">
+            <h3>Descripcion del Producto</h3>
+            <p>
+                {{ $productoEnVentaDatos->descripcion }}
+            </p>
+        </div>
 
-                                        @if ($productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad > 0)
-                                        
-                                            <option selected> {{ $productosCarrito->cantidad_producto }} </option>
-                                            @for ($i = 1; $i < $productosCarrito->cantidad_producto; $i++)
-                                                <option value="{{ $i }}"> {{ $i }} </option>
-                                            @endfor
-                                            @for ($i = $productosCarrito->cantidad_producto; $i < $productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
-                                                <option value="{{ $i+1 }}"> {{ $i+1 }} </option>
-                                            @endfor
+        <!-- Customer Reviews -->
+        <div class="mt-5">
+            <h3 class="mb-3">Valoraciones y reseñas del artículo</h3>
 
-                                        @else
+            <h5>Dejar una reseña</h5>
 
-                                        <option id="noDisponibleOption" selected> NO DISPONIBLE </option>
-
-                                        @endif
-                                        
-                                    </select>
-                                    
-                                </div>
-                                
-                                <div class="col fw-bold fs-5">L. {{ $productoCarrito->precio }}.00</div>
-                            </div>
-                            <div class="row mx-1">
-                                <div class="col-10"></div>
-                                <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
-                            </div>
-                        </div>
-                    
-                    @endforeach
-
-                @endif
-
-                <div class="border rounded p-3 mb-3">
-                    <div class="row">
-                        <a href="#" class="col-6 fw-bold link-dark">Sony</a>
-                        <div class="col text-end">Solicitar envio combinado</div>
-                    </div>
-                    <div class="row my-3">
-                        <div class="col-3">
-                            <img src="https://cdn.mos.cms.futurecdn.net/HkdMToxijoHfz4JwUgfh3G.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-3">
-                            <a href="#" class="row link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                Sony PlayStation 5
-                            </a>
-                            <div class="row mt-2">Nuevo - Articulo nuevo</div>
-                        </div>
-                        <div class="col-1">Cantidad</div>
-                        <div class="col-2">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected> 1 </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col fw-bold fs-5">US $500.00</div>
-                    </div>
-                    <div class="row mx-1">
-                        <div class="col-10"></div>
-                        <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
-                    </div>
+            <form action="{{ route('resena.venta.agregar', $productoEnVenta->codigo_producto_en_venta) }}" class="my-3" method="POST">
+            @csrf
+                <div class="form-floating mb-3">
+                    <textarea name="comentario" class="form-control" placeholder="Deja un comentario aqui" id="comentarioTextArea" required></textarea>
+                    <label for="floatingTextarea">Comentario</label>
                 </div>
-                
-
-                <div class="border rounded p-3 mb-3">
-                    <div class="row">
-                        <a href="#" class="col-6 fw-bold link-dark">Sony</a>
-                        <div class="col text-end">Solicitar envio combinado</div>
-                    </div>
-                    <div class="row my-3">
-                        <div class="col-3">
-                            <img src="https://cdn.mos.cms.futurecdn.net/HkdMToxijoHfz4JwUgfh3G.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-3">
-                            <a href="#" class="row link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                Sony PlayStation 5
-                            </a>
-                            <div class="row mt-2">Nuevo - Articulo nuevo</div>
-                        </div>
-                        <div class="col-1">Cantidad</div>
-                        <div class="col-2">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected> 1 </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col fw-bold fs-5">US $500.00</div>
-                    </div>
-                    <div class="row mx-1">
-                        <div class="col-10"></div>
-                        <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
-                    </div>
+                <div class="form-floating mb-3">
+                    <select name="valoracion" class="form-select" id="valoracionSelect" required>
+                        <option value="" selected>Cantidad de estrellas</option>
+                        <option value="1">★</option>
+                        <option value="2">★★</option>
+                        <option value="3">★★★</option>
+                        <option value="4">★★★★</option>
+                        <option value="5">★★★★★</option>
+                    </select>
+                    <label for="floatingSelect">Valoracion</label>
                 </div>
-            </div>
-            
-            @php
-                $subtotal = 0;
-                $cantidadArticulos = 0;
-            @endphp
-            @foreach ($carritoUsuario as $productosCarrito)
-                @php
-                    $subtotal += $productosCarrito->TBL_PRODUCTOS->precio;
-                    $cantidadArticulos += 1;
-                @endphp
+                <input type="hidden" name="codigoProducto" value="{{ $productoEnVentaDatos->codigo_producto }}">
+                <button type="submit" class="btn btn-primary">Agregar Reseña</button>
+            </form>
+
+            <h5>Reseñas de otros usuarios</h5>
+
+            @foreach ($productoEnVentaDatos->TBL_RESENAS as $resenasProductos)
+                <div class="border p-3 mb-3">
+                    <h5>{{ $resenasProductos->TBL_USUARIOS->nombre_usuario }}</h5>
+                    <p class="text-warning mb-0">
+                        @for ($i = 0; $i < $resenasProductos->valoracion; $i++)
+                            ★
+                        @endfor
+                        @for ($i = 5; $i > $resenasProductos->valoracion; $i--)
+                            ☆
+                        @endfor
+                    </p>
+                    <small class="text-muted">{{ $resenasProductos->fecha }}</small>
+                    <p>{{ $resenasProductos->comentario }}</p>
+                </div>
             @endforeach
 
-            <div class="mx-2 col align-self-start border rounded p-1">
-                <div class="mx-3">
-                    <div class="row mt-2 fw-bold fs-3">
-                        <div class="col">Articulos ({{ $cantidadArticulos  }})</div>
-                        <div class="col text-end">
-                            L.
-                            <span id="subtotalSpan">{{ $subtotal }}</span>
-                            
-                        </div>
+            <!-- Reseñas de ejemplo -->
+            <div class="border p-3 mb-3">
+                <h5>John Doe</h5>
+                <p class="text-warning mb-0">★★★★☆</p>
+                <small class="text-muted">Reviewed on 10 Nov 2024</small>
+                <p>Great product, but could be improved in some aspects.</p>
+            </div>
+            <div class="border p-3">
+                <h5>Jane Smith</h5>
+                <p class="text-warning mb-0">★★★★★</p>
+                <small class="text-muted">Reviewed on 8 Nov 2024</small>
+                <p>Absolutely love it! Exceeded my expectations.</p>
+            </div>
+        </div>
+    </div>
+
+    @endif
+
+        <!-- Footer -->
+        <footer class="bg-light text-muted">
+            <div class="container py-4">
+                <div class="row">
+                    <!-- Columna de enlaces -->
+                    <div class="col-md-8">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted">Acerca de eBay</a></li>
+                            <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted">Aviso de privacidad</a></li>
+                            <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted">Condiciones de uso</a></li>
+                            <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted">Contacto</a></li>
+                            <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted">Mapa del sitio</a></li>
+                        </ul>
                     </div>
-                    <div class="row">
-                        <div id="completarTransaccionDiv" class="col mx-4 my-3 btn btn-primary">Completar la transacción</div>
+                    <!-- Columna de derechos reservados -->
+                    <div class="col-md-4 text-md-end text-center">
+                        <p class="mb-0">&copy; 2024 eBay Inc. Todos los derechos reservados.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
 
-        <div class="visually-hidden">
-            @if ($carritoUsuario->isNotEmpty())
-                @php
-                    $contadorCantidad = 0;
-                @endphp
-                @foreach ($carritoUsuario as $productosCarrito)
-                    @php
-                        $contadorCantidad += 1;
-                    @endphp
-                    <div id="productoCantidad{{$contadorCantidad}}">
-                        @php
-                            $productoEnCarrito = $productosCarrito->TBL_PRODUCTOS;
-                        @endphp
-                        {{ $productoEnCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad }}
-                    </div>
-                @endforeach
-            @endif
-        </div>
-
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-
-        let subtotalSpan = document.getElementById('subtotalSpan');
-        
-        if(subtotalSpan.innerText == '0'){
-            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
-            completarTransaccionDiv.classList.add('disabled');
-        }
-
-        let noDisponibleOption = document.getElementById('noDisponibleOption');
-        if(noDisponibleOption){
-            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
-            completarTransaccionDiv.classList.add('disabled');
-        }
-
-    </script>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Pasamos las rutas generadas por Laravel a una variable global
         window.laravelRoutes = {
@@ -377,6 +448,6 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
-
 </body>
+
 </html>

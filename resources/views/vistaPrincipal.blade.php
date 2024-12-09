@@ -11,75 +11,7 @@
 
     <!-- Vinculando un estilo personalizado -->
     <style>
-        body {
-
-            font-family: Arial, sans-serif;
-            max-width: 100%;
-            margin: 0 auto;
-            
-             
-        }
-
-        .inicio-navbar{
-
-            height: 30px;
-            width: 100%;
-            display:inline-flex;
-            justify-content: start;
-            font-size: 0.7rem;
-            margin-left: 2%;
-            
-            
-        }
-
-        .inicio-navbar .items{
-
-            margin-right: 20px;
-            
-        }
-        .inicio-navbar .Mi-ebay .btn{
-
-            height: 15px;
-            font-size: 0.7rem;
-            text-align: center;
-            padding-top: 0%;
-    
-            
-        }
-
-        .navbar {
-
-            background-color: #fff;
-            border-top: 1.5px solid;
-            border-bottom: 1.5px solid;
-            border-color: #ebe6d6;
-            max-width: 100%;
-            
-            
-        }
-
-        .navbar-brand {
-            margin-left:30px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.8rem;
-            
-        }
-        .navbar-brand img{
-            
-            height: 40px;
-        }
-
-        .navbar-nav .nav-link {
-            color: #fff;
-
-                   
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #ffcd00;
-        }
-
+        
         .category-card {
             margin-bottom: 30px;
         }
@@ -271,9 +203,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
-            <span class="dropdown">
-                <button class="navbar-text me-3 btn dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">¡Hola, Usuario!</button>
-                <div class="row dropdown-menu p-3 text-body-secondary rounded" style="width: 300px;">
+            <span id="infoUsuarioContenedor" class="dropdown">
+                <button id="saludoUsuarioButton" class="navbar-text me-3 btn dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false">¡Hola, Usuario!</button>
+                <div id="infoUsuario" class="row dropdown-menu p-3 text-body-secondary rounded" style="width: 300px;">
                         <div class="row mb-3">
                             
                             <div class="col-4 me-1 p-0">
@@ -282,14 +214,14 @@
                                 </a>
                             </div>
                             <div class="mx-2 mt-2 col p-0">
-                                <div class="my-2 fw-bold">Usuario</div>
-                                <a href="#" class="p-0 text-body-tertiary">Nombre Usuario</a>
+                                <div id="nombreRealDiv" class="my-2 fw-bold">Usuario</div>
+                                <div id="nombreUsuarioDiv" class="p-0 text-body-tertiary">Nombre Usuario</div>
                             </div>
 
                         </div>
                         <p class="mb-0">
-                            <a href="#" class="col btn">Configuracion de la cuenta</a>
-                            <a href="#" class="col btn">Cerrar sesion</a>
+                            <a id="miEbayDatosPersonalesBoton" href="{{ route('usuario.datos') }}" class="col btn">Configuracion de la cuenta</a>
+                            <a id="cerrarSesionBoton" href="{{ route('usuario.registro') }}" class="col btn">Cerrar sesion</a>
                         </p>
                 </div>
             </span>
@@ -318,15 +250,15 @@
                     </a>
                 </li>
                 <li class="nav-item me-2">
-                    <a class="nav-link" href="#">Vender</a>
+                    <a id="listarProductoA" class="nav-link" href="{{ route('usuario.listar') }}">Vender</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" role="button">
+                    <a id="listaFavoritosA" class="nav-link" href="{{ route('usuario.favoritos') }}" role="button">
                         Lista de artículos que sigues
                     </a>
                 </li>
                 <li class="nav-item me-2">
-                    <a class="nav-link" href="#">Mi Ebay</a>
+                    <a id="miEbayComprasA" class="nav-link" href="{{ route('usuario.compras') }}">Mi Ebay</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link position-relative" href="#">
@@ -337,7 +269,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link position-relative" href="#">
+                    <a id="carritoUsuarioA" class="nav-link position-relative" href="{{ route('carrito.mostrar') }}">
                         <!-- Ícono de carrito SVG -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="28" fill="currentColor" class="bi bi-cart" viewBox="0 0 17 17">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
@@ -352,38 +284,40 @@
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('principal') }}">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/EBay_logo.png" alt="eBay Logo" style="height: 60px;">
             </a>
             <div class="dropdown me-2">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownCategories" data-bs-toggle="dropdown" aria-expanded="false">
                     Comprar por categoría
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownCategories">
-                    <!-- Añade aquí las categorías -->
-                    <li><a class="dropdown-item" href="#">Electrónica</a></li>
-                    <li><a class="dropdown-item" href="#">Moda</a></li>
-                    <li><a class="dropdown-item" href="#">Hogar y jardín</a></li>
-                    <li><a class="dropdown-item" href="#">Juguetes</a></li>
-                </ul>
+                <div class="dropdown-menu p-3" style="min-width: 600px;" aria-labelledby="dropdownMenuButton">
+                    <!-- Filas y columnas para organizar -->
+                    <div class="container">
+                        <div id="CategoriasContainer" class="row">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSearch">
-                <form class="d-flex w-75 ">
+                <form id="enviarBusquedaForm" action="{{ route('categoria.productos.obtener') }}" method="GET" class="d-flex w-75 ">
                     <div class="input-group">
                         <span class="input-group-text border-dark bg-white border-end-0 rounded-start">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
                         </span>
-                        <input type="text" class="form-control border-dark border-start-0" placeholder="Buscar artículos" aria-label="Buscar artículos">
-                        <select class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
-                            <option selected>Todas las categorías</option>
+                        <input name="busqueda" type="text" class="form-control border-dark border-start-0" placeholder="Buscar artículos" aria-label="Buscar artículos">
+                        <select name="selectCategoria" id="CategoriasSelect" class="form-select border-dark border-start-0 rounded-end" style="max-width: 200px;">
+                            <option value="0" selected>Todas las categorías</option>
                             <!-- Opciones de categorías adicionales -->
+
                         </select>
-                        <button class="btn btn-primary mx-3 rounded-pill" type="submit">
+                        <button id="enviarFormBusqueda" class="btn btn-primary mx-3 rounded-pill" type="submit">
                             <div class="mx-2">Buscar</div>
                         </button>
                     </div>
@@ -397,34 +331,34 @@
 <div id="ebayCarousel" class="carousel slide" data-bs-ride="carousel">
     <!-- Indicators -->
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
   
     <!-- Slides -->
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="Proba.jpg" class="d-block w-100" alt="Discount Slide">
-        <div class="carousel-caption">
-          <h5>Big Discounts</h5>
-          <p>Up to 50% off on select items.</p>
+        <div class="carousel-item active">
+            <img src="Proba.jpg" class="d-block w-100" alt="Discount Slide">
+            <div class="carousel-caption">
+                <h5>Big Discounts</h5>
+                <p>Up to 50% off on select items.</p>
+            </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Limited Time Offers">
-        <div class="carousel-caption">
-          <h5>Limited Time Offers</h5>
-          <p>Grab deals before they expire!</p>
+        <div class="carousel-item">
+            <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Limited Time Offers">
+            <div class="carousel-caption">
+                <h5>Limited Time Offers</h5>
+                <p>Grab deals before they expire!</p>
+            </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Shop Electronics">
-        <div class="carousel-caption">
-          <h5>Shop Electronics</h5>
-          <p>Top brands at unbeatable prices.</p>
+        <div class="carousel-item">
+            <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Shop Electronics">
+            <div class="carousel-caption">
+                <h5>Shop Electronics</h5>
+                <p>Top brands at unbeatable prices.</p>
+            </div>
         </div>
-      </div>
     </div>
   
     <!-- Controls -->
@@ -559,6 +493,38 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Pasamos las rutas generadas por Laravel a una variable global
+        window.laravelRoutes = {
+            obtenerCategorias: "{{ route('categorias.obtener') }}",
+            rutaProductosEnCategoria: "{{ route('categoria.productos.obtener') }}",
+            registro: "{{ route('usuario.registro') }}"
+            };
+    </script>
+    <script src=" {{ asset ('/assets/JavaScript/obtenerCategorias.js') }} "></script>
+    <script>
+        let enviarBusquedaForm = document.getElementById('enviarBusquedaForm');
+        let CategoriasSelect = document.getElementById('CategoriasSelect');
+        let enviarFormBusqueda = document.getElementById('enviarFormBusqueda');
+
+        enviarBusquedaForm.action += `/${CategoriasSelect.selectedIndex}`
+
+        CategoriasSelect.addEventListener('change',function(event){
+            let selectedOption = event.target.value;
+    
+            enviarBusquedaForm.action = enviarBusquedaForm.action.replace(/\/\d+$/, " ");
+            
+            if(!isNaN(selectedOption)){
+                //console.log(selectedOption);
+                enviarBusquedaForm.action += `/${selectedOption}`;
+            }else{
+                enviarBusquedaForm.action += `/${selectedOption}`;
+            }
+
+        })
+
+    </script>
+    <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
 </body>
 
 </html>

@@ -86,7 +86,7 @@
     <script>
         window.laravelRoutes = {
             authRoute: "{{ route('usuario.auth') }}",
-            index: "{{ route('vistaprincipal') }}"
+            index: "{{ route('principal') }}"
         }
     </script>
     <script src=" {{ asset ('/assets/JavaScript/login.js') }} "></script>

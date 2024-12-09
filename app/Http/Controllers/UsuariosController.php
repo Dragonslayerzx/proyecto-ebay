@@ -72,4 +72,39 @@ class UsuariosController extends Controller
             ], 401);
         }
     }
+
+    public function datosPersonales($codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario)
+            return view('miEbayDatosPersonales', compact('usuario'));
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function listarProducto($codigoUsuario = null){
+        if($codigoUsuario){
+            return view('subirProducto');
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function verCompras($codigoUsuario = null){
+        if($codigoUsuario){
+            return view('miEbayCompras');
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function verListaFavoritos($codigoUsuario = null){
+        if($codigoUsuario){
+            return view('listaFavoritos');
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
 }
