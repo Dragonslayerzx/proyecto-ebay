@@ -213,6 +213,8 @@
             </div>
 
             <!-- Empieza -->
+            @if ($usuario)
+            
             <div>
 
                 <div class="row border"></div>
@@ -220,13 +222,13 @@
                 <div class="row my-5" >
                     
                     <div class="col-4 fs-5 fw-semibold">Nombre de usuario</div>
-                    <div class="col-4 fs-5" id="NombreDeUsuarioDiv">mosa8892</div>
+                    <div class="col-4 fs-5" id="NombreDeUsuarioDiv">{{ $usuario->nombre_usuario }}</div>
 
                     <div id="NuevoUsuarioForm" class="col-4 d-none">
                         <form>
                             <div class="mb-3">
                             <label name="usuario" id="NombreUsuarioCampoForm" for="exampleInputEmail1" class="form-label">Nuevo nombre de usuario</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="mosa8892">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $usuario->nombre_usuario }}">
                             </div>
                             <button id="CancelarUsuarioBoton" class="btn btn-secondary">Cancelar</button>
                             <button id="GuardarUsuarioBoton" type="submit" class="btn btn-primary">Guardar</button>
@@ -266,7 +268,7 @@
                     <div class="col-4 fs-5 fw-semibold">Informacion de contacto</div>
                     <div class="col-4 fs-5">
                         <div class="text-body-secondary mb-2">Correo electronico</div>
-                        <div> davidGuzman@gmail.com </div>
+                        <div> {{ $usuario->correo }} </div>
                     </div>
                     <div class="col-2"></div>
                     <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
@@ -276,7 +278,7 @@
                     <div class="col-4"></div>
                     <div class="col-4 fs-5">
                         <div class="text-body-secondary mb-2">Numero de telefono</div>
-                        <div> 128993212 </div>
+                        <div> {{ $usuario->telefono }} </div>
                     </div>
                     <div class="col-2"></div>
                     <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
@@ -293,12 +295,37 @@
                     <div class="col-4 fs-5 fw-semibold">Datos personales</div>
                     <div class="col-4 fs-5">
                         <div class="text-body-secondary mb-2">Nombre y direccion del titular</div>
-                        <div>David Guzman</div>
-                        <div>
-                            <div>La Kennedy</div>
-                            <div>Tegucigalpa, Francisco Morazan 504</div>
-                            <div>Honduras</div>
-                        </div>
+                        <div class="mb-2 fs-4 fw-semibold">{{ $usuario->nombre }} {{ $usuario->apellido }}</div>
+
+                            @foreach ($usuario->TBL_DIRECCIONES_USUARIO as $direcciones)
+                            <div id="direccionUsuarioDiv">
+                                @php
+                                    $direccion = $direcciones->TBL_DIRECCIONES;
+                                @endphp
+                                @if ($direccion->codigo_lugar_padre)
+                                    @while ($direccion->codigo_lugar_padre != null)
+                                        <div>{{ $direccion->nombre_lugar }}</div>
+                                        @php
+                                            $direccion = $direcciones->TBL_DIRECCIONES::find($direccion->codigo_lugar_padre);
+                                        @endphp
+                                    @endwhile
+                                    {{ $direccion->nombre_lugar }}
+                                
+                                @else
+
+                                    <strong>Aun no tienes direcciones</strong>
+                                
+                                @endif
+
+                                
+                            </div>
+
+                            <div class="mb-3"></div>
+                            @endforeach
+                            
+                        
+                            
+
                     </div>
                     <div class="col-2"></div>
                     <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
@@ -308,6 +335,8 @@
                 <div class="my-3 row border"></div>
 
             </div>
+
+            @endif
 
             
         </div>
@@ -382,6 +411,13 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
+
+    
+
+    <script>
+        let direccionUsuarioDiv = document.getElementById('direccionUsuarioDiv');
+        let direccionUsuario = @php echo $usuario
+    </script>
 
 </body>
 </html>

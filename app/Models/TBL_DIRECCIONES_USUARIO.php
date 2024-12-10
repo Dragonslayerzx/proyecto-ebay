@@ -8,6 +8,7 @@ class TBL_DIRECCIONES_USUARIO extends Model
 {
     protected $table = 'TBL_DIRECCIONES_USUARIO';
     public $timestamps = false;
+    public $incrementing = false;
     protected $primaryKey = ['codigo_usuario' , 'codigo_direccion'];
     protected $fillable = ['codigo_usuario' , 'codigo_direccion' , 'descripcion'];
 

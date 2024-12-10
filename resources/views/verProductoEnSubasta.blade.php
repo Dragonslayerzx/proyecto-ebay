@@ -361,7 +361,7 @@
                     </select>
                     <label for="floatingSelect">Valoracion</label>
                 </div>
-                <input type="hidden" name="codigoProducto" value="{{ $productoEnSubastaDatos->codigo_subasta }}">
+                <input type="hidden" name="codigoProducto" value="{{$productoEnSubasta->codigo_subasta }}">
                 <button type="submit" class="btn btn-primary">Agregar Reseña</button>
             </form>
 

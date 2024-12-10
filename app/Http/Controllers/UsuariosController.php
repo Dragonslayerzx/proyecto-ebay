@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TBL_USUARIOS;
 use App\Models\TBL_CONDICION_PRODUCTOS;
 use App\Models\TBL_CATEGORIAS;
+use App\Models\TBL_DIRECCIONES;
+use App\Models\TBL_DIRECCIONES_USUARIO;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;      //Proporciona metodo para hash
@@ -79,8 +81,13 @@ class UsuariosController extends Controller
     public function datosPersonales($codigoUsuario = null){
         if($codigoUsuario){
             $usuario = TBL_USUARIOS::find($codigoUsuario);
-            if($usuario)
-            return view('miEbayDatosPersonales', compact('usuario'));
+            if($usuario){
+            //dd($usuario->TBL_DIRECCIONES_USUARIO[0]->TBL_DIRECCIONES);
+                return view('miEbayDatosPersonales', compact('usuario'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
         }else{
             return redirect()->route('usuario.registro');
         }
