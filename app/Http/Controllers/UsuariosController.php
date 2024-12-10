@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\TBL_USUARIOS;
+use App\Models\TBL_CONDICION_PRODUCTOS;
+use App\Models\TBL_CATEGORIAS;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;      //Proporciona metodo para hash
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +88,17 @@ class UsuariosController extends Controller
 
     public function listarProducto($codigoUsuario = null){
         if($codigoUsuario){
-            return view('subirProducto');
+
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+
+            if($usuario){
+
+                $categorias = TBL_CATEGORIAS::all();
+                $condicionesProducto = TBL_CONDICION_PRODUCTOS::all();
+
+                return view('subirProducto', compact('categorias','condicionesProducto','usuario'));
+            }
+
         }else{
             return redirect()->route('usuario.registro');
         }

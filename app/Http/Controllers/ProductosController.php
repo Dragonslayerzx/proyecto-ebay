@@ -49,4 +49,28 @@ class ProductosController extends Controller
         $productosCategoria = TBL_PRODUCTOS::all();
         return view('productosCategoria',compact('productosCategoria','codigoCategoria'));
     }
+
+    public function listar(Request $request, $codigoUsuario = null){
+        if($codigoUsuario && $request){
+
+            $producto = new TBL_PRODUCTOS();
+            $producto->codigo_categoria = $request->codigoCategoria;
+            $producto->codigo_usuario = $codigoUsuario;
+            $producto->nombre_producto = $request->nombreProducto;
+            $producto->descripcion = $request->descripcionProducto;
+            $producto->marca = $request->marcaProducto;
+            $producto->modelo = $request->modeloProducto;
+            $producto->cantidad_disponible = $request->cantidadProducto;
+            $producto->precio = $request->precioProducto;
+            $producto->foto = $request->fotoProducto;
+            $producto->codigo_condicion_producto = $request->codigoCondicionProducto;
+            $producto->save();
+
+            return redirect()->route('principal');
+
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
 }

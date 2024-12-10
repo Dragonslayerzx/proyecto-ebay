@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBay Product Page</title>
+    <title>eBay - Producto</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -295,7 +295,7 @@
             <div class="col-md-4" id="caracteristicas">
                 <h1>{{ $productoEnSubastaDatos->nombre_producto }} {{ $productoEnSubastaDatos->marca }} {{ $productoEnSubastaDatos->modelo }}</h1>
                 <div class="vendedor">
-                    <a class="nombre-tienda" href=""><Strong>Bases Store</Strong></a><br>
+                    <a class="nombre-tienda" href=""><Strong>{{ $productoEnSubastaDatos->TBL_USUARIOS->nombre_usuario }}</Strong></a><br>
                     <a href="">Otros articulos del vendedor</a>
                     <a href="">Contactar con el vendedor</a>
                 </div>
@@ -344,7 +344,7 @@
 
             <h5>Dejar una reseña</h5>
 
-            <form action="{{ route('resena.subasta.agregar', $productoEnSubasta->codigo_subasta) }}" class="my-3" method="POST">
+            <form id="agregarResenaForm" action="{{ route('resena.subasta.agregar', $productoEnSubasta->codigo_subasta) }}" class="my-3" method="POST">
             @csrf
                 <div class="form-floating mb-3">
                     <textarea name="comentario" class="form-control" placeholder="Deja un comentario aqui" id="comentarioTextArea" required></textarea>
@@ -457,6 +457,8 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
+    <script src=" {{ asset ('/assets/JavaScript/resenia.js') }} "></script>
+
 </body>
 
 </html>

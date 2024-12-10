@@ -83,15 +83,18 @@ Route::get('/producto/venta/obtener/{codigoProducto}',
 Route::get('/producto/subasta/obtener/{codigoProducto}',
     [ProductosController::class, 'obtener'])->name('producto.obtener.subasta');
 
+Route::post('/producto/listar/{codigoUsuario?}',
+    [ProductosController::class, 'listar'])->name('producto.listar');
+
 
 //--------------------- RESEÑAS -------------------
 Route::post('/resenas/agregar/{codigoProducto}',
     [ResenasController::class, 'agregarResenaAProducto'])->name('resena.agregar');
 
-Route::post('/resenas/venta/agregar/{codigoProducto}',
+Route::post('/resenas/venta/agregar/{codigoProducto}/{codigoUsuario?}',
     [ResenasController::class, 'agregarResenaAProducto'])->name('resena.venta.agregar');
 
-Route::post('/resenas/subasta/agregar/{codigoProducto}',
+Route::post('/resenas/subasta/agregar/{codigoProducto}/{codigoUsuario?}',
     [ResenasController::class, 'agregarResenaAProducto'])->name('resena.subasta.agregar');
 
 
