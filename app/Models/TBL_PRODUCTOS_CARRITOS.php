@@ -9,16 +9,21 @@ class TBL_PRODUCTOS_CARRITOS extends Model
     protected $table = 'TBL_PRODUCTOS_CARRITOS';
     public $timestamps = false;
     public $incrementing = false;
-    protected $primaryKey = ['codigo_producto' , 'codigo_usuario'];
-    protected $fillable = ['codigo_producto' , 'codigo_usuario' , 'cantidad_producto'];
+    protected $primaryKey = ['codigo_producto_carrito'];
+    protected $fillable = ['codigo_usuario' , 'cantidad_producto'];
 
     public function TBL_USUARIOS()
     {
         return $this->belongsTo(TBL_USUARIOS::class, 'codigo_usuario');
     }
 
-    public function TBL_PRODUCTOS()
+    public function TBL_SUBASTAS()
     {
-        return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_producto');
+        return $this->belongsTo(TBL_SUBASTAS::class, 'codigo_subasta');
+    }
+
+    public function TBL_PRODUCTOS_EN_VENTA()
+    {
+        return $this->belongsTo(TBL_PRODUCTOS_EN_VENTA::class, 'codigo_producto_en_venta');
     }
 }

@@ -25,11 +25,6 @@ class TBL_PRODUCTOS extends Model
         return $this->belongsTo(TBL_CATEGORIAS::class, 'codigo_categoria');
     }
 
-    public function TBL_PRODUCTOS_CARRITOS()
-    {
-        return $this->hasMany(TBL_PRODUCTOS_CARRITOS::class, 'codigo_producto');
-    }
-
     public function TBL_RESENAS()
     {
         return $this->hasMany(TBL_RESENAS::class, 'codigo_producto');
@@ -40,7 +35,6 @@ class TBL_PRODUCTOS extends Model
         return $this->hasMany(TBL_DETALLE_FACTURAS::class, 'codigo_producto');
     }
 
-    //Dudosa
     public function TBL_PRODUCTOS_EN_VENTA()
     {
         return $this->hasMany(TBL_PRODUCTOS_EN_VENTA::class, 'codigo_producto');

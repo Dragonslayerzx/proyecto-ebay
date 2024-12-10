@@ -16,4 +16,9 @@ class TBL_PRODUCTOS_EN_VENTA extends Model
         return $this->belongsTo(TBL_PRODUCTOS::class, 'codigo_producto');
     }
 
+    public function TBl_PRODUCTOS_CARRITOS()
+    {
+        return $this->hasMany(TBL_PRODUCTOS_CARRITOS::class, 'codigo_producto_en_venta');
+    }
+
 }
