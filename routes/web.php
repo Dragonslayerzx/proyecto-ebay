@@ -50,7 +50,7 @@ Route::post('usuario/login/auth',
 //-- Mi ebay --
     //Datos personales
 Route::get('/usuario/datos/{codigoUsuario?}',
-        [UsuariosController::class, 'datosPersonales'])->name('usuario.datos');
+    [UsuariosController::class, 'datosPersonales'])->name('usuario.datos');
 
     //Compras
 Route::get('/usuario/compras/{codigoUsuario?}',
@@ -63,6 +63,24 @@ Route::get('/usuario/favoritos/{codigoUsuario?}',
 //Listar producto
 Route::get('/usuario/producto/listar/{codigoUsuario?}',
     [UsuariosController::class, 'listarProducto'])->name('usuario.listar');
+
+// Route::post('/producto/listar/{codigoUsuario?}',
+// [UsuariosController::class, 'listar'])->name('producto.listar');
+
+Route::post('/usuario/producto/listar/confirmar/{codigoUsuario?}',
+    [UsuariosController::class, 'listarConfirmar'])->name('usuario.producto.listar.confirmar');
+
+Route::get('/usuario/productos/mostrar/listados/{codigoUsuario?}',
+    [UsuariosController::class, 'verListados'])->name('usuario.producto.mostrar.listados');
+    
+Route::get('/usuario/productos/mostrar/activos/{codigoUsuario?}',
+    [UsuariosController::class, 'verActivos'])->name('usuario.producto.mostrar.activos');
+
+Route::post('/usuario/producto/activar/venta/{codigoProducto}/{codigoUsuario?}',
+    [UsuariosController::class, 'activarProducto'])->name('usuario.producto.activar.venta');
+
+Route::post('/usuario/producto/activar/subasta/{codigoProducto}/{codigoUsuario?}',
+    [UsuariosController::class, 'activarProducto'])->name('usuario.producto.activar.subasta');
 
 
 // --------------------  CATEGORIAS ----------------------------
@@ -83,8 +101,6 @@ Route::get('/producto/venta/obtener/{codigoProducto}/{codigoUsuario?}',
 Route::get('/producto/subasta/obtener/{codigoProducto}/{codigoUsuario?}',
     [ProductosController::class, 'obtener'])->name('producto.obtener.subasta');
 
-Route::post('/producto/listar/{codigoUsuario?}',
-    [ProductosController::class, 'listar'])->name('producto.listar');
 
 
 //--------------------- RESEÑAS -------------------

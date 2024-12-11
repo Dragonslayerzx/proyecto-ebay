@@ -171,15 +171,15 @@
                         <a href="#" class="list-group-item list-group-item-action">Resumen</a>
                         <a href="#" class="list-group-item list-group-item-action">Vistos recientemente</a>
                         <a href="#" class="list-group-item list-group-item-action">Subastas y ofertas</a>
-                        <a href="#" class="list-group-item list-group-item-action">Lista de favoritos</a>
-                        <a href="#" class="list-group-item list-group-item-action active">Compras</a>
+                        <a id="mostrarFavoritosA" href="{{ route('usuario.favoritos') }}" class="list-group-item list-group-item-action">Lista de favoritos</a>
+                        <a id="mostrarComprasA" href="{{ route('usuario.compras') }}" class="list-group-item list-group-item-action">Compras</a>
                         <div class="dropdown">
                             <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ventas
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Listados</a></li>
-                                <li><a class="dropdown-item" href="#">Activos</a></li>
+                                <li><a id="mostrarProductosListadosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.listados') }}">Listados</a></li>
+                                <li><a id="mostrarProductosActivosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.activos') }}">Activos</a></li>
                                 <li><a class="dropdown-item" href="#">Vendidos</a></li>
                             </ul>
                         </div>
@@ -403,6 +403,7 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
+    <script src=" {{ asset ('/assets/JavaScript/redirectsMiEbay.js') }} "></script>
 
 </body>
 </html>

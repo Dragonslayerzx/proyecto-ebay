@@ -40,7 +40,7 @@
     <div class="container py-3">
         <div class="row justify-content-center">
           <div class="col-md-9 py-3">
-                <form action="{{ route('producto.listar', $usuario->codigo_usuario) }}" method="POST">
+                <form action="{{ route('usuario.producto.listar.confirmar', $usuario->codigo_usuario) }}" method="POST">
                   @csrf
                   <!-- Nombre -->
                   <div class="mt-5">

@@ -69,24 +69,39 @@ class ProductosController extends Controller
     public function listar(Request $request, $codigoUsuario = null){
         if($codigoUsuario && $request){
 
-            $producto = new TBL_PRODUCTOS();
-            $producto->codigo_categoria = $request->codigoCategoria;
-            $producto->codigo_usuario = $codigoUsuario;
-            $producto->nombre_producto = $request->nombreProducto;
-            $producto->descripcion = $request->descripcionProducto;
-            $producto->marca = $request->marcaProducto;
-            $producto->modelo = $request->modeloProducto;
-            $producto->cantidad_disponible = $request->cantidadProducto;
-            $producto->precio = $request->precioProducto;
-            $producto->foto = $request->fotoProducto;
-            $producto->codigo_condicion_producto = $request->codigoCondicionProducto;
-            $producto->save();
+            if(TBL_USUARIOS::find($codigoUsuario)){
 
-            return redirect()->route('principal');
+                $producto = new TBL_PRODUCTOS();
+                $producto->codigo_categoria = $request->codigoCategoria;
+                $producto->codigo_usuario = $codigoUsuario;
+                $producto->nombre_producto = $request->nombreProducto;
+                $producto->descripcion = $request->descripcionProducto;
+                $producto->marca = $request->marcaProducto;
+                $producto->modelo = $request->modeloProducto;
+                $producto->cantidad_disponible = $request->cantidadProducto;
+                $producto->precio = $request->precioProducto;
+                $producto->foto = $request->fotoProducto;
+                $producto->codigo_condicion_producto = $request->codigoCondicionProducto;
+                $producto->save();
+
+                return redirect()->route('principal');
+            }
+
+            else{
+                return redirect()->route('usuario.registro');
+            }
 
         }else{
             return redirect()->route('usuario.registro');
         }
+    }
+
+    public function verListados($codigoUsuario = null){
+        return view('productosListados');
+    }
+
+    public function verActivos($codigoUsuario = null){
+        return view('ventasActivas');
     }
 
 }

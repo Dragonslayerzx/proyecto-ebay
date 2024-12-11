@@ -7,11 +7,16 @@ use App\Models\TBL_CONDICION_PRODUCTOS;
 use App\Models\TBL_CATEGORIAS;
 use App\Models\TBL_DIRECCIONES;
 use App\Models\TBL_DIRECCIONES_USUARIO;
+use App\Models\TBL_PRODUCTOS;
+use App\Models\TBL_PRODUCTOS_EN_VENTA;
+use App\Models\TBL_SUBASTAS;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;      //Proporciona metodo para hash
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
+use Carbon\Carbon; //Para pasar fechas a diferentes formatos
 
 
 class UsuariosController extends Controller
@@ -21,19 +26,6 @@ class UsuariosController extends Controller
     }
 
     public function registrar(Request $request){
-        //Validacion de usuario
-        /*$validator = Validator::make(request()->all(), [
-            'nombre' => 'required|string|max:100',
-            'apellido' => 'required|string|max:100',
-            'usuario' => 'required|string|max:100',
-            'correo' => 'required|string|email|max:100|unique:TBL_USUARIOS,correo',
-            'contra' => 'required|string|min:8'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-        */
         $usuario = new TBL_USUARIOS();
 
         $usuario->nombre = $request->input('nombre');
@@ -122,6 +114,95 @@ class UsuariosController extends Controller
     public function verListaFavoritos($codigoUsuario = null){
         if($codigoUsuario){
             return view('listaFavoritos');
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function listarConfirmar(Request $request, $codigoUsuario = null){
+        if($codigoUsuario && $request){
+
+            if(TBL_USUARIOS::find($codigoUsuario)){
+
+                $producto = new TBL_PRODUCTOS();
+                $producto->codigo_categoria = $request->codigoCategoria;
+                $producto->codigo_usuario = $codigoUsuario;
+                $producto->nombre_producto = $request->nombreProducto;
+                $producto->descripcion = $request->descripcionProducto;
+                $producto->marca = $request->marcaProducto;
+                $producto->modelo = $request->modeloProducto;
+                $producto->cantidad_disponible = $request->cantidadProducto;
+                $producto->precio = $request->precioProducto;
+                $producto->foto = $request->fotoProducto;
+                $producto->codigo_condicion_producto = $request->codigoCondicionProducto;
+                $producto->save();
+
+                return redirect()->route('principal');
+            }
+
+            else{
+                return redirect()->route('usuario.registro');
+            }
+
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function verListados($codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                //dd($usuario->TBL_PRODUCTOS);
+                return view('productosListados', compact('usuario'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function verActivos($codigoUsuario = null){
+        return view('ventasActivas');
+    }
+
+    public function activarProducto(Request $request, $codigoProducto, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+
+                $routeName = $request->route()->getName();
+                //dd($request);
+
+                if($routeName === 'usuario.producto.activar.venta'){
+                    $nvoProductoVenta = new TBL_PRODUCTOS_EN_VENTA();
+                    $nvoProductoVenta->codigo_producto = $codigoProducto;
+                    $nvoProductoVenta->cantidad = $request->cantidad;
+                    $nvoProductoVenta->save();
+                }
+
+                if($routeName === 'usuario.producto.activar.subasta'){
+
+                    $fechaInicioFormateada = Carbon::parse($request->fechaInicio)->format('Y-m-d H:i:s');
+                    $fechaFinFormateada = Carbon::parse($request->fechaFin)->format('Y-m-d H:i:s');
+
+                    $nvoProductoSubasta = new TBL_SUBASTAS();
+                    $nvoProductoSubasta->codigo_producto = $codigoProducto;
+                    $nvoProductoSubasta->codigo_estado_subasta = 1; //1 es activa en la bd
+                    $nvoProductoSubasta->precio_inicio = $request->precioInicio;
+                    $nvoProductoSubasta->fecha_inicio = $fechaInicioFormateada;
+                    $nvoProductoSubasta->fecha_fin = $fechaFinFormateada;
+                    $nvoProductoSubasta->cantidad = $request->cantidad;
+                    $nvoProductoSubasta->save();
+                }
+
+                return redirect()->route('principal');
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
         }else{
             return redirect()->route('usuario.registro');
         }

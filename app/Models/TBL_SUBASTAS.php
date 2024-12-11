@@ -9,7 +9,7 @@ class TBL_SUBASTAS extends Model
     protected $table = 'TBL_SUBASTAS';
     public $timestamps = false;
     protected $primaryKey = 'codigo_subasta';
-    protected $guarded = [];
+    protected $fillable = ['codigo_estado_subasta','precio_inicio','fecha_inicio','fecha_fin','cantidad','codigo_producto'];
     
     public function TBL_ESTADO_SUBASTAS()
     {
