@@ -206,6 +206,7 @@ class CarritosController extends Controller
                             $nvoDetalleFactura->codigo_producto = $detalleProductoVenta->codigo_producto;
                             $nvoDetalleFactura->precio = $detalleProductoVenta->precio;
                             $nvoDetalleFactura->cantidad = $productoCarrito->cantidad_producto;
+                            $nvoDetalleFactura->tipo_compra = 1;
 
                         }
                         if(!is_null($productoCarrito->TBL_SUBASTAS)){
@@ -217,9 +218,10 @@ class CarritosController extends Controller
                             $productoCarrito->TBL_SUBASTAS->TBL_PRODUCTOS->cantidad_disponible -= $productoCarrito->cantidad_producto;
                             $productoCarrito->TBL_SUBASTAS->TBL_PRODUCTOS->save();
 
-                            $nvoDetalleFactura->codigo_producto = $detalleProductoVenta->codigo_producto;
-                            $nvoDetalleFactura->precio = $detalleProductoVenta->precio;
+                            $nvoDetalleFactura->codigo_producto = $detalleProductoSubasta->codigo_producto;
+                            $nvoDetalleFactura->precio = $detalleProductoSubasta->precio;
                             $nvoDetalleFactura->cantidad = $productoCarrito->cantidad_producto;
+                            $nvoDetalleFactura->tipo_compra = 0;
 
                         }
 
@@ -260,7 +262,7 @@ class CarritosController extends Controller
                     if(!is_null($productoCarrito->TBL_PRODUCTOS_EN_VENTA)){
                         
                         if($productoCarrito->codigo_producto_en_venta === $codigoProductoVenta){
-                            
+
                             $productoCarrito->delete();
                             
                         }
@@ -269,6 +271,78 @@ class CarritosController extends Controller
 
                 return redirect()->route('carrito.mostrar', $codigoUsuario);
 
+            }else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function eliminarProductoSubastaCarrito($codigoProductoSubasta, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                
+                $carritoUsuario = $usuario->TBL_PRODUCTOS_CARRITOS;
+
+                //dd($carritoUsuario);
+
+                foreach ($carritoUsuario as $productoCarrito) {
+                    
+                    if(!is_null($productoCarrito->TBL_SUBASTAS)){
+                        
+                        if($productoCarrito->codigo_subasta === $codigoProductoSubasta){
+
+                            $productoCarrito->delete();
+                            
+                        }
+                    }
+                }
+
+                return redirect()->route('carrito.mostrar', $codigoUsuario);
+
+            }else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function agregarProductoCarrito(Request $request, $codigoProductoEnApartado, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                
+                $routeName = $request->route()->getName();
+
+                //dd($request);
+
+                if($routeName === 'carrito.producto.venta.agregar'){
+
+                    $nvoProductoEnVentaACarrito = new TBL_PRODUCTOS_CARRITOS();
+                    $nvoProductoEnVentaACarrito->codigo_usuario = $usuario->codigo_usuario;
+                    $nvoProductoEnVentaACarrito->cantidad_producto = $request->cantidadProductoVenta;
+                    $nvoProductoEnVentaACarrito->codigo_producto_en_venta = $codigoProductoEnApartado;
+                    $nvoProductoEnVentaACarrito->save();
+
+                    return redirect()->route('carrito.mostrar', $codigoUsuario);
+
+                }elseif($routeName === 'carrito.producto.subasta.agregar'){
+
+                    $nvoProductoEnSubastaACarrito = new TBL_PRODUCTOS_CARRITOS();
+                    $nvoProductoEnSubastaACarrito->codigo_usuario = $usuario->codigo_usuario;
+                    $nvoProductoEnSubastaACarrito->cantidad_producto = TBL_SUBASTAS::find($codigoProductoEnApartado)->cantidad;
+                    $nvoProductoEnSubastaACarrito->codigo_subasta = $codigoProductoEnApartado;
+                    $nvoProductoEnSubastaACarrito->save();
+
+                    return redirect()->route('carrito.mostrar', $codigoUsuario);
+
+                }else{
+                    return redirect()->route('usuario.registro');
+                }
+                
             }else{
                 return redirect()->route('usuario.registro');
             }

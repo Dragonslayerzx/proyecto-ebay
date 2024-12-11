@@ -266,7 +266,7 @@
                                                     {{ $produtoEnVentaDatos->precio }}.00
                                                     
                                                 </p>
-                                                <a href="{{ route('producto.obtener.venta', $productoIndividualEnVenta->codigo_producto_en_venta) }}" class="btn btn-primary btn-sm">Comprar ahora</a>
+                                                <a id="productoObtenerVentaA" href="{{ route('producto.obtener.venta', $productoIndividualEnVenta->codigo_producto_en_venta) }}" class="btn btn-primary btn-sm">Comprar ahora</a>
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +350,7 @@
                                                 
                                             @endforeach
 
-                                                <a href="{{ route('producto.obtener.subasta', $productoIndividualEnSubasta->codigo_subasta) }}" class="btn btn-primary btn-sm">Pujar ahora</a>
+                                                <a id="productoObtenerSubastaA" href="{{ route('producto.obtener.subasta', $productoIndividualEnSubasta->codigo_subasta) }}" class="btn btn-primary btn-sm">Pujar ahora</a>
                                             </div>
 
                                         @else
@@ -360,7 +360,7 @@
                                                     <span>Comienza con: <br></span>
                                                     <span>L.{{ $productoIndividualEnSubasta->precio_inicio }}.00</span>
                                                 </p>
-                                                <a href="{{ route('producto.obtener.subasta', $productoIndividualEnSubasta->codigo_subasta) }}" class="btn btn-primary btn-sm">Subastar ahora</a>
+                                                <a id="productoObtenerSubastaA" href="{{ route('producto.obtener.subasta', $productoIndividualEnSubasta->codigo_subasta) }}" class="btn btn-primary btn-sm">Subastar ahora</a>
                                             </div>
 
                                         @endif
@@ -688,6 +688,24 @@
             }
 
         })
+
+        if(localStorage.getItem('codigo_usuario')){
+            let productoObtenerVentaA = document.querySelectorAll('#productoObtenerVentaA');
+            let productoObtenerSubastaA = document.querySelectorAll('#productoObtenerSubastaA');
+            
+            if(productoObtenerVentaA){
+                productoObtenerVentaA.forEach(obtenerVenta => {
+                    obtenerVenta.href += `/${localStorage.getItem('codigo_usuario')}`;
+                });
+            }
+
+            if(productoObtenerSubastaA){
+                productoObtenerSubastaA.forEach(obtenerSubasta => {
+                    obtenerSubasta.href += `/${localStorage.getItem('codigo_usuario')}`;
+                });
+            }
+
+        }
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>

@@ -300,20 +300,24 @@
                     <a href="">Contactar con el vendedor</a>
                 </div>
                 
-                <div class="text-black mb-2 fs-5"><span class="fw-semibold">Disponibles: </span>
-                    {{ $productoEnVenta->cantidad }} 
+                <div class="text-black mb-2 fs-5">
+                    Disponibles:
+                    <span id="cantidadEnVentaSpan">{{ $productoEnVenta->cantidad }} </span>
                 </div>
                 <h2 class="text-black">L. {{ $productoEnVentaDatos->precio }}</h2>
                 <p class="estado mt-2">Estado: <Strong>{{ $productoEnVentaDatos->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
-                <div class="mt-4">
-                    <label for="quantity" class="form-label">Cantidad:</label>
-                    <input type="number" id="quantity" class="form-control w-50 mb-3" min="1" max="{{ $productoEnVenta->cantidad }}" value="1">
-                </div>
+                <form id="agregarProductoVentaForm" action="{{ route('carrito.producto.venta.agregar', $productoEnVenta->codigo_producto_en_venta) }}" method="POST">
+                    @csrf
+                    <div class="mt-4">
+                        <label for="quantity" class="form-label">Cantidad:</label>
+                        <input name="cantidadProductoVenta" type="number" id="quantity" class="form-control w-50 mb-3" min="1" max="{{ $productoEnVenta->cantidad }}" value="1">
+                    </div>
 
-                <div class="d-block" id="botones-compra">
-                    <button class="btn btn-primary btn-lg me-3 text-white" id="agregarACarrito">Agregar al carrito de compras</button>
-                    <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
-                </div>
+                    <div class="d-block" id="botones-compra">
+                        <button type="submit" id="agregarVentaACarritoButton" class="btn btn-primary btn-lg me-3 text-white" id="agregarACarrito">Agregar al carrito de compras</button>
+                        <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
+                    </div>
+                </form>
 
                 <!-- Shipping Info -->
                 <p class="mt-4"><strong>Entrega:</strong> <img width="25" height="25" src="https://img.icons8.com/cotton/64/empty-flag.png" alt="empty-flag"/> Entrega prevista entre el mar. 31 dic. y el mie. 22 ene. a 0</p>
@@ -390,6 +394,18 @@
         </div>
     </div>
 
+    @foreach ($usuario->TBL_PRODUCTOS_CARRITOS as $productoCarrito)
+        
+        @if (!is_null($productoCarrito->codigo_producto_en_venta))
+            @if($productoEnVenta->codigo_producto_en_venta == $productoCarrito->codigo_producto_en_venta)
+
+                <div class="visually-hidden" id="yaEnCarritoDiv"></div>
+        
+            @endif
+        @endif
+        
+    @endforeach
+
     @endif
 
         <!-- Footer -->
@@ -449,6 +465,25 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
     <script src=" {{ asset ('/assets/JavaScript/resenia.js') }} "></script>
+    <script>
+        let agregarVentaACarritoButton = document.getElementById('agregarVentaACarritoButton');
+        let agregarProductoVentaForm = document.getElementById('agregarProductoVentaForm');
+
+        if(localStorage.getItem('codigo_usuario')){
+            agregarProductoVentaForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+        }
+
+        let cantidadEnVentaSpan = document.getElementById('cantidadEnVentaSpan');
+        if(cantidadEnVentaSpan.innerText == '0'){
+            agregarVentaACarritoButton.classList.add('disabled');
+        }
+
+        let yaEnCarritoDiv = document.getElementById('yaEnCarritoDiv');
+        if(yaEnCarritoDiv){
+            agregarVentaACarritoButton.classList.add('disabled');
+        }
+
+    </script>
 </body>
 
 </html>

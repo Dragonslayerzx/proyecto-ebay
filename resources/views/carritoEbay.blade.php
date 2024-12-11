@@ -295,7 +295,7 @@
                                             @else
 
                                                 @if ($productosCarrito->cantidad_producto == 0)
-                                                    <a id="añadirUnArticuloEnSubastaA" href="{{ route('carrito.añadir.unidad.producto.subasta', $productosCarrito->codigo_producto_en_venta) }}" class="visually-hidden"></a>
+                                                    <a id="añadirUnArticuloEnSubastaA" href="{{ route('carrito.añadir.unidad.producto.subasta', $productosCarrito->codigo_subasta) }}" class="visually-hidden"></a>
                                                 @else
                                                     <select class="form-select" aria-label="Default select example" >
                                                         <option selected> {{ $productosCarrito->cantidad_producto }} </option>
@@ -310,9 +310,6 @@
                                             </select>
 
                                         @endif
-                                        
-                                    
-
                                     
                                     
                                 </div>
@@ -321,7 +318,7 @@
                             </div>
                             <div class="row mx-1">
                                 <div class="col-10"></div>
-                                <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
+                                <a id="eliminarProductoSubastaA" href="{{ route('carrito.producto.eliminar.subasta', $productosCarrito->codigo_subasta) }}" class="btn btn-danger col-2 text-center p-1">Eliminar</a>
                             </div>
                         </div>
                     
@@ -331,70 +328,6 @@
 
                 @endif
 
-                <div class="border rounded p-3 mb-3">
-                    <div class="row">
-                        <a href="#" class="col-6 fw-bold link-dark">Sony</a>
-                        <div class="col text-end">Precio de comprar ahora</div>
-                    </div>
-                    <div class="row my-3">
-                        <div class="col-3">
-                            <img src="https://cdn.mos.cms.futurecdn.net/HkdMToxijoHfz4JwUgfh3G.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-3">
-                            <a href="#" class="row link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                Sony PlayStation 5
-                            </a>
-                            <div class="row mt-2">Nuevo - Articulo nuevo</div>
-                        </div>
-                        <div class="col-1">Cantidad</div>
-                        <div class="col-2">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected> 1 </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col fw-bold fs-5">US $500.00</div>
-                    </div>
-                    <div class="row mx-1">
-                        <div class="col-10"></div>
-                        <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
-                    </div>
-                </div>
-                
-
-                <div class="border rounded p-3 mb-3">
-                    <div class="row">
-                        <a href="#" class="col-6 fw-bold link-dark">Sony</a>
-                        <div class="col text-end">Solicitar envio combinado</div>
-                    </div>
-                    <div class="row my-3">
-                        <div class="col-3">
-                            <img src="https://cdn.mos.cms.futurecdn.net/HkdMToxijoHfz4JwUgfh3G.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-3">
-                            <a href="#" class="row link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                Sony PlayStation 5
-                            </a>
-                            <div class="row mt-2">Nuevo - Articulo nuevo</div>
-                        </div>
-                        <div class="col-1">Cantidad</div>
-                        <div class="col-2">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected> 1 </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col fw-bold fs-5">US $500.00</div>
-                    </div>
-                    <div class="row mx-1">
-                        <div class="col-10"></div>
-                        <a class="btn btn-danger col-2 text-center p-1">Eliminar</a>
-                    </div>
-                </div>
             </div>
             
 
@@ -545,9 +478,24 @@
             });
         }
 
-        let eliminarProductoVentaA = document.querySelector('#eliminarProductoVentaA');
+        let eliminarProductoVentaA = document.querySelectorAll('#eliminarProductoVentaA');
+
         if(localStorage.getItem('codigo_usuario')){
-            eliminarProductoVentaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+
+            eliminarProductoVentaA.forEach(eliminarVenta => {
+                eliminarVenta.href += `/${localStorage.getItem('codigo_usuario')}`
+            });
+
+        }
+
+        let eliminarProductoSubastaA = document.querySelectorAll('#eliminarProductoSubastaA');
+
+        if(localStorage.getItem('codigo_usuario')){
+
+            eliminarProductoSubastaA.forEach(eliminarSubasta => {
+                eliminarSubasta.href += `/${localStorage.getItem('codigo_usuario')}`
+            });
+
         }
 
 

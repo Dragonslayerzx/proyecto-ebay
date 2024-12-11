@@ -102,7 +102,8 @@
         }
 
 
-        #botones-compra button{
+        #botones-compra button,
+        #botones-compra a{
 
             border-radius: 40px;
             width: 400px;
@@ -313,12 +314,12 @@
                 </div>
                 <p class="estado mt-2">Estado: <Strong>{{ $productoEnSubastaDatos->TBL_CONDICION_PRODUCTOS->descripcion }}</Strong></p>
                 <div class="mt-4 fw-semibold fs-5">
-                    Cantidad en subasta: {{ $productoEnSubasta->cantidad }}
+                    Cantidad en subasta: <span id="cantidadEnSubastaSpan">{{ $productoEnSubasta->cantidad }}</span>
                 </div>
 
                 <div class="d-block" id="botones-compra">
                     <button class="btn btn-primary btn-lg text-white">Ofertar ahora</button>
-                    <button class="btn btn-white btn-lg me-3" id="agregarACarrito">Agregar al carrito de compras</button>
+                    <button id="agregarSubastaACarritoButton" class="btn btn-white btn-lg me-3 text-center" id="agregarACarrito">Agregar al carrito de compras</button>
                     <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
                 </div>
                     
@@ -389,6 +390,22 @@
         </div>
     </div>
 
+    @foreach ($usuario->TBL_PRODUCTOS_CARRITOS as $productoCarrito)
+        
+            @if (!is_null($productoCarrito->codigo_subasta))
+                @if($productoEnSubasta->codigo_subasta == $productoCarrito->codigo_subasta)
+
+                    <div class="visually-hidden" id="yaEnCarritoDiv"></div>
+            
+                @endif
+            @endif
+            
+    @endforeach
+
+    <div id="rutaAgregarSubastaDiv" class="visually-hidden">
+        {{route('carrito.producto.subasta.agregar', $productoEnSubasta->codigo_subasta)}}
+    </div>
+
     @endif
 
         <!-- Footer -->
@@ -448,6 +465,28 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
     <script src=" {{ asset ('/assets/JavaScript/resenia.js') }} "></script>
+    <script>
+        let agregarSubastaACarritoButton = document.getElementById('agregarSubastaACarritoButton');
+        let rutaAgregarSubastaDiv = document.getElementById('rutaAgregarSubastaDiv');
+
+        if(localStorage.getItem('codigo_usuario')){
+            agregarSubastaACarritoButton.addEventListener('click', function(){
+                let ruta = `${rutaAgregarSubastaDiv.innerText}`;
+                //ruta = `${ruta}`;
+                ruta += `/${localStorage.getItem('codigo_usuario')}`;
+                window.location.href = ruta;
+            });
+            let cantidadEnSubastaSpan = document.getElementById('cantidadEnSubastaSpan');
+            let yaEnCarritoDiv = document.getElementById('yaEnCarritoDiv');
+            if(cantidadEnSubastaSpan.innerText == '0'){
+                agregarSubastaACarritoButton.classList.add('disabled');
+            }
+            if(yaEnCarritoDiv){
+                agregarSubastaACarritoButton.classList.add('disabled');
+            }
+        }
+        
+    </script>
 
 </body>
 

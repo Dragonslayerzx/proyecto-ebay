@@ -77,10 +77,10 @@ Route::get('/categorias/productos/obtener/{codigoCategoria?}', //esto obtiene to
 Route::get('/productos/todos/obtener',
     [ProductosController::class, 'obtenerTodos'])->name('productos.obtener.todos');
 
-Route::get('/producto/venta/obtener/{codigoProducto}',
+Route::get('/producto/venta/obtener/{codigoProducto}/{codigoUsuario?}',
     [ProductosController::class, 'obtener'])->name('producto.obtener.venta');
 
-Route::get('/producto/subasta/obtener/{codigoProducto}',
+Route::get('/producto/subasta/obtener/{codigoProducto}/{codigoUsuario?}',
     [ProductosController::class, 'obtener'])->name('producto.obtener.subasta');
 
 Route::post('/producto/listar/{codigoUsuario?}',
@@ -111,7 +111,7 @@ Route::get('/carrito/actualizar/producto/venta/{codigoProductoVentaEnCarrito}/{c
 Route::get('/carrito/añadir/unidad/producto/venta/{codigoProductoVentaEnCarrito}/{codigoUsuario?}',
     [CarritosController::class, 'añadirUnidadProductoEnVenta'])->name('carrito.añadir.unidad.producto.venta');
 
-Route::get('/carrito/añadir/unidad/producto/subasta/{codigoProductoVentaEnCarrito}/{codigoUsuario?}',
+Route::get('/carrito/añadir/unidad/producto/subasta/{codigoProductoSubastaEnCarrito}/{codigoUsuario?}',
     [CarritosController::class, 'añadirUnidadProductoEnSubasta'])->name('carrito.añadir.unidad.producto.subasta');
 
 Route::get('/carrito/añadir/cantidad/producto/subasta/{codigoProductoVentaEnCarrito}/{cantidadProducto}/{codigoUsuario?}',
@@ -125,4 +125,13 @@ Route::get('/carrito/confirmar/compra/{totalVenta}/{codigoUsuario?}',
 
 Route::get('/carrito/producto/venta/eliminar/{codigoProductoVenta}/{codigoUsuario?}',
     [CarritosController::class, 'eliminarProductoVentaCarrito'])->name('carrito.producto.eliminar.venta');
+
+Route::get('/carrito/producto/subasta/eliminar/{codigoProductoSubasta}/{codigoUsuario?}',
+    [CarritosController::class, 'eliminarProductoSubastaCarrito'])->name('carrito.producto.eliminar.subasta');
+
+Route::post('/carrito/producto/venta/agregar/{codigoProductoVenta}/{codigoUsuario?}',
+    [CarritosController::class, 'agregarProductoCarrito'])->name('carrito.producto.venta.agregar');
+
+Route::get('/carrito/producto/subasta/agregar/{codigoProductoSubasta}/{codigoUsuario?}',
+    [CarritosController::class, 'agregarProductoCarrito'])->name('carrito.producto.subasta.agregar');
 
