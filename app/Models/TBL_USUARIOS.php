@@ -8,8 +8,8 @@ class TBL_USUARIOS extends Model
 {
     protected $table = 'TBL_USUARIOS';
     protected $primaryKey = 'codigo_usuario';
-    public $incrementing = false;
-    protected $keyType = 'int';
+    //public $incrementing = false;
+    //protected $keyType = 'int';
     public $timestamps = false;
     protected $guarded = [];
 

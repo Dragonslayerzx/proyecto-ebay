@@ -101,3 +101,28 @@ Route::post('/resenas/subasta/agregar/{codigoProducto}/{codigoUsuario?}',
 //--------------------- CARRITO -----------------------
 Route::get('/carrito/mostrar/{codigoUsuario?}',
     [CarritosController::class, 'mostrar'])->name('carrito.mostrar');
+
+Route::get('/carrito/actualizar/producto/subasta/{codigoProductoSubastaEnCarrito}/{codigoUsuario?}',
+    [CarritosController::class, 'actualizarProductoSubasta'])->name('carrito.actualizar.producto.subasta');
+
+Route::get('/carrito/actualizar/producto/venta/{codigoProductoVentaEnCarrito}/{codigoUsuario?}',
+    [CarritosController::class, 'actualizarProductoEnVenta'])->name('carrito.actualizar.producto.venta');
+
+Route::get('/carrito/añadir/unidad/producto/venta/{codigoProductoVentaEnCarrito}/{codigoUsuario?}',
+    [CarritosController::class, 'añadirUnidadProductoEnVenta'])->name('carrito.añadir.unidad.producto.venta');
+
+Route::get('/carrito/añadir/unidad/producto/subasta/{codigoProductoVentaEnCarrito}/{codigoUsuario?}',
+    [CarritosController::class, 'añadirUnidadProductoEnSubasta'])->name('carrito.añadir.unidad.producto.subasta');
+
+Route::get('/carrito/añadir/cantidad/producto/subasta/{codigoProductoVentaEnCarrito}/{cantidadProducto}/{codigoUsuario?}',
+    [CarritosController::class, 'añadirCantidadProductoEnVenta'])->name('carrito.añadir.cantidad.producto.subasta');
+
+Route::get('/carrito/completar/transaccion/{codigoUsuario?}',
+    [CarritosController::class, 'verDetallesTransaccion'])->name('carrito.completar.transaccion');
+
+Route::get('/carrito/confirmar/compra/{totalVenta}/{codigoUsuario?}',
+    [CarritosController::class, 'confirmarCompra'])->name('carrito.confirmar.compra');
+
+Route::get('/carrito/producto/venta/eliminar/{codigoProductoVenta}/{codigoUsuario?}',
+    [CarritosController::class, 'eliminarProductoVentaCarrito'])->name('carrito.producto.eliminar.venta');
+

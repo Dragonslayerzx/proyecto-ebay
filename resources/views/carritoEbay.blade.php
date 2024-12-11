@@ -154,53 +154,170 @@
                 @if ($carritoUsuario->isNotEmpty())
                 
                     @foreach ($carritoUsuario as $productosCarrito)
+
+                        @if (!is_null($productosCarrito->TBL_PRODUCTOS_EN_VENTA))
+                        
                         @php
-                            $productoCarrito = $productosCarrito->TBL_PRODUCTOS;
+                            $productosEnVentaCarrito = $productosCarrito->TBL_PRODUCTOS_EN_VENTA->TBL_PRODUCTOS;
                             $contador += 1;
                         @endphp
                         <div class="border rounded p-3 mb-3">
                             <div class="row">
-                                <div class="col-6 fw-bold link-dark">{{ $productoCarrito->marca }}</div>
-                                <div class="col text-end">Solicitar envio combinado</div>
+                                <div class="col-9 fw-bold link-dark">{{ $productosEnVentaCarrito->marca }}</div>
+                                <div class="col text-center">Precio de comprar ahora <br>(unidad)</div>
                             </div>
                             <div class="row my-3">
                                 <div class="col-3">
-                                    <img src="{{ $productoCarrito->foto }}" alt="" class="img-fluid">
+                                    <img src="{{ $productosEnVentaCarrito->foto }}" alt="" class="img-fluid">
                                 </div>
                                 <div class="col-3">
-                                    <a href="{{ route('producto.obtener',$productoCarrito->codigo_producto) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
-                                        {{ $productoCarrito->marca }} {{ $productoCarrito->nombre }} {{ $productoCarrito->modelo }}
+                                    <a href="{{ route('producto.obtener.venta', $productosCarrito->TBL_PRODUCTOS_EN_VENTA->codigo_producto_en_venta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
+                                        {{ $productosEnVentaCarrito->marca }} {{ $productosEnVentaCarrito->nombre_producto }} {{ $productosEnVentaCarrito->modelo }}
                                     </a>
-                                    <div class="mt-2">Estado - <strong>{{ $productoCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
+                                    <div class="mt-2">Estado - <strong>{{ $productosEnVentaCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
+                                    <div class="mt-2 "> <span class="fw-bold">Articulo en venta</span></div>
                                 </div>
                                 <div class="col-1">Cantidad</div>
-                                <div class="col-2">
+                                <div class="col-2 me-3">
                                     
                                     <div id="alertMessage{{$contador}}" class="text-danger text-center mt-3 d-none">Has alcanzado el límite</div>
                                     
-                                    <select class="form-select" aria-label="Default select example">
+                                    
 
-                                        @if ($productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad > 0)
+                                        @if ($productosCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad > 0)
                                         
-                                            <option selected> {{ $productosCarrito->cantidad_producto }} </option>
-                                            @for ($i = 1; $i < $productosCarrito->cantidad_producto; $i++)
-                                                <option value="{{ $i }}"> {{ $i }} </option>
-                                            @endfor
-                                            @for ($i = $productosCarrito->cantidad_producto; $i < $productoCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
-                                                <option value="{{ $i+1 }}"> {{ $i+1 }} </option>
-                                            @endfor
+                                            @if ($productosCarrito->cantidad_producto > $productosCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad)
+                                            
+                                                <a id="actualizarCarritoEnVentaA" href="{{ route('carrito.actualizar.producto.venta', $productosCarrito->codigo_producto_en_venta) }}" class="visually-hidden"></a>
+
+                                            @else
+
+                                                @if ($productosCarrito->cantidad_producto == 0)
+                                                
+                                                    <a id="añadirUnArticuloEnVentaA" href="{{ route('carrito.añadir.unidad.producto.venta', $productosCarrito->codigo_producto_en_venta) }}" class="visually-hidden"></a>
+
+                                                @else
+
+                                                    <select id="selectProductosEnVenta" class="form-select" aria-label="Default select example" >
+                                                        <option
+                                                            value="{{ route('carrito.añadir.cantidad.producto.subasta', ['codigoProductoVentaEnCarrito' => $productosCarrito->codigo_producto_en_venta, 'cantidadProducto' => $productosCarrito->cantidad_producto]) }}"
+                                                            selected> 
+                                                                {{ $productosCarrito->cantidad_producto }} 
+                                                        </option>
+                                                        @for ($i = 1; $i < $productosCarrito->cantidad_producto; $i++)
+                                                            <option id="productoVenta{{ $productosCarrito->codigo_producto_en_venta }}Valor{{ $i }}" 
+                                                                value="{{ route('carrito.añadir.cantidad.producto.subasta', ['codigoProductoVentaEnCarrito' => $productosCarrito->codigo_producto_en_venta, 'cantidadProducto' => $i]) }}"> 
+                                                                    {{ $i }} 
+                                                            </option>
+                                                        @endfor
+                                                        @for ($i = $productosCarrito->cantidad_producto; $i < $productosCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad; $i++)
+                                                            <option id="productoVenta{{ $productosCarrito->codigo_producto_en_venta }}Valor{{ $i+1 }}" 
+                                                                value="{{ route('carrito.añadir.cantidad.producto.subasta', ['codigoProductoVentaEnCarrito' => $productosCarrito->codigo_producto_en_venta, 'cantidadProducto' => $i+1]) }}"> 
+                                                                    {{ $i+1 }} 
+                                                            </option>
+                                                        @endfor
+                                                    
+                                                    </select>
+
+                                                @endif
+
+                                            @endif
+
+                                            
 
                                         @else
 
-                                        <option id="noDisponibleOption" selected> NO DISPONIBLE </option>
+                                            @if ($productosCarrito->cantidad_producto != $productosCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad)
 
+                                                <a id="actualizarCarritoEnVentaA" href="{{ route('carrito.actualizar.producto.venta', $productosCarrito->codigo_producto_en_venta) }}" class="visually-hidden"></a>
+
+                                            @endif
+
+                                            <select class="form-select" aria-label="Default select example" >
+                                                <option id="noDisponibleOption" selected> NO DISPONIBLE </option>
+                                            </select>
                                         @endif
                                         
-                                    </select>
+                                    
+
+                                    
                                     
                                 </div>
                                 
-                                <div class="col fw-bold fs-5">L. {{ $productoCarrito->precio }}.00</div>
+                                <div class="col fw-bold fs-5 text-center">L. {{ $productosEnVentaCarrito->precio }}.00</div>
+                            </div>
+                            <div class="row mx-1">
+                                <div class="col-10"></div>
+                                <a id="eliminarProductoVentaA" href="{{ route('carrito.producto.eliminar.venta', $productosCarrito->codigo_producto_en_venta) }}" class="btn btn-danger col-2 text-center p-1">Eliminar</a>
+                            </div>
+                        </div>
+                    
+                        @endif
+
+                    @endforeach
+
+                    @foreach ($carritoUsuario as $productosCarrito)
+
+                        @if (!is_null($productosCarrito->TBL_SUBASTAS))
+                            
+                        
+                        @php
+                            $productosSubastaCarrito = $productosCarrito->TBL_SUBASTAS->TBL_PRODUCTOS;
+                            $contador += 1;
+                        @endphp
+                        <div class="border rounded p-3 mb-3">
+                            <div class="row">
+                                <div class="col-9 fw-bold link-dark">{{ $productosSubastaCarrito->marca }}</div>
+                                <div class="col text-end text-center">Precio de comprar ahora <br>(todos)</div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-3">
+                                    <img src="{{ $productosSubastaCarrito->foto }}" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-3">
+                                    <a href="{{ route('producto.obtener.subasta', $productosCarrito->TBL_SUBASTAS->codigo_subasta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
+                                        {{ $productosSubastaCarrito->marca }} {{ $productosSubastaCarrito->nombre_producto }} {{ $productosSubastaCarrito->modelo }}
+                                    </a>
+                                    <div class="mt-2">Estado - <strong>{{ $productosSubastaCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
+                                    <div class="mt-2 "> <span class="fw-bold">Articulo en subasta</span> <br> <span>Al comprar aceptas el precio de compra ahora de todos los articulos en subasta</span> </div>
+                                </div>
+                                <div class="col-1">Cantidad</div>
+                                <div class="col-2 me-3">
+                                    
+                                    <div id="alertMessage{{$contador}}" class="text-danger text-center mt-3 d-none">Has alcanzado el límite</div>
+                                    
+                                        @if ($productosCarrito->TBL_SUBASTAS->cantidad > 0)
+                                        
+                                            @if ($productosCarrito->cantidad_producto > $productosCarrito->TBL_SUBASTAS->cantidad)
+                                            
+                                                <a id="actualizarCarritoSubastaA" href="{{ route('carrito.actualizar.producto.subasta', $productosCarrito->codigo_subasta) }}" class="visually-hidden"></a>
+
+                                            @else
+
+                                                @if ($productosCarrito->cantidad_producto == 0)
+                                                    <a id="añadirUnArticuloEnSubastaA" href="{{ route('carrito.añadir.unidad.producto.subasta', $productosCarrito->codigo_producto_en_venta) }}" class="visually-hidden"></a>
+                                                @else
+                                                    <select class="form-select" aria-label="Default select example" >
+                                                        <option selected> {{ $productosCarrito->cantidad_producto }} </option>
+                                                    </select>
+                                                @endif
+                                            @endif
+                                            
+                                        @else
+
+                                            <select class="form-select" aria-label="Default select example" >
+                                                <option id="noDisponibleOption" selected> NO DISPONIBLE </option>
+                                            </select>
+
+                                        @endif
+                                        
+                                    
+
+                                    
+                                    
+                                </div>
+                                
+                                <div class="col fw-bold fs-5 text-center">L. {{ $productosSubastaCarrito->precio * $productosCarrito->TBL_SUBASTAS->cantidad }}.00</div>
                             </div>
                             <div class="row mx-1">
                                 <div class="col-10"></div>
@@ -208,6 +325,8 @@
                             </div>
                         </div>
                     
+                        @endif
+
                     @endforeach
 
                 @endif
@@ -215,7 +334,7 @@
                 <div class="border rounded p-3 mb-3">
                     <div class="row">
                         <a href="#" class="col-6 fw-bold link-dark">Sony</a>
-                        <div class="col text-end">Solicitar envio combinado</div>
+                        <div class="col text-end">Precio de comprar ahora</div>
                     </div>
                     <div class="row my-3">
                         <div class="col-3">
@@ -278,71 +397,82 @@
                 </div>
             </div>
             
+
             @php
                 $subtotal = 0;
                 $cantidadArticulos = 0;
             @endphp
             @foreach ($carritoUsuario as $productosCarrito)
-                @php
-                    $subtotal += $productosCarrito->TBL_PRODUCTOS->precio;
-                    $cantidadArticulos += 1;
-                @endphp
+                @if (!is_null($productosCarrito->TBL_PRODUCTOS_EN_VENTA))
+                    @php
+                        $subtotal += $productosCarrito->TBL_PRODUCTOS_EN_VENTA->TBL_PRODUCTOS->precio * $productosCarrito->cantidad_producto;
+                        $cantidadArticulos += $productosCarrito->cantidad_producto;
+                    @endphp
+                
+                @else
+
+                    @if (!is_null($productosCarrito->TBL_SUBASTAS))
+                    
+                        @php
+                            $subtotal += $productosCarrito->TBL_SUBASTAS->TBL_PRODUCTOS->precio * $productosCarrito->cantidad_producto;
+                            $cantidadArticulos += $productosCarrito->cantidad_producto;
+                        @endphp
+
+                    @endif
+                
+                @endif
+                
             @endforeach
 
+
             <div class="mx-2 col align-self-start border rounded p-1">
+                
+                
                 <div class="mx-3">
-                    <div class="row mt-2 fw-bold fs-3">
-                        <div class="col">Articulos ({{ $cantidadArticulos  }})</div>
-                        <div class="col text-end">
-                            L.
-                            <span id="subtotalSpan">{{ $subtotal }}</span>
-                            
+                        <div class="row mt-2"> 
+                            <div class="col mb-2">
+                                Articulos ({{ $cantidadArticulos  }})
+                            </div>
+                            <div class="col text-end">
+                                L. {{ $subtotal }}
+                            </div>
                         </div>
+                        
+                    <div class="row border-bottom mx-1"></div>
+                    <div class="row mt-2 fw-bold fs-3">
+                        <div class="col">Subtotal</div>
+                        <div class="col text-end">L. <span id="subtotalSpan">{{ $subtotal }}</span> </div>
                     </div>
                     <div class="row">
-                        <div id="completarTransaccionDiv" class="col mx-4 my-3 btn btn-primary">Completar la transacción</div>
+                        <a href="{{ route('carrito.completar.transaccion') }}" id="completarTransaccionA" class="col mx-4 my-3 btn btn-primary">Completar la transacción</a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="visually-hidden">
-            @if ($carritoUsuario->isNotEmpty())
-                @php
-                    $contadorCantidad = 0;
-                @endphp
-                @foreach ($carritoUsuario as $productosCarrito)
-                    @php
-                        $contadorCantidad += 1;
-                    @endphp
-                    <div id="productoCantidad{{$contadorCantidad}}">
-                        @php
-                            $productoEnCarrito = $productosCarrito->TBL_PRODUCTOS;
-                        @endphp
-                        {{ $productoEnCarrito->TBL_PRODUCTOS_EN_VENTA->cantidad }}
-                    </div>
-                @endforeach
-            @endif
         </div>
 
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-
+        
         let subtotalSpan = document.getElementById('subtotalSpan');
         
         if(subtotalSpan.innerText == '0'){
-            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
-            completarTransaccionDiv.classList.add('disabled');
+            let completarTransaccionA = document.getElementById('completarTransaccionA');
+            completarTransaccionA.classList.add('disabled');
         }
 
         let noDisponibleOption = document.getElementById('noDisponibleOption');
         if(noDisponibleOption){
-            let completarTransaccionDiv = document.getElementById('completarTransaccionDiv');
-            completarTransaccionDiv.classList.add('disabled');
+            let completarTransaccionA = document.getElementById('completarTransaccionA');
+            completarTransaccionA.classList.add('disabled');
         }
 
+        if(localStorage.getItem('codigo_usuario')){
+            let completarTransaccionA = document.getElementById('completarTransaccionA');
+            completarTransaccionA.href += `/${localStorage.getItem('codigo_usuario')}`;
+        }
+        
     </script>
 
     <script>
@@ -377,6 +507,52 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
+    <script>
+        let actualizarCarritoSubastaA = document.querySelector('#actualizarCarritoSubastaA');
+        let actualizarCarritoEnVentaA = document.querySelector('#actualizarCarritoEnVentaA');
+        let añadirUnArticuloEnVentaA = document.querySelector('#añadirUnArticuloEnVentaA');
+        if(actualizarCarritoSubastaA){
+            if(localStorage.getItem('codigo_usuario')){
+                actualizarCarritoSubastaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+            actualizarCarritoSubastaA.click();
+        }
+        if(actualizarCarritoEnVentaA){
+            if(localStorage.getItem('codigo_usuario')){
+                actualizarCarritoEnVentaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+            actualizarCarritoEnVentaA.click();
+        }
+        if(añadirUnArticuloEnVentaA){
+            if(localStorage.getItem('codigo_usuario')){
+                añadirUnArticuloEnVentaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+            añadirUnArticuloEnVentaA.click();
+        }
+
+        let selectProductosEnVentaArreglo = document.querySelectorAll('#selectProductosEnVenta');
+
+        // Agrega un listener a cada select
+        if(selectProductosEnVentaArreglo && localStorage.getItem('codigo_usuario')){
+            selectProductosEnVentaArreglo.forEach(selectProductosEnVenta => {
+                selectProductosEnVenta.addEventListener('change', function() {
+                    const ruta = `${this.value}/${localStorage.getItem('codigo_usuario')}`;
+                    //this.value = `${this.value}/${localStorage.getItem('codigo_usuario')}`;
+                    if (ruta) {
+                        window.location.href = ruta; 
+                    }
+                });
+            });
+        }
+
+        let eliminarProductoVentaA = document.querySelector('#eliminarProductoVentaA');
+        if(localStorage.getItem('codigo_usuario')){
+            eliminarProductoVentaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+        }
+
+
+
+    </script>
 
 </body>
 </html>

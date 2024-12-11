@@ -367,6 +367,9 @@
 
             <h5>Reseñas de otros usuarios</h5>
 
+            @php
+                $productoEnSubastaDatos->TBL_RESENAS = $productoEnSubastaDatos->TBL_RESENAS->sortByDesc('fecha');
+            @endphp
             @foreach ($productoEnSubastaDatos->TBL_RESENAS as $resenasProductos)
             <div class="border p-3 mb-3">
                 <h5>{{ $resenasProductos->TBL_USUARIOS->nombre_usuario }}</h5>
@@ -383,19 +386,6 @@
             </div>
             @endforeach
 
-            <!-- Reseñas de ejemplo -->
-            <div class="border p-3 mb-3">
-                <h5>John Doe</h5>
-                <p class="text-warning mb-0">★★★★☆</p>
-                <small class="text-muted">Reviewed on 10 Nov 2024</small>
-                <p>Great product, but could be improved in some aspects.</p>
-            </div>
-            <div class="border p-3">
-                <h5>Jane Smith</h5>
-                <p class="text-warning mb-0">★★★★★</p>
-                <small class="text-muted">Reviewed on 8 Nov 2024</small>
-                <p>Absolutely love it! Exceeded my expectations.</p>
-            </div>
         </div>
     </div>
 
