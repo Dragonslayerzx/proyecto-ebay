@@ -171,11 +171,11 @@
                                     <img src="{{ $productosEnVentaCarrito->foto }}" alt="" class="img-fluid">
                                 </div>
                                 <div class="col-3">
-                                    <a href="{{ route('producto.obtener.venta', $productosCarrito->TBL_PRODUCTOS_EN_VENTA->codigo_producto_en_venta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
+                                    <a id="obtenerVentaA" href="{{ route('producto.obtener.venta', $productosCarrito->TBL_PRODUCTOS_EN_VENTA->codigo_producto_en_venta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
                                         {{ $productosEnVentaCarrito->marca }} {{ $productosEnVentaCarrito->nombre_producto }} {{ $productosEnVentaCarrito->modelo }}
                                     </a>
                                     <div class="mt-2">Estado - <strong>{{ $productosEnVentaCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
-                                    <div class="mt-2 "> <span class="fw-bold">Articulo en venta</span></div>
+                                    <div class="mt-2"> <span class="fw-bold">Articulo en venta</span></div>
                                 </div>
                                 <div class="col-1">Cantidad</div>
                                 <div class="col-2 me-3">
@@ -275,7 +275,7 @@
                                     <img src="{{ $productosSubastaCarrito->foto }}" alt="" class="img-fluid">
                                 </div>
                                 <div class="col-3">
-                                    <a href="{{ route('producto.obtener.subasta', $productosCarrito->TBL_SUBASTAS->codigo_subasta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
+                                    <a id="obtenerSubastaA" href="{{ route('producto.obtener.subasta', $productosCarrito->TBL_SUBASTAS->codigo_subasta) }}" class="link-dark link-offset-2 link-underline-opacity-70 link-underline-opacity-100-hover">
                                         {{ $productosSubastaCarrito->marca }} {{ $productosSubastaCarrito->nombre_producto }} {{ $productosSubastaCarrito->modelo }}
                                     </a>
                                     <div class="mt-2">Estado - <strong>{{ $productosSubastaCarrito->TBL_CONDICION_PRODUCTOS->descripcion }}</strong></div>
@@ -496,6 +496,11 @@
                 eliminarSubasta.href += `/${localStorage.getItem('codigo_usuario')}`
             });
 
+        }
+
+        if(localStorage.getItem('codigo_usuario')){
+            document.getElementById('obtenerSubastaA').href += `/${localStorage.getItem('codigo_usuario')}`;
+            document.getElementById('obtenerVentaA').href += `/${localStorage.getItem('codigo_usuario')}`;
         }
 
 

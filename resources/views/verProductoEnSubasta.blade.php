@@ -408,6 +408,10 @@
 
     @endif
 
+    @if($productoEnSubasta->TBL_PRODUCTOS->codigo_usuario == $usuario->codigo_usuario)
+        <div class="visually-hidden" id="articuloPropioDiv"></div>
+    @endif
+
         <!-- Footer -->
         <footer class="bg-light text-muted">
             <div class="container py-4">
@@ -468,6 +472,7 @@
     <script>
         let agregarSubastaACarritoButton = document.getElementById('agregarSubastaACarritoButton');
         let rutaAgregarSubastaDiv = document.getElementById('rutaAgregarSubastaDiv');
+        let articuloPropioDiv = document.getElementById('articuloPropioDiv');
 
         if(localStorage.getItem('codigo_usuario')){
             agregarSubastaACarritoButton.addEventListener('click', function(){
@@ -476,15 +481,25 @@
                 ruta += `/${localStorage.getItem('codigo_usuario')}`;
                 window.location.href = ruta;
             });
-            let cantidadEnSubastaSpan = document.getElementById('cantidadEnSubastaSpan');
-            let yaEnCarritoDiv = document.getElementById('yaEnCarritoDiv');
-            if(cantidadEnSubastaSpan.innerText == '0'){
-                agregarSubastaACarritoButton.classList.add('disabled');
-            }
-            if(yaEnCarritoDiv){
-                agregarSubastaACarritoButton.classList.add('disabled');
-            }
+            
         }
+
+        let cantidadEnSubastaSpan = document.getElementById('cantidadEnSubastaSpan');
+        let yaEnCarritoDiv = document.getElementById('yaEnCarritoDiv');
+        
+        if(cantidadEnSubastaSpan.innerText == '0'){
+            agregarSubastaACarritoButton.classList.add('disabled');
+        }
+        if(yaEnCarritoDiv){
+            agregarSubastaACarritoButton.classList.add('disabled');
+        }
+        if(articuloPropioDiv){
+        agregarVentaACarritoButton.classList.add('disabled');
+        agregarVentaACarritoButton.innerText = "Este articulo te pertenece";
+        }
+        
+
+        
         
     </script>
 

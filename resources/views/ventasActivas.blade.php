@@ -194,6 +194,9 @@
             </div>
             <div class="col">
 
+            
+            @if($usuario->TBL_PRODUCTOS)
+
             <div class="row mb-3">
                 <div class="col-6 fw-bold fs-3">
                     Activos
@@ -209,136 +212,170 @@
                 <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
             </div>
 
+            <div class="my-3 row border"></div>
 
-            <!-- Empieza un producto -->
-            <div>
 
-                <div class="row border"></div>
+            @foreach ($usuario->TBL_PRODUCTOS as $detalleProductoUsuario)
 
-                <div class="row my-3">
-                    
-                    <div class="col-2 fs-4 fw-semibold">Directa</div>
-                    
-                </div>
+                @foreach ($detalleProductoUsuario->TBL_PRODUCTOS_EN_VENTA as $productoEnVenta)
 
-                <div class="row my-3 p-2">
-                    
+                @if ($productoEnVenta->cantidad > 0)
+                
+                <!-- Empieza un producto -->
+                <div>
 
-                    <div class="col-3 mx-2">
-                        <img class="img-fluid" src="https://imports77.com/cdn/shop/files/18_4d654db6-cec2-4e28-8d4e-db3aa207a6f1.png?v=1724197499" alt="">
-                    </div>
-
-                    <div class="col-5">
-                        <div>
-                            <a href="#" class="col fw-bold btn p-0">
-                                Xbox One Series S de 500gb color blanco
-                            </a>
-                        </div>
-                        <div>
-                            <div class="col my-1">ID del producto: 8923</div>
-                        </div>
-                        <div class="mt-3">
-                            <div class="fw-bold fs-5">$400.50</div>
-                        </div>    
-                        <div class="mt-3">
-                            <div>6d 23h 9m restante</div>
-                        </div>                    
+                    <div class="row my-3">
+                        
+                        <div class="col-2 fs-4 fw-semibold">Directa</div>
                         
                     </div>
 
-                    <div class="col">
-                        <div class="row">
-                            <div class="d-grid gap-2"><button class="mb-2 btn btn-outline-primary">Vender otro</button></div>
+                    <div class="row my-3 p-2">
+                        
+
+                        <div class="col-3 mx-2">
+                            <img class="img-fluid" src="{{ $productoEnVenta->TBL_PRODUCTOS->foto }}" alt="">
                         </div>
-                        <div class="row mt-3 fw-semibold">
-                            <div class="col-6 border-end text-center">
-                                <div class="fs-4 mb-1">0</div>
-                                <div>Vistas</div>
+
+                        <div class="col-5">
+                            <div>
+                                <a id="redirigirAProductoEnVentaA" href="{{ route('producto.obtener.venta', $productoEnVenta->codigo_producto_en_venta) }}" class="col fw-bold btn p-0">
+                                    {{ $productoEnVenta->TBL_PRODUCTOS->nombre_producto }} {{ $productoEnVenta->TBL_PRODUCTOS->marca }} {{ $productoEnVenta->TBL_PRODUCTOS->modelo }}
+                                </a>
                             </div>
-                            <div class="col text-center">
-                                <div class="fs-4 mb-1">0</div>
-                                <div>Ojeadores</div>
+                            <div>
+                                <div class="col my-1">Cantidad en venta: {{ $productoEnVenta->cantidad }}</div>
                             </div>
+                            <div class="mt-3">
+                                <div class="fw-bold fs-5">L. {{ $productoEnVenta->TBL_PRODUCTOS->precio }}.00</div>
+                            </div>
+                            
                         </div>
+
+                        <div class="col">
+                            <div class="row">
+                                <div class="d-grid gap-2"><a id="mostrarListadosDesdeActivosA" href="{{ route('usuario.producto.mostrar.listados') }}" class="mb-2 btn btn-outline-primary">Vender otro</a></div>
+                            </div>
+                            
+                        </div>
+
                     </div>
+
+                    
+
+                </div>
+
+                <!-- Termina un producto -->
+
+                <div class="my-3 row border"></div>
+                
+                @endif
+
+                
+
+                @endforeach
+
+                
+
+            @endforeach
+
+            @foreach ($usuario->TBL_PRODUCTOS as $detalleProductoUsuario)
+
+                @foreach ($detalleProductoUsuario->TBL_SUBASTAS as $productoEnSubasta)
+
+                
+
+                @if ($productoEnSubasta->cantidad > 0)
+
+                <div>
+
+                    <div class="row my-3">
+                        
+                        <div class="col-2 fs-4 fw-semibold">Subasta</div>
+                        
+                    </div>
+
+                    <div class="row my-3 p-2">
+                        
+
+                        <div class="col-3 mx-2">
+                            <img class="img-fluid" src="{{ $productoEnSubasta->TBL_PRODUCTOS->foto }}" alt="">
+                        </div>
+
+                        <div class="col-5">
+                            <div>
+                                <a id="redirigirAProductoEnSubastaA" href="{{ route('producto.obtener.subasta', $productoEnSubasta->codigo_subasta) }}" class="col fw-bold btn p-0">
+                                    {{ $productoEnSubasta->TBL_PRODUCTOS->nombre_producto }} {{ $productoEnSubasta->TBL_PRODUCTOS->marca }} {{ $productoEnSubasta->TBL_PRODUCTOS->modelo }}
+                                </a>
+                            </div>
+                            <div>
+                                <div class="col my-1">Cantidad en subasta: {{ $productoEnSubasta->cantidad }}</div>
+                            </div>
+                            <div class="mt-3">
+                                <span class="fw-bold fs-4">
+
+                                    @php
+                                        $mayor = 0;
+                                    @endphp
+
+
+                                    @foreach ($productoEnSubasta->TBL_PUJAS as $pujaProducto)
+                                    
+                                        @if ($pujaProducto->monto > $mayor)
+                                            @php
+                                                $mayor = $pujaProducto->monto;
+                                            @endphp
+                                        @endif
+
+                                    @endforeach
+
+                                    @if($mayor > 0)
+
+                                        L.{{ $mayor }}.00
+
+                                    @else
+
+                                        L.{{ $productoEnSubasta->precio_inicio }}.00
+
+                                    @endif
+
+                                    
+                                </span>
+                                <span>
+                                    Oferta actual
+                                </span>
+                            </div>
+                            <div>
+                                <span class="me-1">L.{{ $productoEnSubasta->TBL_PRODUCTOS->precio }}.00</span>
+                                <span>Precio comprar ahora</span>
+                            </div>
+                            <div class="mt-3">
+                                <div>Fecha fin: {{ $productoEnSubasta->fecha_fin  }}</div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="col">
+                            <div class="row">
+                                <div class="d-grid gap-2"><a id="mostrarListadosDesdeActivosA" href="{{ route('usuario.producto.mostrar.listados') }}" class="mb-2 btn btn-outline-primary">Subastar otro</a></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
 
                 </div>
 
                 <div class="my-3 row border"></div>
 
-            </div>
+                @endif
 
-            <!-- Termina un producto -->
+                @endforeach
 
+            @endforeach
 
-            
-            <div>
-
-                <div class="row my-3">
-                    
-                    <div class="col-2 fs-4 fw-semibold">Subasta</div>
-                    
-                </div>
-
-                <div class="row my-3 p-2">
-                    
-
-                    <div class="col-3 mx-2">
-                        <img class="img-fluid" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSicrRHBpdAYKT9PMC75dPCA0q5qnCUgi-P7EuG_rGlwomj_NE-B89ZiCYL0c4Ia9bEyLrBBobo9Sjf0QHnkBCk-GYdECondTy5hOXIg453iWKB7rgX1XFUzEIJNrmvRpRsrElimrWFF-f/s400/ps1_original_control.jpg" alt="">
-                    </div>
-
-                    <div class="col-5">
-                        <div>
-                            <a href="#" class="col fw-bold btn p-0">
-                                Mando PS1 original
-                            </a>
-                        </div>
-                        <div>
-                            <div class="col my-1">ID del producto: 9298103</div>
-                        </div>
-                        <div class="mt-3">
-                            <span class="fw-bold fs-4">
-                                $160.30
-                            </span>
-                            <span>
-                                Oferta actual
-                            </span>
-                        </div>
-                        <div>
-                            <span class="me-1">$200.00</span>
-                            <span>Precio comprar ahora</span>
-                        </div>
-                        <div class="mt-3">
-                            <div>1d 30h 4m restante</div>
-                        </div>                    
-                        
-                    </div>
-
-                    <div class="col">
-                        <div class="row">
-                            <div class="d-grid gap-2"><button class="mb-2 btn btn-outline-primary">Subastar otro</button></div>
-                        </div>
-                        <div class="row mt-3 fw-semibold">
-                            <div class="col-4 border-end text-center">
-                                <div class="fs-4 mb-1">0</div>
-                                <div>Vistas</div>
-                            </div>
-                            <div class="col-4 border-end text-center">
-                                <div class="fs-4 mb-1">0</div>
-                                <div>Ojeadores</div>
-                            </div>
-                            <div class="col text-center">
-                                <div class="fs-4 mb-1">5</div>
-                                <div>Ofertas</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="my-3 row border"></div>
-
-            </div>
+            @endif
 
             
         </div>
@@ -390,6 +427,25 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
     <script src=" {{ asset ('/assets/JavaScript/redirectsMiEbay.js') }} "></script>
+    <script>
+        let codigoUsuario = localStorage.getItem('codigo_usuario');
+        if(codigoUsuario){
+            redirigirAProductoEnVentaArrayA = document.querySelectorAll('#redirigirAProductoEnVentaA');
+            redirigirAProductoEnVentaArrayA.forEach(redirigirAProductoEnVenta => {
+                redirigirAProductoEnVenta.href += `/${codigoUsuario}`;
+            });
+
+            redirigirAProductoEnSubastaArrayA = document.querySelectorAll('#redirigirAProductoEnSubastaA');
+            redirigirAProductoEnSubastaArrayA.forEach(redirigirAProductoEnSubastaA => {
+                redirigirAProductoEnSubastaA.href += `/${codigoUsuario}`;
+            });
+
+            mostrarListadosDesdeActivosArrayA = document.querySelectorAll('#mostrarListadosDesdeActivosA');
+            mostrarListadosDesdeActivosArrayA.forEach(mostrarListadosDesdeActivosA => {
+                mostrarListadosDesdeActivosA.href += `/${codigoUsuario}`;
+            });
+        }
+    </script>
 
 </body>
 </html>

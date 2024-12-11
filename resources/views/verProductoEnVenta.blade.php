@@ -314,7 +314,7 @@
                     </div>
 
                     <div class="d-block" id="botones-compra">
-                        <button type="submit" id="agregarVentaACarritoButton" class="btn btn-primary btn-lg me-3 text-white" id="agregarACarrito">Agregar al carrito de compras</button>
+                        <button type="submit" id="agregarVentaACarritoButton" class="btn btn-primary btn-lg me-3 text-white">Agregar al carrito de compras</button>
                         <button class="btn btn-white btn-lg">&#x2661 Agregar a la Lista de favoritos</button>
                     </div>
                 </form>
@@ -408,6 +408,10 @@
 
     @endif
 
+    @if($productoEnVenta->TBL_PRODUCTOS->codigo_usuario == $usuario->codigo_usuario)
+        <div class="visually-hidden" id="articuloPropioDiv"></div>
+    @endif
+
         <!-- Footer -->
         <footer class="bg-light text-muted">
             <div class="container py-4">
@@ -429,6 +433,8 @@
                 </div>
             </div>
         </footer>
+
+        
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -468,6 +474,7 @@
     <script>
         let agregarVentaACarritoButton = document.getElementById('agregarVentaACarritoButton');
         let agregarProductoVentaForm = document.getElementById('agregarProductoVentaForm');
+        let articuloPropioDiv = document.getElementById('articuloPropioDiv');
 
         if(localStorage.getItem('codigo_usuario')){
             agregarProductoVentaForm.action += `/${localStorage.getItem('codigo_usuario')}`;
@@ -481,6 +488,11 @@
         let yaEnCarritoDiv = document.getElementById('yaEnCarritoDiv');
         if(yaEnCarritoDiv){
             agregarVentaACarritoButton.classList.add('disabled');
+        }
+
+        if(articuloPropioDiv){
+            agregarVentaACarritoButton.classList.add('disabled');
+            agregarVentaACarritoButton.innerText = "Este articulo te pertenece";
         }
 
     </script>

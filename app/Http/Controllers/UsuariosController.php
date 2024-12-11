@@ -105,7 +105,14 @@ class UsuariosController extends Controller
 
     public function verCompras($codigoUsuario = null){
         if($codigoUsuario){
-            return view('miEbayCompras');
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                //dd($usuario->TBL_FACTURAS[0]->TBL_DETALLE_FACTURAS);
+                return view('miEbayCompras', compact('usuario'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
         }else{
             return redirect()->route('usuario.registro');
         }
@@ -165,7 +172,17 @@ class UsuariosController extends Controller
     }
 
     public function verActivos($codigoUsuario = null){
-        return view('ventasActivas');
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                return view('ventasActivas', compact('usuario'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
     }
 
     public function activarProducto(Request $request, $codigoProducto, $codigoUsuario = null){

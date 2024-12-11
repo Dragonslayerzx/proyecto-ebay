@@ -444,7 +444,7 @@
             if(codigoUsuario){
                 let rutaAtributos = ruta2;
                 rutaAtributos += `/${codigoUsuario}`;
-                document.getElementById('modalProductoForm').action = rutaAtributos;
+                document.getElementById('modalProductoForm2').action = rutaAtributos;
             }
         }
     </script>

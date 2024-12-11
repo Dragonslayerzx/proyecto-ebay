@@ -172,7 +172,7 @@
                         <a href="#" class="list-group-item list-group-item-action">Vistos recientemente</a>
                         <a href="#" class="list-group-item list-group-item-action">Subastas y ofertas</a>
                         <a id="mostrarFavoritosA" href="{{ route('usuario.favoritos') }}" class="list-group-item list-group-item-action">Lista de favoritos</a>
-                        <a id="mostrarComprasA" href="{{ route('usuario.compras') }}" class="list-group-item list-group-item-action">Compras</a>
+                        <a id="mostrarComprasA" href="{{ route('usuario.compras') }}" class="list-group-item list-group-item-action active">Compras</a>
                         <div class="dropdown">
                             <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ventas
@@ -220,6 +220,7 @@
             </div>
 
             <!-- Empieza un producto -->
+            @foreach ($usuario->TBL_FACTURAS as $facturaUsuario)
             <div>
 
                 <div class="row my-3 bg-body-secondary">
@@ -228,114 +229,68 @@
                             <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
                         </svg>
                     </div>
-                    <div class="col-8 my-2">
+                    <div class="col-11 my-2">
                         <div class="fw-semibold">Enviado</div>
-                        <div> Fecha de orden: Septiembre 4, 2023 - Total de orden: US $100.00 - Numero de orden: 90233</div>
+                        <div> Fecha de orden: {{ $facturaUsuario->fecha }} - Total de orden: L.{{ $facturaUsuario->monto }}.00 - Numero de factura: {{ $facturaUsuario->codigo_factura }}</div>
                     </div>
-                    <div class="col align-self-center">
-                        <div class="d-grid gap-2 p-3">
-                            <button class="btn btn-outline-primary">Ver detalles de orden</button>
-                        </div>
-                    </div>
+                    
                 </div>
+
+                @foreach ($facturaUsuario->TBL_DETALLE_FACTURAS as $detalleFacturaUsuario)
 
                 <div class="row my-3 p-2">
                     
-
                     <div class="col-3 mx-2">
-                        <img class="img-fluid" src="https://wefix.co.za/cdn/shop/products/iPhone-8-Black_1024x1024_e5ef9aab-913e-4494-99ec-d6c1589f51ae.png?v=1719500588" alt="">
+                        <img class="img-fluid" src="{{ $detalleFacturaUsuario->TBL_PRODUCTOS->foto }}" alt="">
                     </div>
 
                     <div class="col-6">
                         <div>
                             <div class="col fw-bold">
-                                Enviado el Sabado, Sep 4                                
+                                Enviado el {{ $facturaUsuario->fecha }}
                             </div>
                         </div>
                         <div>
                             <div class="col">No acepta devolucion</div>
                         </div>
                         <a href="#" class="mt-3 btn p-0">
-                            Apple iPhone 7 color negro
-                        </a>    
-                        <div class="mt-3">
-                            Vendido por: 
-                            <a href="">miguelito8922</a>
-                        </div>                    
-                        
-                    </div>
-
-                    <div class="col">
-                        <div class="d-grid gap-2"><button class="mb-2 btn btn-primary">Comprar de nuevo</button></div>
-                        <div class="d-grid gap-2"><button class="mb-2 btn btn-outline-primary">Ver otros articulos del vendedor</button></div>
-                        <div class="dropdown d-grid gap-2">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Mas acciones</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Ver otros articulos del vendedor</a></li>
-                                <li><a class="dropdown-item" href="#">Ver articulos similares</a></li>
-                                <li><a class="dropdown-item" href="#">Contactar al vendedor</a></li>
-                                <li><a class="dropdown-item" href="#">Ayuda y denunciar</a></li>
-                            </ul>                            
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="my-3 row border"></div>
-
-            </div>
-
-            <!-- Termina un producto -->
-
-
-            
-            <div>
-
-                <div class="row my-3 bg-body-secondary">
-                    <div class="mt-3 col-1 align-middle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
-                        </svg>
-                    </div>
-                    <div class="col-8 my-2">
-                        <div class="fw-semibold">Enviado</div>
-                        <div> Fecha de orden: Diciembre 25, 2023 - Total de orden: US $200.00 - Numero de orden: 89213</div>
-                    </div>
-                    <div class="col align-self-center">
-                        <div class="d-grid gap-2 p-3">
-                            <button class="btn btn-outline-primary">Ver detalles de orden</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row my-3 p-2">
-                    
-
-                    <div class="col-3 mx-2">
-                        <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Sony-PlayStation-3-2001A-wController-L.jpg/800px-Sony-PlayStation-3-2001A-wController-L.jpg" alt="">
-                    </div>
-
-                    <div class="col-6">
-                        <div>
-                            <div class="col fw-bold">
-                                Enviado el Lunes, Dic 25
-                            </div>
-                        </div>
-                        <div>
-                            <div class="col">No acepta devolucion</div>
-                        </div>
-                        <a href="#" class="mt-3 btn p-0">
-                            Sony PlayStation 3 version slim
-                        </a>    
+                            {{ $detalleFacturaUsuario->TBL_PRODUCTOS->nombre_producto }} {{ $detalleFacturaUsuario->TBL_PRODUCTOS->marca }} {{ $detalleFacturaUsuario->TBL_PRODUCTOS->modelo }}
+                        </a>
                         <div class="mt-3">
                             Vendido por:
-                            <a href="#">franluka-9002</a>
-                        </div>                    
+                            <strong>{{ $detalleFacturaUsuario->TBL_PRODUCTOS->TBL_USUARIOS->nombre_usuario }}</strong>
+                        </div>
+                        <div>
+                            Producto de procedencia: 
+                            @if ($detalleFacturaUsuario->tipo_compra == 0)
+                                @php
+                                    $procedencia = 0;
+                                @endphp
+                                <strong>Subasta</strong>
+                            @else
+
+                                @if($detalleFacturaUsuario->tipo_compra == 1)
+                                @php
+                                    $procedencia = 1;
+                                @endphp
+                                    <strong>Venta directa</strong>
+                                @endif
+
+                            @endif
+                            
+                        </div>
                         
                     </div>
 
                     <div class="col">
-                        <div class="d-grid gap-2"><button class="mb-2 btn btn-primary">Comprar de nuevo</button></div>
+                        @if ($procedencia == 0)
+                            <div class="d-grid gap-2"><a id="comprarDeNuevoSubasta" href="{{ route('producto.obtener.subasta', $detalleFacturaUsuario->TBL_PRODUCTOS->TBL_SUBASTAS[0]->codigo_subasta) }}" class="mb-2 btn btn-primary">Comprar de nuevo</a></div>
+                        @endif
+
+                        @if ($procedencia == 1)
+                            <div class="d-grid gap-2"><a id="comprarDeNuevoVenta" href="{{ route('producto.obtener.venta', $detalleFacturaUsuario->TBL_PRODUCTOS->TBL_PRODUCTOS_EN_VENTA[0]->codigo_producto_en_venta) }}" class="mb-2 btn btn-primary">Comprar de nuevo</a></div>
+                        @endif
+                        
                         <div class="d-grid gap-2"><button class="mb-2 btn btn-outline-primary">Ver otros articulos del vendedor</button></div>
                         <div class="dropdown d-grid gap-2">
                             <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Mas acciones</button>
@@ -350,12 +305,19 @@
 
                 </div>
 
-                <div class="my-3 row border"></div>
+                <div class="row border"></div>
 
+                @endforeach
+                
             </div>
+            
+            @endforeach
+
+                
 
             
-        </div>
+            <!-- Termina un producto -->
+            <div class="mt-4"></div>
 
     </div>
 
@@ -404,6 +366,27 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
     <script src=" {{ asset ('/assets/JavaScript/redirectsMiEbay.js') }} "></script>
+    <script>
+
+        let codigoUsuario = localStorage.getItem('codigo_usuario');
+
+        if(codigoUsuario){
+            comprarDeNuevoSubastaArray = document.querySelectorAll('#comprarDeNuevoSubasta');
+            if(comprarDeNuevoSubastaArray){
+                comprarDeNuevoSubastaArray.forEach(comprarDeNuevoSubasta => {
+                    comprarDeNuevoSubasta.href += `/${codigoUsuario}`;
+                });
+            }
+
+            comprarDeNuevoVentaArray = document.querySelectorAll('#comprarDeNuevoVenta');
+            if(comprarDeNuevoVentaArray){
+                comprarDeNuevoVentaArray.forEach(comprarDeNuevoVenta => {
+                    comprarDeNuevoVenta.href += `/${codigoUsuario}`;
+                });
+            }
+        }
+
+    </script>
 
 </body>
 </html>
