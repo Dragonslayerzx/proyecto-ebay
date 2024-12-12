@@ -8,6 +8,7 @@ class TBL_SERVICIOS_X_USUARIOS extends Model
 {
     protected $table = 'TBL_SERVICIOS_X_USUARIOS';
     public $timestamps = false;
+    public $incrementing = false;
     protected $primaryKey = ['codigo_usuario' , 'codigo_servicio'];
     protected $fillable = ['codigo_usuario' , 'codigo_servicio'];
 

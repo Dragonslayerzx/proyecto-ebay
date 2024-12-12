@@ -11,6 +11,10 @@ use App\Models\TBL_PRODUCTOS;
 use App\Models\TBL_PRODUCTOS_EN_VENTA;
 use App\Models\TBL_SUBASTAS;
 use App\Models\TBL_DETALLE_FACTURAS;
+use App\Models\TBL_TARJETAS;
+use App\Models\TBL_SERVICIOS_PAGOS;
+use App\Models\TBL_SERVICIOS_X_USUARIOS;
+
 
 
 use Illuminate\Http\Request;
@@ -92,7 +96,113 @@ class UsuariosController extends Controller
             $usuario = TBL_USUARIOS::find($codigoUsuario);
             if($usuario){
             //dd($usuario->TBL_DIRECCIONES_USUARIO[0]->TBL_DIRECCIONES);
-                return view('miEbayPagos', compact('usuario'));
+                $serviciosPagos = TBL_SERVICIOS_PAGOS::all();
+                //$serviciosPagos = TBL_SERVICIOS_X_USUARIOS::whereRaw('codigo_usuario = 21 and codigo_servicio = 2')->first();
+                //dd($serviciosPagos);
+                return view('miEbayPagos', compact('usuario','serviciosPagos'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function agregarTarjeta(Request $request, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario && $request){
+                $nombreTitular = ''.$request->nombreTitular.' '.$request->apellidoTitular;
+                $fechaFormateada = Carbon::parse($request->fechaVencimiento)->format('Y-m-d');
+
+                $nvaTarjetaUsuario = new TBL_TARJETAS();
+                $nvaTarjetaUsuario->codigo_usuario = $usuario->codigo_usuario;
+                $nvaTarjetaUsuario->numero_tarjeta = $request->numeroTarjeta;
+                $nvaTarjetaUsuario->fecha_vencimiento = $fechaFormateada;
+                $nvaTarjetaUsuario->cvv = $request->cvv;
+                $nvaTarjetaUsuario->titular = $nombreTitular;
+                $nvaTarjetaUsuario->save();
+
+                return redirect()->route('usuario.datos.pagos', compact('codigoUsuario'));
+
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function eliminarTarjeta($codigoTarjeta, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                
+                $tarjetaEliminar = TBL_TARJETAS::find($codigoTarjeta);
+                $tarjetaEliminar->delete();
+
+                return redirect()->route('usuario.datos.pagos', $usuario->codigo_usuario);
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function agregarServicioPago(Request $request, $codigoUsuario = null){
+        if($codigoUsuario && $request->codigoServicioPago){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                $serviciosPagosCoincidencia = TBL_SERVICIOS_X_USUARIOS::whereRaw('codigo_usuario = '.$usuario->codigo_usuario.' and codigo_servicio = '.$request->codigoServicioPago)->first();
+                //dd($serviciosPagosCoincidencia->TBL_SERVICIOS_PAGOS);
+                //dd($request);
+                
+                if($serviciosPagosCoincidencia){ //ya existe ese servicio en el usuario
+                    return redirect()->route('usuario.datos.pagos', $usuario->codigo_usuario);
+                }else{
+                    //dd($serviciosPagosCoincidencia->TBL_SERVICIOS_PAGOS);
+                    $nvoServicioUsuario = new TBL_SERVICIOS_X_USUARIOS();
+                    $nvoServicioUsuario->codigo_usuario = $usuario->codigo_usuario;
+                    $nvoServicioUsuario->codigo_servicio = $request->codigoServicioPago;
+                    $nvoServicioUsuario->save();
+
+                    return redirect()->route('usuario.datos.pagos', $usuario->codigo_usuario);
+                }
+                
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function eliminarServicioPago($codigoServicioPago, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                //return view('miEbayDatosPersonales', compact('usuario'));
+                //dd($codigoServicioPago);
+                /*
+                $serviciosPagosCoincidencia = TBL_SERVICIOS_X_USUARIOS::whereRaw('codigo_usuario = '.$usuario->codigo_usuario.' and codigo_servicio = '.$codigoServicioPago)->first();
+                if($serviciosPagosCoincidencia){
+                    $serviciosPagosCoincidencia->delete();
+                }
+                */
+
+                TBL_SERVICIOS_X_USUARIOS::where([
+                    ['codigo_usuario', '=', $usuario->codigo_usuario],
+                    ['codigo_servicio', '=', $codigoServicioPago],
+                ])->delete();
+                
+
+                return redirect()->route('usuario.datos.pagos', $usuario->codigo_usuario);
+
             }
             else{
                 return redirect()->route('usuario.registro');

@@ -20,6 +20,10 @@
     </head>
     <body>
 
+        @php
+            $contadorPago = 0;
+        @endphp
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
             <div class="container-fluid">
                 <span id="infoUsuarioContenedor" class="dropdown">
@@ -157,47 +161,43 @@
                 <!-- Pagar con -->
                 <div class="p-4 border rounded">
                     <h5>Pagar con</h5>
-                    <form>
+                    @foreach ($usuario->TBL_TARJETAS as $tarjetaUsuario)
+
+                    @php
+                        $contadorPago++;
+                    @endphp
+                    
                         <div class="form-check separador">
                             <input class="form-check-input" type="radio" name="payment" id="paypal">
                             <label class="form-check-label" for="paypal">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png" alt="Paypal" width="50"> 
-                                PayPal
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+                                    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                                </svg>
+                                Tarjeta con # : {{ $tarjetaUsuario->numero_tarjeta }}
                             </label>
                         </div>
+
+                    @endforeach
+
+                    @foreach ($usuario->TBL_SERVICIOS_X_USUARIOS as $servicioPagoUsuario)
+
+                        @php
+                            $contadorPago++;
+                        @endphp
 
                         <div class="form-check separador">
                             <input class="form-check-input" type="radio" name="payment" id="venmo">
                             <label class="form-check-label" for="venmo">
-                                <img width="50" height="40" src="https://img.icons8.com/plasticine/100/venmo.png" alt="venmo">
-                                Venmo
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                                </svg>
+                                {{ $servicioPagoUsuario->TBL_SERVICIOS_PAGOS->nombre_servicio }}
                             </label>
                         </div>
 
-                        <div class="form-check separador">
-                            <input class="form-check-input" type="radio" name="payment" id="newcard">
-                            <label class="form-check-label" for="newcard">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" width="50"> 
-                                Agregar nueva tarjeta 
-                            </label>
-                        </div>
+                    @endforeach
 
-                        <div class="form-check separador">
-                            <input class="form-check-input" type="radio" name="payment" id="googlepay">
-                            <label class="form-check-label" for="googlepay">
-                                <img width="50" height="40" src="https://img.icons8.com/color/48/google-pay-india.png" alt="google-pay-india">
-                                Google Pay
-                            </label>
-                        </div>
-
-                        <div class="form-check separador">
-                            <input class="form-check-input" type="radio" name="payment" id="paypalcredit">
-                            <label class="form-check-label" for="paypalcredit">
-                                <img width="50" height="40" src="https://img.icons8.com/ios-filled/50/credit-card-front.png" alt="credit-card-front">
-                                PayPal Credit
-                            </label>
-                        </div>
-                    </form>
                 </div>
 
                 <!-- Enviar a -->
@@ -334,6 +334,11 @@
         let confirmarYPagarA = document.getElementById('confirmarYPagarA');
         if(localStorage.getItem('codigo_usuario')){
             confirmarYPagarA.href += `/${localStorage.getItem('codigo_usuario')}`;
+        }
+        let contadorPago = @php echo $contadorPago; @endphp;
+        if(contadorPago == 0){
+            confirmarYPagarA.classList.add('disabled');
+            confirmarYPagarA.innerText = "Agrega una tarjeta o servicio para pagar";
         }
     </script>
 

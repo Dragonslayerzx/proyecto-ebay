@@ -94,6 +94,18 @@ Route::post('/usuario/datos/nombreUsuario/actualizar/{codigoUsuario?}',
 Route::get('/usuario/datos/pagos/{codigoUsuario?}',
     [UsuariosController::class, 'datosPagos'])->name('usuario.datos.pagos');
 
+Route::post('/usuario/datos/tarjeta/agregar/{codigoUsuario?}',
+    [UsuariosController::class, 'agregarTarjeta'])->name('usuario.tarjeta.agregar');
+    
+Route::get('/usuario/datos/tarjeta/eliminar/{codigoTarjeta}/{codigoUsuario?}',
+    [UsuariosController::class, 'eliminarTarjeta'])->name('usuario.tarjeta.eliminar');
+    
+Route::post('/usuario/datos/servicio/pago/agregar/{codigoUsuario?}',
+    [UsuariosController::class, 'agregarServicioPago'])->name('usuario.servicio.pago.agregar');
+
+Route::get('/usuario/datos/servicio/pago/eliminar/{codigoServicioPago}/{codigoUsuario?}',
+    [UsuariosController::class, 'eliminarServicioPago'])->name('usuario.servicio.pago.eliminar');
+
 // --------------------  CATEGORIAS ----------------------------
 Route::get('/categorias/obtener',
     [CategoriasController::class, 'mostrarTodas'])->name('categorias.obtener');

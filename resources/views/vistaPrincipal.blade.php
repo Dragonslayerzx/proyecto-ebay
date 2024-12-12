@@ -328,166 +328,168 @@
     </nav>
 
         <!-- Carousel Section -->
-<div id="ebayCarousel" class="carousel slide" data-bs-ride="carousel">
-    <!-- Indicators -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-  
-    <!-- Slides -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="Proba.jpg" class="d-block w-100" alt="Discount Slide">
-            <div class="carousel-caption">
-                <h5>Big Discounts</h5>
-                <p>Up to 50% off on select items.</p>
+        <!-- Carousel Section -->
+        <div id="ebayCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#ebayCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-        </div>
-        <div class="carousel-item">
-            <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Limited Time Offers">
-            <div class="carousel-caption">
-                <h5>Limited Time Offers</h5>
-                <p>Grab deals before they expire!</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="Carruzel_img_2.webp" class="d-block w-100" alt="Shop Electronics">
-            <div class="carousel-caption">
-                <h5>Shop Electronics</h5>
-                <p>Top brands at unbeatable prices.</p>
-            </div>
-        </div>
-    </div>
-  
-    <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#ebayCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#ebayCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-
-  <!-- Tendencias en ebay -->
-
-    <div class="tendencias">
-
-        <div class="titulo-tendencias">
-
-            <h5><Strong>Tendencia en eBay</Strong></h5>
-
-        </div>
-        
-
-        <div class="Imagenes-tendencias">
-
-           
-            <img src="Producto8_Tendencias.png" alt="">
-            <img src="Producto2_Tendencias.jpg" alt="">
-            <img src="Producto3_Tendencias.jpg" alt="">
-            <img src="Producto4_Tendencias.webp" alt="">
-            <img src="Producto6_Tendencias.avif" alt="">
-            <img src="Producto7_Tendencias.jpg" alt="">
-
-        </div>
-
-        <div class="Link-tendencias">
-            
-            <div class="links"><Strong>-10% En Tarjetas coleccionables</Strong></div>
-            <div class="links"><Strong>Cafeteras</Strong></div>
-            <div class="links"><Strong>Herramientas</Strong></div>
-            <div class="links"><Strong>Vestimenta</Strong></div>
-            <div class="links"><Strong>Deportes</Strong></div>
-            <div class="links"><Strong>Partes y accesorios</Strong></div>
-
-        </div>
-            
-
-    </div>
-
-    <!-- Seccion de regalos -->
-
-    <div class="regalos">
-
-
-        <div class="promocion">
-            <h3>Consigue tus regalos a tiempo</h3>
-            <p>Ahorra hasta 15% en Tarjetas y juegos coleccionables.</p>
-            <a href="">Hasta 12/Dic/2024 Gasto min 50$. Descuentdo maximo 30$.</a>
-        </div>
-        
-        <div class="imagen-promocion">
-            <img src="regalos1.webp" alt="">
-        </div>
-        
-
-    </div>
-
-    <!-- Pie de página -->
-    <body>
-        <footer class="footer pt-5 pb-4 border-top">
-            <div class="container">
-                <div class="row">
-                    <!-- Columna: Comprar -->
-                    <div class="col-md-2 col-6 mb-4">
-                        <h5>Comprar</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Ropa</a></li>
-                            <li><a href="#">Electrónica</a></li>
-                            <li><a href="#">Hogar</a></li>
-                            <li><a href="#">Deportes</a></li>
-                        </ul>
-                    </div>
-    
-                    <!-- Columna: Herramientas y Aplicaciones -->
-                    <div class="col-md-2 col-6 mb-4">
-                        <h5>Herramientas y Aplicaciones</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Aplicación móvil</a></li>
-                            <li><a href="#">Centro de desarrolladores</a></li>
-                            <li><a href="#">eBay API</a></li>
-                        </ul>
-                    </div>
-    
-                    <!-- Columna: Sigue conectado -->
-                    <div class="col-md-2 col-6 mb-4">
-                        <h5>Sigue conectado</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">Instagram</a></li>
-                        </ul>
-                    </div>
-    
-                    <!-- Columna: Acerca de eBay -->
-                    <div class="col-md-2 col-6 mb-4">
-                        <h5>Acerca de eBay</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Historia</a></li>
-                            <li><a href="#">Carreras</a></li>
-                            <li><a href="#">Inversores</a></li>
-                        </ul>
-                    </div>
-    
-                    <!-- Columna: Ayuda y contacto -->
-                    <div class="col-md-2 col-6 mb-4">
-                        <h5>Ayuda y contacto</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Centro de ayuda</a></li>
-                            <li><a href="#">Contáctanos</a></li>
-                            <li><a href="#">Devoluciones</a></li>
-                        </ul>
-                    </div>
+          
+            <!-- Slides -->
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://printify.com/wp-content/uploads/2022/12/How-to-Get-More-Views-on-eBay.jpg" class="d-block w-100" alt="Discount Slide">
+                <div class="carousel-caption">
+                  <h5>Big Discounts</h5>
+                  <p>Up to 50% off on select items.</p>
                 </div>
-                <div class="text-center mt-4">
-                    <p class="mb-0">&copy; 2024 eBay. Todos los derechos reservados.</p>
+              </div>
+              <div class="carousel-item">
+                <img src="https://i0.wp.com/onepatch.com/wp-content/uploads/2023/05/Why-is-eBay-so-successful-1.jpg?fit=1024%2C341&ssl=1" class="d-block w-100" alt="Limited Time Offers">
+                <div class="carousel-caption">
+                  <h5>Limited Time Offers</h5>
+                  <p>Grab deals before they expire!</p>
                 </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://cdn.pixabay.com/photo/2017/03/13/17/26/ecommerce-2140603_640.jpg" class="d-block w-100" alt="Shop Electronics">
+                <div class="carousel-caption">
+                  <h5>Shop Electronics</h5>
+                  <p>Top brands at unbeatable prices.</p>
+                </div>
+              </div>
             </div>
-        </footer>
+          
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#ebayCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#ebayCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        
+          <!-- Tendencias en ebay -->
+        
+            <div class="tendencias">
+        
+                <div class="titulo-tendencias">
+        
+                    <h5><Strong>Tendencia en eBay</Strong></h5>
+        
+                </div>
+                
+        
+                <div class="Imagenes-tendencias">
+        
+                   
+                    <img src="https://sip.pochteca.net/media/amasty/amlabel/Flash-Descuento_10__2.png" alt="">
+                    <img src="https://electroluxar.vtexassets.com/arquivos/ids/162041/Coffee_Machine_ECM10_FrontView_Electrolux_1000x1000.png?v=637841561612170000" alt="">
+                    <img src="https://www.digitalsolutions.com.sv/cdn/shop/files/Crimpadora-de-Cable-de-Red-Klein-Tools-VDV026-212_352x.jpg?v=1701540304" alt="">
+                    <img src="https://almaceneseltitan.com/wp-content/uploads/2024/06/CAMISA-ROJA-DE-LA-MARCA-STEELJELLY.jpg" alt="">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVDOQg3mxz7_LwGgF14v25sysXJSpdbza8Dw&s" alt="">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHEO7B8hXRcIYoxxqAvty4or8KdV7sG65vsQ&s" alt="">
+        
+                </div>
+        
+                <div class="Link-tendencias">
+                    
+                    <div class="links"><Strong>-10% En Tarjetas coleccionables</Strong></div>
+                    <div class="links"><Strong>Cafeteras</Strong></div>
+                    <div class="links"><Strong>Herramientas</Strong></div>
+                    <div class="links"><Strong>Vestimenta</Strong></div>
+                    <div class="links"><Strong>Deportes</Strong></div>
+                    <div class="links"><Strong>Partes y accesorios</Strong></div>
+        
+                </div>
+                    
+        
+            </div>
+        
+            <!-- Seccion de regalos -->
+        
+            <div class="regalos">
+        
+        
+                <div class="promocion">
+                    <h3>Consigue tus regalos a tiempo</h3>
+                    <p>Ahorra hasta 15% en Tarjetas y juegos coleccionables.</p>
+                    <a href="">Hasta 12/Dic/2024 Gasto min 50$. Descuentdo maximo 30$.</a>
+                </div>
+                
+                <div class="imagen-promocion">
+                    <img src="https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2023/11/ofertas-xbox-black-friday-2023-3225464.jpg?tf=3840x" alt="">
+                </div>
+                
+        
+            </div>
+        
+            <!-- Pie de página -->
+            <body>
+                <footer class="footer pt-5 pb-4 border-top">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Columna: Comprar -->
+                            <div class="col-md-2 col-6 mb-4">
+                                <h5>Comprar</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Ropa</a></li>
+                                    <li><a href="#">Electrónica</a></li>
+                                    <li><a href="#">Hogar</a></li>
+                                    <li><a href="#">Deportes</a></li>
+                                </ul>
+                            </div>
+            
+                            <!-- Columna: Herramientas y Aplicaciones -->
+                            <div class="col-md-2 col-6 mb-4">
+                                <h5>Herramientas y Aplicaciones</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Aplicación móvil</a></li>
+                                    <li><a href="#">Centro de desarrolladores</a></li>
+                                    <li><a href="#">eBay API</a></li>
+                                </ul>
+                            </div>
+            
+                            <!-- Columna: Sigue conectado -->
+                            <div class="col-md-2 col-6 mb-4">
+                                <h5>Sigue conectado</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Facebook</a></li>
+                                    <li><a href="#">Twitter</a></li>
+                                    <li><a href="#">Instagram</a></li>
+                                </ul>
+                            </div>
+            
+                            <!-- Columna: Acerca de eBay -->
+                            <div class="col-md-2 col-6 mb-4">
+                                <h5>Acerca de eBay</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Historia</a></li>
+                                    <li><a href="#">Carreras</a></li>
+                                    <li><a href="#">Inversores</a></li>
+                                </ul>
+                            </div>
+            
+                            <!-- Columna: Ayuda y contacto -->
+                            <div class="col-md-2 col-6 mb-4">
+                                <h5>Ayuda y contacto</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Centro de ayuda</a></li>
+                                    <li><a href="#">Contáctanos</a></li>
+                                    <li><a href="#">Devoluciones</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="mb-0">&copy; 2024 eBay. Todos los derechos reservados.</p>
+                        </div>
+                    </div>
+                </footer>
+        
 
     <!-- Scripts de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
