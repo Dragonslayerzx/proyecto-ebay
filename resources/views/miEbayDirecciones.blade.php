@@ -172,23 +172,23 @@
                 
                 <div id="Opciones_Mi_Ebay" class="list-group list-group-flush">
                         <div class="dropdown">
-                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle active" data-bs-toggle="dropdown" aria-expanded="false">
                                 Datos personales y privacidad
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a id="datosUsuarioA" href="{{ route('usuario.datos') }}" class="dropdown-item">Datos personales</a></li>
                                 <li><a class="dropdown-item" href="#">Inicio de sesión y seguridad</a></li>
-                                <li><a id="usuarioDireccionesA" class="dropdown-item" href="{{ route('usuario.direcciones.mostrar') }}">Direcciones</a></li>
+                                <li><a id="usuarioDireccionesA" class="dropdown-item active" href="{{ route('usuario.direcciones.mostrar') }}">Direcciones</a></li>
                                 <li><a class="dropdown-item" href="#">Comentarios</a></li>
                                 <li><a class="dropdown-item" href="#">Centro de resoluciones</a></li>
                             </ul>
                         </div>
                         <div class="dropdown">
-                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle active" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Informacion sobre el pago
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a id="usuarioPagosA" class="dropdown-item active" href="{{ route('usuario.datos.pagos') }}">Pagos</a></li>
+                                <li><a id="usuarioPagosA" class="dropdown-item" href="{{ route('usuario.datos.pagos') }}">Pagos</a></li>
                             </ul>
                         </div>
                         <div class="dropdown">
@@ -208,22 +208,15 @@
 
             <div class="row mb-5 fs-1">
                 <div class="col-6 fw-bold">
-                    Pagos
+                    Direcciones
                 </div>
-                <div class="col-1"></div>
-                <button class="col btn btn-white align-end text-center fs-5" data-bs-toggle="modal" data-bs-target="#modalAgregarTarjeta">
+                <div class="col-3"></div>
+                <button class="col btn btn-white align-end text-center fs-5" data-bs-toggle="modal" data-bs-target="#modalAgregarDireccion">
                     <span><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                     </svg>
                     </span>
-                    <br><span>Agregar Tarjeta de Credito o Debito</span>
-                </button>
-                <button class="col btn btn-white align-end text-center fs-5" data-bs-toggle="modal" data-bs-target="#modalAgregarServicioPago">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                    </svg>
-                    </span>
-                    <br><span>Agregar Servicio de Pago</span>
+                    <br><span>Agregar Direccion</span>
                 </button>
             </div>
 
@@ -238,76 +231,62 @@
                     $contador = 0;
                 @endphp
 
-                @foreach ($usuario->TBL_TARJETAS as $tarjetaUsuario)
-                
-                    <div class="row my-5">
-                        @if ($contador == 0)
-                            <div class="col-4 fs-5 fw-semibold">Informacion de tarjetas</div>
-                        @else
-                            <div class="col-4 fs-5 fw-semibold"></div>
-                        @endif
+                <div class="row fs-5">
+                    <div>
+                        <div class="text-body-secondary mb-2">Nombre y direccion del titular</div>
+                        <div class="mb-2 fs-4 fw-semibold">{{ $usuario->nombre }} {{ $usuario->apellido }}</div>
 
                         @php
-                            $contador++;
+                            $contador = 0;
                         @endphp
-                        <div class="col-4 fs-5">
-                            <div class="text-body-secondary mb-2">Tarjeta {{$contador}}</div>
-                            <div>Numero:  <span class="fw-semibold">{{$tarjetaUsuario->numero_tarjeta}}</span> </div>
-                            <div>Fecha Vencimiento: <span class="fw-semibold">{{date('d-m-Y', strtotime($tarjetaUsuario->fecha_vencimiento))}}</span> </div>
-                            <div>CVV: <span class="fw-semibold">{{$tarjetaUsuario->cvv}}</span> </div>
-                            <div>Titular: <span class="fw-semibold">{{$tarjetaUsuario->titular}}</span> </div>
 
-                        </div>
-                        <div class="col-2"></div>
-                        <a id="eliminarTarjetaA" href="{{ route('usuario.tarjeta.eliminar', $tarjetaUsuario->codigo_tarjeta) }}" class="col-2 btn text-danger fs-5">Eliminar</a>
-
-                    </div>
-
-                @endforeach
-
-                <div class="my-3 row border"></div>
-
-            </div>
-
-            <div>
-
-                @php
-                    $contadorApoyo = 0;
-                @endphp
-
-                @foreach ($usuario->TBL_SERVICIOS_X_USUARIOS as $servicioPagoUsuario)
-                
-                    <div class="row my-5">
+                        @foreach ($usuario->TBL_DIRECCIONES_USUARIO as $direcciones)
+                        <div class="row">
                         
-                        @if ($contadorApoyo == 0)
-                            <div class="col-4 fs-5 fw-semibold">Otros metodos de pago agregados</div>
-                        @else
-                            <div class="col-4 fs-5 fw-semibold"></div>
-                        @endif
+                            <div class="col-4" id="direccionUsuarioDiv">
+                                @php
+                                    $direccion = $direcciones->TBL_DIRECCIONES;
+                                    $codigoDireccionMomento = 0;
+                                @endphp
 
-                        @php
-                            $contadorApoyo++;
-                        @endphp
+                                @if ($direccion->codigo_lugar_padre)
 
-                        <div class="col-4 fs-4 fw-semibold">
-                            <span class="me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
-                                </svg>
-                            </span>
-                            <span>{{ $servicioPagoUsuario->TBL_SERVICIOS_PAGOS->nombre_servicio }}</span>
+                                    @php
+                                        $contador += 1;
+                                        $codigoDireccionMomento = $direccion->codigo_direccion;
+                                    @endphp
+                                    
+                                    @while ($direccion->codigo_lugar_padre != null)
+                                        <div>{{ $direccion->nombre_lugar }}</div>
+                                        @php
+                                            $direccion = $direcciones->TBL_DIRECCIONES::find($direccion->codigo_lugar_padre);
+                                        @endphp
+                                    @endwhile
+                                    {{ $direccion->nombre_lugar }}
+                                    
+                                @endif
+                                
+                            </div>
+
+                            <div class="col-5"></div>
+                            <a id="eliminarDireccionA" href="{{ route('usuario.direccion.eliminar', $codigoDireccionMomento) }}" class="col btn text-danger fs-5">Eliminar</a>
+
+                            <div class="mb-3"></div>
+                    
                         </div>
+                        @endforeach
 
-                        <div class="col-2"></div>
-                        <a id="eliminarServicioPagoA" href="{{ route('usuario.servicio.pago.eliminar', $servicioPagoUsuario->codigo_servicio) }}" class="col-2 btn text-danger fs-5">Eliminar</a>
-
+                        @if ($contador == 0)
+                            <strong>Aun no tienes direcciones</strong>
+                        @endif
+                    
                     </div>
 
-                @endforeach
-
-                <div class="my-3 row border"></div>
+                </div>
 
             </div>
+
+            <div class="my-4"></div>
 
             @endif
 
@@ -317,105 +296,56 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalAgregarTarjeta" tabindex="-1" aria-labelledby="modalAgregarTarjetaLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAgregarDireccion" tabindex="-1" aria-labelledby="modalAgregarDireccionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Agregar una tarjeta</h1>
+                        <h1 class="modal-title fs-5">Agregar una direccion</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                <form id="nuevaTarjetaForm" action="{{ route('usuario.tarjeta.agregar') }}" method="POST">
+                <form id="nuevaDireccionForm" action="{{ route('usuario.direccion.agregar') }}" method="POST">
                 @csrf
                     <div class="modal-body">
                         
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="numeroTarjeta" class="form-label">Numero tarjeta</label>
-                                        <input name="numeroTarjeta" type="text" class="form-control" id="numeroTarjeta" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fechaVencimiento" class="form-label">Fecha vencimiento</label>
-                                        <input name="fechaVencimiento" type="date" class="form-control" id="fechaVencimiento" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre</label>
-                                        <input name="nombreTitular" type="text" class="form-control" id="nombre" required>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="mb-1 p-4">
-                                        <span class="me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
-                                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
-                                            </svg>
-                                        </span>
-                                        <span class="me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-credit-card-2-back" viewBox="0 0 16 16">
-                                                <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5z"/>
-                                                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1m-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1"/>
-                                            </svg>
-                                        </span>
-                                        <span class="me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
-                                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                                                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="cvv" class="form-label">Codigo de seguridad</label>
-                                        <input name="cvv" type="password" class="form-control" id="cvv" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="apellido" class="form-label">Apellido</label>
-                                        <input name="apellidoTitular" type="text" class="form-control" id="apellido" required>
-                                    </div>
-                                </div>
-                            </div>
+                        <select id="selectDireccion" name="codigoDireccion" class="form-select" aria-label="Default select example" required>
+                            <option value="0" disabled selected>Selecciona la direccion</option>
+
+                            @foreach ($direccionesTodas as $direccion)
+
+                                @if ($direccion->codigo_lugar_padre)
+
+                                    <option value="{{ $direccion->codigo_direccion }}">
+
+                                    @php
+                                        $contador += 1;
+                                    @endphp
+                                    
+                                    @while ($direccion->codigo_lugar_padre != null)
+                                        <div>{{ $direccion->nombre_lugar }}</div>
+                                        @php
+                                            $direccion = $direccion::find($direccion->codigo_lugar_padre);
+                                        @endphp
+                                        ,
+                                    @endwhile
+                                    {{ $direccion->nombre_lugar }}
+
+                                    </option>
+                                    
+                                @endif
+                                
+                            @endforeach
+                        </select>
+
+                        <div class="mb-3 mt-4">
+                            <label for="descripcionDireccion" class="form-label">Descripcion de la direccion</label>
+                            <input name="descripcionDireccion" type="text" class="form-control" required>
                         </div>
 
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Tarjeta</button>
-                    </div>
-
-                </form>
-                
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalAgregarServicioPago" tabindex="-1" aria-labelledby="modalAgregarServicioPagoLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">Agregar una tarjeta</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                <form id="nuevoServicioPagoForm" action="{{ route('usuario.servicio.pago.agregar') }}" method="POST">
-                @csrf
-                    <div class="modal-body">
-                        
-                        @foreach ($serviciosPagos as $servicioPagoIndividual)
-
-                            <div class="form-check">
-                                <input name="codigoServicioPago" value="{{ $servicioPagoIndividual->codigo_servicio }}" id="servicioPagoInput" class="form-check-input" type="radio" required>
-                                    {{ $servicioPagoIndividual->nombre_servicio }}
-                                </input>
-                            </div>
-
-                        @endforeach
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Servicio</button>
+                        <button type="submit" class="btn btn-primary">Guardar Direccion</button>
                     </div>
 
                 </form>
@@ -437,14 +367,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
 
-        let nuevaTarjetaForm = document.querySelector('#nuevaTarjetaForm');
+        let nuevaDireccionForm = document.querySelector('#nuevaDireccionForm');
         let nuevoServicioPagoForm = document.querySelector('#nuevoServicioPagoForm');
         let eliminarServicioPagoArrayA = document.querySelectorAll('#eliminarServicioPagoA');
         let eliminarTarjetaArrayA = document.querySelectorAll('#eliminarTarjetaA');
+        let eliminarDireccionArrayA = document.querySelectorAll('#eliminarDireccionA');
 
         if(localStorage.getItem('codigo_usuario')){
-            if(nuevaTarjetaForm){
-                nuevaTarjetaForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+            if(nuevaDireccionForm){
+                nuevaDireccionForm.action += `/${localStorage.getItem('codigo_usuario')}`;
             }
             if(nuevoServicioPagoForm){
                 nuevoServicioPagoForm.action += `/${localStorage.getItem('codigo_usuario')}`;
@@ -457,6 +388,11 @@
             if(eliminarTarjetaArrayA){
                 eliminarTarjetaArrayA.forEach(eliminarTarjetaA => {
                     eliminarTarjetaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+                });
+            }
+            if(eliminarDireccionArrayA){
+                eliminarDireccionArrayA.forEach(element => {
+                    eliminarDireccionA.href += `/${localStorage.getItem('codigo_usuario')}`;
                 });
             }
         }
@@ -495,6 +431,15 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
     <script src=" {{ asset ('/assets/JavaScript/redirectsDatosPersonalesMiEbay.js') }} "></script>
+    <script>
+        document.getElementById('nuevaDireccionForm').addEventListener('submit', function (e) {
+        const direccion = document.getElementById('selectDireccion').value;
+        if (direccion === "0") { // Verifica si el valor seleccionado es "0"
+                e.preventDefault(); // Detiene el envío del formulario
+                alert('Por favor, selecciona una dirección válida.');
+            }
+        });
+    </script>
 
 
 </body>

@@ -106,6 +106,15 @@ Route::post('/usuario/datos/servicio/pago/agregar/{codigoUsuario?}',
 Route::get('/usuario/datos/servicio/pago/eliminar/{codigoServicioPago}/{codigoUsuario?}',
     [UsuariosController::class, 'eliminarServicioPago'])->name('usuario.servicio.pago.eliminar');
 
+Route::get('/usuario/datos/direcciones/mostrar/{codigoUsuario?}',
+    [UsuariosController::class, 'mostrarDirecciones'])->name('usuario.direcciones.mostrar');
+    
+Route::post('/usuario/datos/direcciones/agregar/{codigoUsuario?}',
+    [UsuariosController::class, 'agregarDireccion'])->name('usuario.direccion.agregar');
+    
+Route::get('/usuario/datos/direcciones/eliminar/{codigoDireccion}/{codigoUsuario?}',
+    [UsuariosController::class, 'eliminarDireccion'])->name('usuario.direccion.eliminar');
+
 // --------------------  CATEGORIAS ----------------------------
 Route::get('/categorias/obtener',
     [CategoriasController::class, 'mostrarTodas'])->name('categorias.obtener');

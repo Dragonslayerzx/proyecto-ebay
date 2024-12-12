@@ -201,13 +201,54 @@
                 </div>
 
                 <!-- Enviar a -->
-                <div class="mt-4 p-4 border rounded">
+                <div class="mt-4 p-4 border rounded form-check separador">
                     <h5>Enviar a</h5>
-                    <p class="mb-1"><strong>Juan Pérez</strong></p>
-                    <p class="mb-1">123 Calle Principal, Ciudad, Estado</p>
-                    <p class="mb-1">Teléfono: +1 123-456-7890</p>
-                    <a href="#" class="text-primary">Cambiar</a>
+                    <div class="ms-3 mt-4">
+
+                            @php
+                                $contador = 0;
+                            @endphp
+                        
+                            @foreach ($usuario->TBL_DIRECCIONES_USUARIO as $direcciones)
+
+                                @php
+                                    $direccion = $direcciones->TBL_DIRECCIONES;
+                                @endphp
+
+                                @if ($direccion->codigo_lugar_padre)
+
+                                @php
+                                    $contador += 1;
+                                @endphp
+
+                                <input class="form-check-input" type="radio" name="payment" id="venmo">
+                                <label class="form-check-label my-2" for="venmo">
+                                    
+                                    @while ($direccion->codigo_lugar_padre != null)
+                                        <div>{{ $direccion->nombre_lugar }}</div>
+                                        @php
+                                            $direccion = $direccion::find($direccion->codigo_lugar_padre);
+                                        @endphp
+                                        ,
+                                        
+                                    @endwhile
+                                    {{ $direccion->nombre_lugar }}
+                                    
+                                </label>
+                                    
+                                @endif
+                                
+                            @endforeach
+
+                            @if ($contador == 0)
+                                <strong>Aun no tienes direcciones</strong>
+                            @endif
+                        
+
+                    </div>
+
                 </div>
+
             </div>
 
             <!-- Columna derecha -->

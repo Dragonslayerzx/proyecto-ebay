@@ -11,4 +11,8 @@ if(localStorage.getItem('codigo_usuario')){
     if(datosUsuarioA){
         datosUsuarioA.href += `/${localStorage.getItem('codigo_usuario')}`;
     }
+    let usuarioDireccionesA = document.getElementById('usuarioDireccionesA');
+    if(usuarioDireccionesA){
+        usuarioDireccionesA.href += `/${localStorage.getItem('codigo_usuario')}`;
+    }
 }

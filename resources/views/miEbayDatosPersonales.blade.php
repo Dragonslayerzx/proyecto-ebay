@@ -178,7 +178,7 @@
                             <ul class="dropdown-menu">
                                 <li><a id="datosUsuarioA" href="{{ route('usuario.datos') }}" class="dropdown-item active">Datos personales</a></li>
                                 <li><a class="dropdown-item" href="#">Inicio de sesión y seguridad</a></li>
-                                <li><a class="dropdown-item" href="#">Direcciones</a></li>
+                                <li><a id="usuarioDireccionesA" class="dropdown-item" href="{{ route('usuario.direcciones.mostrar') }}">Direcciones</a></li>
                                 <li><a class="dropdown-item" href="#">Comentarios</a></li>
                                 <li><a class="dropdown-item" href="#">Centro de resoluciones</a></li>
                             </ul>

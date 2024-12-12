@@ -91,6 +91,66 @@ class UsuariosController extends Controller
         }
     }
 
+    public function mostrarDirecciones($codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                $direccionesTodas = TBL_DIRECCIONES::all();
+                //dd($direccionesTodas);
+                return view('miEbayDirecciones', compact('usuario','direccionesTodas'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function agregarDireccion(Request $request, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario && $request){
+
+                $nvaDireccionUsuario = new TBL_DIRECCIONES_USUARIO();
+                $nvaDireccionUsuario->codigo_usuario = $usuario->codigo_usuario;
+                $nvaDireccionUsuario->codigo_direccion = $request->codigoDireccion;
+                $nvaDireccionUsuario->descripcion = $request->descripcionDireccion;
+
+                $nvaDireccionUsuario->save();
+
+                return redirect()->route('usuario.direcciones.mostrar', $usuario->codigo_usuario);
+
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function eliminarDireccion($codigoDireccion, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                
+                TBL_DIRECCIONES_USUARIO::where([
+                    ['codigo_usuario', '=', $usuario->codigo_usuario],
+                    ['codigo_direccion', '=', $codigoDireccion],
+                ])->delete();
+
+                return redirect()->route('usuario.direcciones.mostrar', $usuario->codigo_usuario);
+
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
     public function datosPagos($codigoUsuario = null){
         if($codigoUsuario){
             $usuario = TBL_USUARIOS::find($codigoUsuario);
