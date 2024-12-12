@@ -10,6 +10,8 @@ use App\Models\TBL_DIRECCIONES_USUARIO;
 use App\Models\TBL_PRODUCTOS;
 use App\Models\TBL_PRODUCTOS_EN_VENTA;
 use App\Models\TBL_SUBASTAS;
+use App\Models\TBL_DETALLE_FACTURAS;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;      //Proporciona metodo para hash
@@ -76,6 +78,21 @@ class UsuariosController extends Controller
             if($usuario){
             //dd($usuario->TBL_DIRECCIONES_USUARIO[0]->TBL_DIRECCIONES);
                 return view('miEbayDatosPersonales', compact('usuario'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function datosPagos($codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+            //dd($usuario->TBL_DIRECCIONES_USUARIO[0]->TBL_DIRECCIONES);
+                return view('miEbayPagos', compact('usuario'));
             }
             else{
                 return redirect()->route('usuario.registro');
@@ -216,6 +233,71 @@ class UsuariosController extends Controller
                 }
 
                 return redirect()->route('principal');
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function verVendidos($codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario){
+                $detalleFacturas = TBL_DETALLE_FACTURAS::all();
+                //dd($detalleFacturas[0]->TBL_PRODUCTOS->TBL_USUARIOS->nombre_usuario);
+                return view('ventasVendidas', compact('usuario','detalleFacturas'));
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function actualizarTelefono(Request $request, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            if($usuario && $request->telefono){
+                //dd($request);
+
+                $usuario->telefono = $request->telefono;
+                $usuario->save();
+
+                return redirect()->route('usuario.datos', $usuario);
+            }
+            else{
+                return redirect()->route('usuario.registro');
+            }
+        }else{
+            return redirect()->route('usuario.registro');
+        }
+    }
+
+    public function actualizarNombreUsuario(Request $request, $codigoUsuario = null){
+        if($codigoUsuario){
+            $usuario = TBL_USUARIOS::find($codigoUsuario);
+            $usuariosTodos = TBL_USUARIOS::all();
+            if($usuario && $request->nombreUsuario){
+                //dd($request);
+
+                $coincidencia = 0;
+
+                foreach ($usuariosTodos as $infoUsuarioIndividual) {
+                    if($infoUsuarioIndividual->nombre_usuario == $request->nombreUsuario){
+                        $coincidencia += 1;
+                    }
+                }
+
+                if($coincidencia == 0){
+                    $usuario->nombre_usuario = $request->nombreUsuario;
+                    $usuario->save();
+                }
+
+                return redirect()->route('usuario.datos', $usuario);
             }
             else{
                 return redirect()->route('usuario.registro');

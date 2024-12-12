@@ -153,7 +153,7 @@
                 <nav aria-label="...">
                     <ul class="pagination pagination-md">
                     <li class="page-item" aria-current="page">
-                        <a class="page-link fs-5" href="#">Actividad</a>
+                        <a id="usuarioComprasA" class="page-link fs-5" href="{{ route('usuario.compras') }}">Actividad</a>
                     </li>
                     <li class="page-item"><a class="page-link fs-5" href="#">Mensajes</a></li>
                     <li class="page-item active">
@@ -176,7 +176,7 @@
                                 Datos personales y privacidad
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item active" href="#">Datos personales</a></li>
+                                <li><a id="datosUsuarioA" href="{{ route('usuario.datos') }}" class="dropdown-item active">Datos personales</a></li>
                                 <li><a class="dropdown-item" href="#">Inicio de sesión y seguridad</a></li>
                                 <li><a class="dropdown-item" href="#">Direcciones</a></li>
                                 <li><a class="dropdown-item" href="#">Comentarios</a></li>
@@ -188,7 +188,7 @@
                                 Informacion sobre el pago
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Pagos</a></li>
+                                <li><a id="usuarioPagosA" class="dropdown-item" href="{{ route('usuario.datos.pagos') }}">Pagos</a></li>
                             </ul>
                         </div>
                         <div class="dropdown">
@@ -225,10 +225,11 @@
                     <div class="col-4 fs-5" id="NombreDeUsuarioDiv">{{ $usuario->nombre_usuario }}</div>
 
                     <div id="NuevoUsuarioForm" class="col-4 d-none">
-                        <form>
+                        <form id="enviarUsuarioForm" action="{{ route('usuario.datos.nombreUsuario.actualizar') }}" method="POST">
+                            @csrf
                             <div class="mb-3">
-                            <label name="usuario" id="NombreUsuarioCampoForm" for="exampleInputEmail1" class="form-label">Nuevo nombre de usuario</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $usuario->nombre_usuario }}">
+                            <label id="NombreUsuarioCampoForm" for="exampleInputEmail1" class="form-label">Nuevo nombre de usuario</label>
+                            <input name="nombreUsuario" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $usuario->nombre_usuario }}">
                             </div>
                             <button id="CancelarUsuarioBoton" class="btn btn-secondary">Cancelar</button>
                             <button id="GuardarUsuarioBoton" type="submit" class="btn btn-primary">Guardar</button>
@@ -270,18 +271,33 @@
                         <div class="text-body-secondary mb-2">Correo electronico</div>
                         <div> {{ $usuario->correo }} </div>
                     </div>
+
                     <div class="col-2"></div>
-                    <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
-                    
+
                 </div>
                 <div class="row mb-5">
                     <div class="col-4"></div>
                     <div class="col-4 fs-5">
                         <div class="text-body-secondary mb-2">Numero de telefono</div>
-                        <div> {{ $usuario->telefono }} </div>
+                        <div id="telefonoUsuarioDiv"> {{ $usuario->telefono }} </div>
+
+                        <div id="nuevoTelefonoDivForm" class="d-none">
+                            <form id="enviarTelefonoForm" action="{{ route('usuario.datos.telefono.actualizar') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label id="nuevoTelefonoCampoForm" for="exampleInputEmail1" class="form-label">Nuevo telefono</label>
+                                    <input name="telefono" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ $usuario->telefono }}">
+                                </div>
+                                <button id="CancelarTelefonoBoton" class="btn btn-secondary">Cancelar</button>
+                                <button id="GuardarTelefonoBoton" type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
+                        </div>
                     </div>
+
+                    
+
                     <div class="col-2"></div>
-                    <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
+                    <a id="modificarTelefonoA" href="#" class="col-2 btn text-primary fs-5">Modificar</a>
                 </div>
 
                 <div class="my-3 row border"></div>
@@ -297,12 +313,23 @@
                         <div class="text-body-secondary mb-2">Nombre y direccion del titular</div>
                         <div class="mb-2 fs-4 fw-semibold">{{ $usuario->nombre }} {{ $usuario->apellido }}</div>
 
+                            @php
+                                $contador = 0;
+                            @endphp
+
                             @foreach ($usuario->TBL_DIRECCIONES_USUARIO as $direcciones)
+                            
                             <div id="direccionUsuarioDiv">
                                 @php
                                     $direccion = $direcciones->TBL_DIRECCIONES;
                                 @endphp
+
                                 @if ($direccion->codigo_lugar_padre)
+
+                                    @php
+                                        $contador += 1;
+                                    @endphp
+                                    
                                     @while ($direccion->codigo_lugar_padre != null)
                                         <div>{{ $direccion->nombre_lugar }}</div>
                                         @php
@@ -310,25 +337,21 @@
                                         @endphp
                                     @endwhile
                                     {{ $direccion->nombre_lugar }}
-                                
-                                @else
-
-                                    <strong>Aun no tienes direcciones</strong>
-                                
+                                    
                                 @endif
-
                                 
                             </div>
 
                             <div class="mb-3"></div>
                             @endforeach
-                            
-                        
-                            
+
+                            @if ($contador == 0)
+                                <strong>Aun no tienes direcciones</strong>
+                            @endif
 
                     </div>
+
                     <div class="col-2"></div>
-                    <a href="#" class="col-2 btn text-primary fs-5">Modificar</a>
                     
                 </div>
 
@@ -361,6 +384,14 @@
         let GuardarUsuarioBoton = document.querySelector("#GuardarUsuarioBoton");
         let CancelarUsuarioBoton = document.querySelector("#CancelarUsuarioBoton");
 
+        let enviarUsuarioForm = document.querySelector('#enviarUsuarioForm');
+
+        if(localStorage.getItem('codigo_usuario')){
+            if(enviarUsuarioForm){
+                enviarUsuarioForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+        }
+
         ModificarUsuarioDiv.addEventListener("click", function(){
             NombreDeUsuarioDiv.classList.add("d-none");
             ModificarUsuarioDiv.classList.add("d-none");
@@ -376,6 +407,38 @@
             NuevoUsuarioForm.classList.add("d-none");
             NombreDeUsuarioDiv.classList.remove("d-none");
             ModificarUsuarioDiv.classList.remove("d-none");
+        }
+
+
+        let telefonoUsuarioDiv = document.querySelector("#telefonoUsuarioDiv");
+        let modificarTelefonoA = document.querySelector("#modificarTelefonoA");
+        let nuevoTelefonoDivForm = document.querySelector("#nuevoTelefonoDivForm");
+        let GuardarTelefonoBoton = document.querySelector("#GuardarTelefonoBoton");
+        let CancelarTelefonoBoton = document.querySelector("#CancelarTelefonoBoton");
+
+        let enviarTelefonoForm = document.querySelector('#enviarTelefonoForm');
+        
+        if(localStorage.getItem('codigo_usuario')){
+            if(enviarTelefonoForm){
+                enviarTelefonoForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+        }
+
+        modificarTelefonoA.addEventListener("click", function(){
+            telefonoUsuarioDiv.classList.add("d-none");
+            modificarTelefonoA.classList.add("d-none");
+            nuevoTelefonoDivForm.classList.remove("d-none");
+            
+        });
+
+        GuardarTelefonoBoton.addEventListener("click",BotonTelefono);
+
+        CancelarTelefonoBoton.addEventListener("click",BotonTelefono);
+
+        function BotonTelefono() {
+            nuevoTelefonoDivForm.classList.add("d-none");
+            telefonoUsuarioDiv.classList.remove("d-none");
+            modificarTelefonoA.classList.remove("d-none");
         }
 
     </script>
@@ -412,12 +475,7 @@
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
 
-    
-
-    <script>
-        let direccionUsuarioDiv = document.getElementById('direccionUsuarioDiv');
-        let direccionUsuario = @php echo $usuario
-    </script>
+    <script src=" {{ asset ('/assets/JavaScript/redirectsDatosPersonalesMiEbay.js') }} "></script>
 
 </body>
 </html>

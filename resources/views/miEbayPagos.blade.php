@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Ebay - Vendidas</title>
+    <title>Mi Ebay</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
@@ -152,11 +152,13 @@
             <div class="col">
                 <nav aria-label="...">
                     <ul class="pagination pagination-md">
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">Actividad</span>
+                    <li class="page-item" aria-current="page">
+                        <a id="usuarioComprasA" class="page-link fs-5" href="{{ route('usuario.compras') }}">Actividad</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">Mensajes</a></li>
-                    <li class="page-item"><a id="datosUsuarioA" class="page-link" href="{{ route('usuario.datos') }}">Cuenta</a></li>
+                    <li class="page-item"><a class="page-link fs-5" href="#">Mensajes</a></li>
+                    <li class="page-item active">
+                        <span class="page-link fs-5">Cuenta</span>
+                    </li>
                     </ul>
                 </nav>
             </div>
@@ -166,131 +168,123 @@
 
         <div class="row">
             <div class="col-3 my-2 mx-1">
-                    <!--(div.row.my-2.mx-2>div.col>a.btn.btn-outline-dark{Resumen})*13-->
-                    <div id="Opciones_Mi_Ebay" class="list-group list-group-flush fw-semibold">
-                        <a href="#" class="list-group-item list-group-item-action">Resumen</a>
-                        <a href="#" class="list-group-item list-group-item-action">Vistos recientemente</a>
-                        <a href="#" class="list-group-item list-group-item-action">Subastas y ofertas</a>
-                        <a id="mostrarFavoritosA" href="{{ route('usuario.favoritos') }}" class="list-group-item list-group-item-action">Lista de favoritos</a>
-                        <a id="mostrarComprasA" href="{{ route('usuario.compras') }}" class="list-group-item list-group-item-action">Compras</a>
+                <!--(div.row.my-2.mx-2>div.col>a.btn.btn-outline-dark{Resumen})*13-->
+                
+                <div id="Opciones_Mi_Ebay" class="list-group list-group-flush">
                         <div class="dropdown">
-                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle active" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ventas
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Datos personales y privacidad
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a id="mostrarProductosListadosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.listados') }}">Listados</a></li>
-                                <li><a id="mostrarProductosActivosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.activos') }}">Activos</a></li>
-                                <li><a id="mostrarProductosVendidosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.vendidos') }}">Vendidos</a></li>
+                                <li><a id="datosUsuarioA" href="{{ route('usuario.datos') }}" class="dropdown-item">Datos personales</a></li>
+                                <li><a class="dropdown-item" href="#">Inicio de sesión y seguridad</a></li>
+                                <li><a class="dropdown-item" href="#">Direcciones</a></li>
+                                <li><a class="dropdown-item" href="#">Comentarios</a></li>
+                                <li><a class="dropdown-item" href="#">Centro de resoluciones</a></li>
                             </ul>
                         </div>
-                        <a href="#" class="list-group-item list-group-item-action">Feed de tus favoritos</a>
-                        <a href="#" class="list-group-item list-group-item-action">Busquedas guardadas</a>
-                        <a href="#" class="list-group-item list-group-item-action">Vendedores guardados</a>
-                        <a href="#" class="list-group-item list-group-item-action">Mi garaje</a>
-                        <a href="#" class="list-group-item list-group-item-action">Tallas</a>
-                        <a href="#" class="list-group-item list-group-item-action">Mi coleccion</a>
-                        <a href="#" class="list-group-item list-group-item-action">Caja fuerte de PSA</a>
-                    </div>
+                        <div class="dropdown">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle active" data-bs-toggle="dropdown" aria-expanded="false">
+                                Informacion sobre el pago
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a id="usuarioPagosA" class="dropdown-item active" href="{{ route('usuario.datos.pagos') }}">Pagos</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Preferencias de la cuenta
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Permisos</a></li>
+                                <li><a class="dropdown-item" href="#">Preferencias de publicidad</a></li>
+                                <li><a class="dropdown-item" href="#">Preferencias de comunicacion</a></li>
+                            </ul>
+                        </div>
+                </div>
+
             </div>
             <div class="col">
 
-            <div class="row mb-3">
-                <div class="col-6 fw-bold fs-3">
-                    Vendidos
+            <div class="row mb-5 fs-1">
+                <div class="col-6 fw-bold">
+                    Pagos
                 </div>
-                <div class="col mb-3 text-end align-self-end">
-                    <div class="my-1">Ordenar: Ventas mas recientes</div>
-                </div>
+                <div class="col-3"></div>
+                <a href="" class="col btn btn-white align-end text-center fs-5">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                    </span>
+                    <br><span>Agregar Tarjeta o Metodo Pago</span>
+                </a>
             </div>
 
-            <div class="row my-2">
-                <div class="btn btn-primary mx-2 my-2 col-2 text-center border p-2 rounded-pill fs-5">Todos (2)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Directa (1)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
-            </div>
-
-            <!-- Empieza un producto -->
-
-            <div class="my-3 row border"></div>
-
+            <!-- Empieza -->
+            @if ($usuario)
             
-            @if ($detalleFacturas && $usuario)
+            <div class="my-3 row border"></div>
+            
+            <div>
 
-                @foreach ($detalleFacturas as $detalleUnaFactura)
+                <div class="row my-5">
+                    
+                    <div class="col-4 fs-5 fw-semibold">Informacion de tarjetas</div>
+                    <div class="col-4 fs-5">
+                        <div class="text-body-secondary mb-2">Tarjeta 1</div>
+                        <div> 18281828 </div>
+                    </div>
+                    <div class="col-2"></div>
+                    <a id="modificarTelefonoA" href="#" class="col-2 btn text-primary fs-5">Modificar</a>
 
-                    @if ($detalleUnaFactura->TBL_PRODUCTOS->TBL_USUARIOS->codigo_usuario === $usuario->codigo_usuario)
-                        <!-- venta directa $detalleUnaFactura->tipo_compra == 1 -->
+                </div>
 
-                        <div>
-                            
-                            <div class="row my-3">
-                                
-                                @if ($detalleUnaFactura->tipo_compra == 1)
-                                    <div class="col-2 fs-4 fw-semibold">Directa</div>
-                                @endif
-                                @if ($detalleUnaFactura->tipo_compra == 0)
-                                    <div class="col-2 fs-4 fw-semibold">Subasta</div>
-                                @endif
+                <div class="row mb-5">
+                    <div class="col-4"></div>
+                    <div class="col-4 fs-5">
+                        <div class="text-body-secondary mb-2">Tarjeta 2</div>
+                        <div id="telefonoUsuarioDiv"> 91291929 </div>
+                    </div>
 
-                                
-                            </div>
+                    <div class="col-2"></div>
+                    <a id="modificarTelefonoA" href="#" class="col-2 btn text-primary fs-5">Modificar</a>
+                </div>
 
-                            <div class="row my-3 p-2">
-                                
-                                <div class="col-3 mx-2">
-                                    <img class="img-fluid" src="{{ $detalleUnaFactura->TBL_PRODUCTOS->foto }}" alt="">
-                                </div>
+                <div class="my-3 row border"></div>
 
-                                <div class="col-5">
-                                    <div>
-                                        <a href="#" class="col fw-bold btn p-0">
-                                            {{ $detalleUnaFactura->TBL_PRODUCTOS->nombre_producto }} {{ $detalleUnaFactura->TBL_PRODUCTOS->marca }} {{ $detalleUnaFactura->TBL_PRODUCTOS->modelo }}
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <div class="col my-1">Cantidad vendida: {{ $detalleUnaFactura->cantidad }}</div>
-                                    </div>
-                                    <div class="mt-3">
-                                        <div class="fw-bold fs-4">Vendido(s) a: L.{{$detalleUnaFactura->precio * $detalleUnaFactura->cantidad}}.00</div>
-                                    </div>    
-                                    <div class="mt-3">
-                                        <div>
-                                            Vendido a:
-                                            <span class="text-primary fw-semibold">{{ $detalleUnaFactura->TBL_FACTURAS->TBL_USUARIOS->nombre_usuario }}</span>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
+            </div>
 
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="d-grid gap-2">
-                                            @if ($detalleUnaFactura->tipo_compra == 1)
-                                                <a id="mostrarListadosDesdeActivosA" href="{{ route('usuario.producto.mostrar.listados') }}" class="mb-2 btn btn-outline-primary">Vender otro</a>
-                                            @endif
-                                            @if ($detalleUnaFactura->tipo_compra == 0)
-                                                <a id="mostrarListadosDesdeActivosA" href="{{ route('usuario.producto.mostrar.listados') }}" class="mb-2 btn btn-outline-primary">Subastar otro</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+            <div>
 
-                            </div>
+                <div class="row my-5">
+                    
+                    <div class="col-4 fs-5 fw-semibold">Otros metodos de pago agregados</div>
+                    <div class="col-4 fs-5">
+                        <div class="mb-2">Paypal</div>
+                        <div class="mb-2 fs-4 fw-semibold"></div>
+                    </div>
 
-                            
+                    <div class="col-2"></div>
+                    
+                </div>
 
-                        </div>
-                        
-                        <div class="my-3 row border"></div>
+                <div class="row my-5">
+                    
+                    <div class="col-4 fs-5 fw-semibold"></div>
+                    <div class="col-4 fs-5">
+                        <div class="mb-2">Paypal</div>
+                        <div class="mb-2 fs-4 fw-semibold"></div>
+                    </div>
 
-                    @endif
+                    <div class="col-2"></div>
+                    
+                </div>
 
+                <div class="my-3 row border"></div>
 
-                @endforeach
+            </div>
 
             @endif
-
-            <!-- Termina un producto -->
 
             
         </div>
@@ -308,7 +302,71 @@
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        let NombreDeUsuarioDiv = document.querySelector("#NombreDeUsuarioDiv");
+        let ModificarUsuarioDiv = document.querySelector("#ModificarUsuarioDiv");
+        let NuevoUsuarioForm = document.querySelector("#NuevoUsuarioForm");
+        let GuardarUsuarioBoton = document.querySelector("#GuardarUsuarioBoton");
+        let CancelarUsuarioBoton = document.querySelector("#CancelarUsuarioBoton");
 
+        let enviarUsuarioForm = document.querySelector('#enviarUsuarioForm');
+
+        if(localStorage.getItem('codigo_usuario')){
+            if(enviarUsuarioForm){
+                enviarUsuarioForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+        }
+
+        ModificarUsuarioDiv.addEventListener("click", function(){
+            NombreDeUsuarioDiv.classList.add("d-none");
+            ModificarUsuarioDiv.classList.add("d-none");
+            NuevoUsuarioForm.classList.remove("d-none");
+            
+        });
+
+        GuardarUsuarioBoton.addEventListener("click",BotonUsuario);
+
+        CancelarUsuarioBoton.addEventListener("click",BotonUsuario);
+
+        function BotonUsuario() {
+            NuevoUsuarioForm.classList.add("d-none");
+            NombreDeUsuarioDiv.classList.remove("d-none");
+            ModificarUsuarioDiv.classList.remove("d-none");
+        }
+
+
+        let telefonoUsuarioDiv = document.querySelector("#telefonoUsuarioDiv");
+        let modificarTelefonoA = document.querySelector("#modificarTelefonoA");
+        let nuevoTelefonoDivForm = document.querySelector("#nuevoTelefonoDivForm");
+        let GuardarTelefonoBoton = document.querySelector("#GuardarTelefonoBoton");
+        let CancelarTelefonoBoton = document.querySelector("#CancelarTelefonoBoton");
+
+        let enviarTelefonoForm = document.querySelector('#enviarTelefonoForm');
+        
+        if(localStorage.getItem('codigo_usuario')){
+            if(enviarTelefonoForm){
+                enviarTelefonoForm.action += `/${localStorage.getItem('codigo_usuario')}`;
+            }
+        }
+
+        modificarTelefonoA.addEventListener("click", function(){
+            telefonoUsuarioDiv.classList.add("d-none");
+            modificarTelefonoA.classList.add("d-none");
+            nuevoTelefonoDivForm.classList.remove("d-none");
+            
+        });
+
+        GuardarTelefonoBoton.addEventListener("click",BotonTelefono);
+
+        CancelarTelefonoBoton.addEventListener("click",BotonTelefono);
+
+        function BotonTelefono() {
+            nuevoTelefonoDivForm.classList.add("d-none");
+            telefonoUsuarioDiv.classList.remove("d-none");
+            modificarTelefonoA.classList.remove("d-none");
+        }
+
+    </script>
     <script>
         // Pasamos las rutas generadas por Laravel a una variable global
         window.laravelRoutes = {
@@ -341,18 +399,7 @@
 
     </script>
     <script src=" {{ asset ('/assets/JavaScript/obtenerUsuario.js') }} "></script>
-    <script src=" {{ asset ('/assets/JavaScript/redirectsMiEbay.js') }} "></script>
-    <script>
-        let codigoUsuario = localStorage.getItem('codigo_usuario');
-        if(codigoUsuario){
-            mostrarListadosDesdeActivosArrayA = document.querySelectorAll('#mostrarListadosDesdeActivosA');
-            if(mostrarListadosDesdeActivosArrayA){
-                mostrarListadosDesdeActivosArrayA.forEach(mostrarListadosDesdeActivosA => {
-                    mostrarListadosDesdeActivosA.href += `/${codigoUsuario}`;
-                });
-            }
-        }
-    </script>
+    <script src=" {{ asset ('/assets/JavaScript/redirectsDatosPersonalesMiEbay.js') }} "></script>
 
 
 </body>

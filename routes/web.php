@@ -82,6 +82,17 @@ Route::post('/usuario/producto/activar/venta/{codigoProducto}/{codigoUsuario?}',
 Route::post('/usuario/producto/activar/subasta/{codigoProducto}/{codigoUsuario?}',
     [UsuariosController::class, 'activarProducto'])->name('usuario.producto.activar.subasta');
 
+Route::get('/usuario/productos/mostrar/vendidos/{codigoUsuario?}',
+    [UsuariosController::class, 'verVendidos'])->name('usuario.producto.mostrar.vendidos');
+
+Route::post('/usuario/datos/telefono/actualizar/{codigoUsuario?}',
+    [UsuariosController::class, 'actualizarTelefono'])->name('usuario.datos.telefono.actualizar');
+
+Route::post('/usuario/datos/nombreUsuario/actualizar/{codigoUsuario?}',
+    [UsuariosController::class, 'actualizarNombreUsuario'])->name('usuario.datos.nombreUsuario.actualizar');
+
+Route::get('/usuario/datos/pagos/{codigoUsuario?}',
+    [UsuariosController::class, 'datosPagos'])->name('usuario.datos.pagos');
 
 // --------------------  CATEGORIAS ----------------------------
 Route::get('/categorias/obtener',

@@ -156,7 +156,7 @@
                         <span class="page-link">Actividad</span>
                     </li>
                     <li class="page-item"><a class="page-link" href="#">Mensajes</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Cuenta</a></li>
+                    <li class="page-item"><a id="datosUsuarioA" class="page-link" href="{{ route('usuario.datos') }}">Cuenta</a></li>
                     </ul>
                 </nav>
             </div>
@@ -180,7 +180,7 @@
                             <ul class="dropdown-menu">
                                 <li><a id="mostrarProductosListadosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.listados') }}">Listados</a></li>
                                 <li><a id="mostrarProductosActivosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.activos') }}">Activos</a></li>
-                                <li><a class="dropdown-item" href="#">Vendidos</a></li>
+                                <li><a id="mostrarProductosVendidosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.vendidos') }}">Vendidos</a></li>
                             </ul>
                         </div>
                         <a href="#" class="list-group-item list-group-item-action">Feed de tus favoritos</a>

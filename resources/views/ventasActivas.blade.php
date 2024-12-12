@@ -16,6 +16,13 @@
 
 </head>
 <body>
+
+    @php
+        $cantidadProducto = 0;
+        $cantidadProductoEnVenta = 0;
+        $cantidadProductoEnSubasta = 0;
+    @endphp
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
             <span id="infoUsuarioContenedor" class="dropdown">
@@ -156,7 +163,7 @@
                         <span class="page-link">Actividad</span>
                     </li>
                     <li class="page-item"><a class="page-link" href="#">Mensajes</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Cuenta</a></li>
+                    <li class="page-item"><a id="datosUsuarioA" class="page-link" href="{{ route('usuario.datos') }}">Cuenta</a></li>
                     </ul>
                 </nav>
             </div>
@@ -180,7 +187,7 @@
                             <ul class="dropdown-menu">
                                 <li><a id="mostrarProductosListadosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.listados') }}">Listados</a></li>
                                 <li><a id="mostrarProductosActivosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.activos') }}">Activos</a></li>
-                                <li><a class="dropdown-item" href="#">Vendidos</a></li>
+                                <li><a id="mostrarProductosVendidosA" class="dropdown-item" href="{{ route('usuario.producto.mostrar.vendidos') }}">Vendidos</a></li>
                             </ul>
                         </div>
                         <a href="#" class="list-group-item list-group-item-action">Feed de tus favoritos</a>
@@ -207,9 +214,9 @@
             </div>
 
             <div class="row my-2">
-                <div class="btn btn-primary mx-2 my-2 col-2 text-center border p-2 rounded-pill fs-5">Todos (2)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Directa (1)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
+                <div id="cantidadProductos" class="btn btn-primary mx-2 my-2 col-2 text-center border p-2 rounded-pill fs-5">Todos (2)</div>
+                <div id="cantidadProductosEnVenta" class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Directa (1)</div>
+                <div id="cantidadProductosEnSubasta" class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
             </div>
 
             <div class="my-3 row border"></div>
@@ -220,6 +227,11 @@
                 @foreach ($detalleProductoUsuario->TBL_PRODUCTOS_EN_VENTA as $productoEnVenta)
 
                 @if ($productoEnVenta->cantidad > 0)
+
+                @php
+                    $cantidadProducto += 1;
+                    $cantidadProductoEnVenta += 1;
+                @endphp
                 
                 <!-- Empieza un producto -->
                 <div>
@@ -282,10 +294,13 @@
             @foreach ($usuario->TBL_PRODUCTOS as $detalleProductoUsuario)
 
                 @foreach ($detalleProductoUsuario->TBL_SUBASTAS as $productoEnSubasta)
-
                 
-
                 @if ($productoEnSubasta->cantidad > 0)
+
+                @php
+                    $cantidadProducto += 1;
+                    $cantidadProductoEnSubasta += 1;
+                @endphp
 
                 <div>
 
@@ -445,6 +460,22 @@
                 mostrarListadosDesdeActivosA.href += `/${codigoUsuario}`;
             });
         }
+
+        let cantidadProducto = @php echo $cantidadProducto @endphp;
+        let cantidadProductoEnSubasta = @php echo $cantidadProductoEnSubasta @endphp;
+        let cantidadProductoEnVenta = @php echo $cantidadProductoEnVenta @endphp;
+
+        let cantidadProductoDiv = document.getElementById('cantidadProductos');
+        cantidadProductoDiv.innerText = `Todos (${cantidadProducto})`;
+
+        let cantidadProductosEnVentaDiv = document.getElementById('cantidadProductosEnVenta');
+        cantidadProductosEnVentaDiv.innerText = `Directa (${cantidadProductoEnVenta})`;
+
+        let cantidadProductosEnSubastaDiv = document.getElementById('cantidadProductosEnSubasta');
+        cantidadProductosEnSubastaDiv.innerText = `Subasta (${cantidadProductoEnSubasta})`;
+
+        
+
     </script>
 
 </body>

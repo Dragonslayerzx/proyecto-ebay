@@ -2,6 +2,8 @@ let mostrarFavoritosA = document.querySelector('#mostrarFavoritosA');
 let mostrarProductosListadosA = document.querySelector('#mostrarProductosListadosA');
 let mostrarProductosActivosA = document.querySelector('#mostrarProductosActivosA');
 let mostrarComprasA = document.querySelector('#mostrarComprasA');
+let mostrarProductosVendidosA = document.querySelector('#mostrarProductosVendidosA');
+let datosUsuarioA = document.querySelector('#datosUsuarioA');
 
 let codigoUsuarioLS = localStorage.getItem('codigo_usuario');
 
@@ -20,4 +22,12 @@ if(codigoUsuarioLS){
 if(codigoUsuarioLS){
     if(mostrarComprasA)
         mostrarComprasA.href += `/${codigoUsuarioLS}`;
+}
+if(codigoUsuarioLS){
+    if(mostrarProductosVendidosA)
+        mostrarProductosVendidosA.href += `/${codigoUsuarioLS}`;
+}
+if(codigoUsuarioLS){
+    if(datosUsuarioA)
+        datosUsuarioA.href += `/${codigoUsuarioLS}`;
 }
