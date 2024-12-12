@@ -391,7 +391,7 @@
                 });
             }
             if(eliminarDireccionArrayA){
-                eliminarDireccionArrayA.forEach(element => {
+                eliminarDireccionArrayA.forEach(eliminarDireccionA => {
                     eliminarDireccionA.href += `/${localStorage.getItem('codigo_usuario')}`;
                 });
             }
