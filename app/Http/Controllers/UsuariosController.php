@@ -295,6 +295,7 @@ class UsuariosController extends Controller
             $usuario = TBL_USUARIOS::find($codigoUsuario);
             if($usuario){
                 //dd($usuario->TBL_FACTURAS[0]->TBL_DETALLE_FACTURAS);
+                //$facturasOrdenadas = $usuario->TBL_FACTURAS->sortByDesc('fecha');
                 return view('miEbayCompras', compact('usuario'));
             }
             else{
@@ -331,7 +332,7 @@ class UsuariosController extends Controller
                 $producto->codigo_condicion_producto = $request->codigoCondicionProducto;
                 $producto->save();
 
-                return redirect()->route('principal');
+                return redirect()->route('usuario.producto.mostrar.listados', $codigoUsuario);
             }
 
             else{
@@ -402,7 +403,7 @@ class UsuariosController extends Controller
                     $nvoProductoSubasta->save();
                 }
 
-                return redirect()->route('principal');
+                return redirect()->route('usuario.producto.mostrar.activos', $usuario->codigo_usuario);
             }
             else{
                 return redirect()->route('usuario.registro');

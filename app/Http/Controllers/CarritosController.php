@@ -233,7 +233,7 @@ class CarritosController extends Controller
 
                     //dd($usuario->TBL_FACTURAS->TBL_DETALLE_FACTURAS);
 
-                    return redirect()->route('principal');
+                    return redirect()->route('usuario.compras', $usuario->codigo_usuario);
 
 
                 }else{

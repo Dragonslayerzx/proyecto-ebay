@@ -220,7 +220,10 @@
             </div>
 
             <!-- Empieza un producto -->
-            @foreach ($usuario->TBL_FACTURAS as $facturaUsuario)
+            @php
+                $facturasUsuarioOrdenadas = $usuario->TBL_FACTURAS->sortByDesc('fecha');
+            @endphp
+            @foreach ($facturasUsuarioOrdenadas as $facturaUsuario)
             <div>
 
                 <div class="row my-3 bg-body-secondary">

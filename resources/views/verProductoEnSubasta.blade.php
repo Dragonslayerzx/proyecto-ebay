@@ -494,13 +494,10 @@
             agregarSubastaACarritoButton.classList.add('disabled');
         }
         if(articuloPropioDiv){
-        agregarVentaACarritoButton.classList.add('disabled');
-        agregarVentaACarritoButton.innerText = "Este articulo te pertenece";
+            agregarSubastaACarritoButton.classList.add('disabled');
+            agregarSubastaACarritoButton.innerText = "Este articulo te pertenece";
         }
-        
-
-        
-        
+    
     </script>
 
 </body>

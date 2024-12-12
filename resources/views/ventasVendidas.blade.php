@@ -16,6 +16,13 @@
 
 </head>
 <body>
+
+    @php
+        $cantidadProducto = 0;
+        $cantidadProductoEnVenta = 0;
+        $cantidadProductoEnSubasta = 0;
+    @endphp
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fw-bold">
         <div class="container-fluid">
             <span id="infoUsuarioContenedor" class="dropdown">
@@ -204,9 +211,9 @@
             </div>
 
             <div class="row my-2">
-                <div class="btn btn-primary mx-2 my-2 col-2 text-center border p-2 rounded-pill fs-5">Todos (2)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Directa (1)</div>
-                <div class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
+                <div id="cantidadProductos" class="btn btn-primary mx-2 my-2 col-2 text-center border p-2 rounded-pill fs-5">Todos (2)</div>
+                <div id="cantidadProductosEnVenta" class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Directa (1)</div>
+                <div id="cantidadProductosEnSubasta" class="btn btn-outline-primary mx-2 my-2 col-2 text-center p-2 rounded-pill fs-5">Subasta (1)</div>
             </div>
 
             <!-- Empieza un producto -->
@@ -220,6 +227,9 @@
 
                     @if ($detalleUnaFactura->TBL_PRODUCTOS->TBL_USUARIOS->codigo_usuario === $usuario->codigo_usuario)
                         <!-- venta directa $detalleUnaFactura->tipo_compra == 1 -->
+                        @php
+                            $cantidadProducto++;
+                        @endphp
 
                         <div>
                             
@@ -227,9 +237,15 @@
                                 
                                 @if ($detalleUnaFactura->tipo_compra == 1)
                                     <div class="col-2 fs-4 fw-semibold">Directa</div>
+                                    @php
+                                        $cantidadProductoEnSubasta++;
+                                    @endphp
                                 @endif
                                 @if ($detalleUnaFactura->tipo_compra == 0)
                                     <div class="col-2 fs-4 fw-semibold">Subasta</div>
+                                    @php
+                                        $cantidadProductoEnVenta++;
+                                    @endphp
                                 @endif
 
                                 
@@ -352,6 +368,19 @@
                 });
             }
         }
+
+        let cantidadProducto = @php echo $cantidadProducto @endphp;
+        let cantidadProductoEnSubasta = @php echo $cantidadProductoEnSubasta @endphp;
+        let cantidadProductoEnVenta = @php echo $cantidadProductoEnVenta @endphp;
+
+        let cantidadProductoDiv = document.getElementById('cantidadProductos');
+        cantidadProductoDiv.innerText = `Todos (${cantidadProducto})`;
+
+        let cantidadProductosEnVentaDiv = document.getElementById('cantidadProductosEnVenta');
+        cantidadProductosEnVentaDiv.innerText = `Directa (${cantidadProductoEnVenta})`;
+
+        let cantidadProductosEnSubastaDiv = document.getElementById('cantidadProductosEnSubasta');
+        cantidadProductosEnSubastaDiv.innerText = `Subasta (${cantidadProductoEnSubasta})`;
     </script>
 
 

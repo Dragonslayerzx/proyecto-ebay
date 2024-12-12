@@ -221,7 +221,7 @@
                                     $contador += 1;
                                 @endphp
 
-                                <input class="form-check-input" type="radio" name="payment" id="venmo">
+                                <input class="form-check-input" type="radio" name="direccion" id="venmo">
                                 <label class="form-check-label my-2" for="venmo">
                                     
                                     @while ($direccion->codigo_lugar_padre != null)
