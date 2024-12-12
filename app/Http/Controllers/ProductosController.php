@@ -27,6 +27,8 @@ class ProductosController extends Controller
         //dd($producto->TBL_RESENAS[0]->TBL_USUARIOS);
         //return view('verProducto',compact('producto'));
 
+        //dd($request);
+
         $routeName = $request->route()->getName();
 
         if($codigoUsuario){

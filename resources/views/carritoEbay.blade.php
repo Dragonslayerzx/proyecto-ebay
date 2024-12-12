@@ -499,8 +499,18 @@
         }
 
         if(localStorage.getItem('codigo_usuario')){
-            document.getElementById('obtenerSubastaA').href += `/${localStorage.getItem('codigo_usuario')}`;
-            document.getElementById('obtenerVentaA').href += `/${localStorage.getItem('codigo_usuario')}`;
+            let obtenerSubastaArregloA = document.querySelectorAll('#obtenerSubastaA')
+            if(obtenerSubastaArregloA){
+                obtenerSubastaArregloA.forEach(obtenerSubastaA => {
+                    obtenerSubastaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+                });
+            }
+            let obtenerVentaArregloA = document.querySelectorAll('#obtenerVentaA')
+            if(obtenerVentaArregloA){
+                obtenerVentaArregloA.forEach(obtenerVentaA => {
+                    obtenerVentaA.href += `/${localStorage.getItem('codigo_usuario')}`;
+                });
+            }
         }
 
 

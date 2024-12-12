@@ -15,7 +15,7 @@ class ResenasController extends Controller
             if($usuario){
                 //dd($request);
                 $nvaResena = new TBL_RESENAS();
-                $nvaResena->codigo_producto = $codigoProducto;
+                $nvaResena->codigo_producto = $request->codigoProducto; //codigoProducto el padre
                 $nvaResena->codigo_usuario = $codigoUsuario;
                 $nvaResena->comentario = $request->comentario;
                 $nvaResena->valoracion = $request->valoracion;
@@ -29,9 +29,10 @@ class ResenasController extends Controller
         $routeName = $request->route()->getName();
 
         if ($routeName === 'resena.venta.agregar'){
-            return redirect()->route('producto.obtener.venta', $codigoProducto);
+            //dd($codigoProducto);
+            return redirect()->route('producto.obtener.venta', ['codigoProducto' => $codigoProducto, 'codigoUsuario' => $codigoUsuario]); //codigoProducto en venta
         }elseif($routeName === 'resena.subasta.agregar'){
-            return redirect()->route('producto.obtener.subasta', $codigoProducto);
+            return redirect()->route('producto.obtener.subasta', ['codigoProducto' => $codigoProducto, 'codigoUsuario' => $codigoUsuario]); //codigoProducto en subasta
         }else{
             return redirect()->route('usuario.registro');
         }
